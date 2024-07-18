@@ -3,9 +3,9 @@ package sample;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
 
-public abstract class custom_buttonBase extends Button {
+public abstract class CustomButtonBase extends Button {
 
-    public custom_buttonBase() {
+    public CustomButtonBase() {
 
         setMnemonicParsing(false);
         setStyle("-fx-background-color: #2c2c2c; -fx-background-radius: 8px;");

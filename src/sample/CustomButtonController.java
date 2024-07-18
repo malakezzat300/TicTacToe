@@ -1,28 +1,21 @@
 package sample;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
 
-public class CustomButtonController extends Button {
+public class CustomButtonController extends CustomButtonBase {
 
     public CustomButtonController(){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("custom_button.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 
-        try{
-            fxmlLoader.load();
-        } catch (IOException ex){
-            ex.printStackTrace();
-        }
-
         this.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> handleMouseEntered());
         this.addEventHandler(MouseEvent.MOUSE_EXITED, event -> handleMouseExited());
+
 
     }
 
