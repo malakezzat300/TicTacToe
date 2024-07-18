@@ -34,12 +34,8 @@ public abstract class sampleBase extends GridPane {
         BorderPane.setAlignment(button, javafx.geometry.Pos.CENTER);
         button.setMnemonicParsing(false);
         button.setText("Button");
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
 
-            }
-        });
+
         borderPane.setCenter(button);
 
         BorderPane.setAlignment(label, javafx.geometry.Pos.CENTER);
