@@ -16,6 +16,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import sample.CustomButtonController;
 
+import java.util.Objects;
+
 public class SignUpBase extends GridPane {
 
     AuthenticateSignUp authenticate ; // object from Authenticate
@@ -72,8 +74,8 @@ public class SignUpBase extends GridPane {
         passwordField = new PasswordField();
         showPasswordField = new TextField();
         // putting eye resource
-        eyeIcon = new ImageView(new Image(getClass().
-                getResourceAsStream("eye_icon.png")));
+        eyeIcon = new ImageView(new Image(Objects.requireNonNull(getClass().
+                getResourceAsStream("eye_icon.png"))));
 
         setupLayout();
         setupPasswordVisibilityToggle();
@@ -208,8 +210,8 @@ public class SignUpBase extends GridPane {
         getRowConstraints().addAll(rowConstraints, rowConstraints0, rowConstraints1, rowConstraints2, rowConstraints3, rowConstraints4, rowConstraints5, rowConstraints6, rowConstraints7);
         getChildren().addAll(userNameField, emailText, passwordText, registerButton, userNameText, emailField, borderPane, passwordField, showPasswordField, eyeIcon);
 
-        /********************************************/
-        /********************************************/
+        //______________________________________________
+        //______________________________________________
         // working on button register
 
         registerButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -230,15 +232,14 @@ public class SignUpBase extends GridPane {
                     showEmailExistsAlert("UserName is Already Exists");
 
                 } else if (authenticate.getUserCase().equals("3")) { // means EmailExsist
-                    showEmailExistsAlert("Email is Already Exsists ");
+                    showEmailExistsAlert("Email is Already Exists ");
                 }
             }
         });
 
     }
-    /********************************************/
-    /********************************************/
-
+    //______________________________________________
+    //______________________________________________
     // the Two Functions To Toggile and hide password
 
     private void setupPasswordVisibilityToggle() {
