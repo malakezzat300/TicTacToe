@@ -3,6 +3,7 @@ package sample.SignUpPage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -26,6 +27,8 @@ public class SignUpBase extends AnchorPane {
     protected final TextField showPasswordField;
     protected final PasswordField passwordField;
     protected final CustomButtonController registerButton;
+    protected final Label passwordValidationLabel; // used to view pass State
+    protected final Label emailValidationLabel; //email validation label
 
     private final ImageView eyeIcon;
     private boolean isPasswordVisible = false;
@@ -48,6 +51,9 @@ public class SignUpBase extends AnchorPane {
         showPasswordField = new TextField();
         passwordField = new PasswordField();
         registerButton = new CustomButtonController();
+        passwordValidationLabel = new Label(); // password validation intialize
+        emailValidationLabel = new Label(); // email validation intialize
+
 
         setMaxHeight(800.0);
         setMaxWidth(800.0);
@@ -98,13 +104,29 @@ public class SignUpBase extends AnchorPane {
         passwordField.setPrefHeight(41.0);
         passwordField.setPrefWidth(380.0);
 
-        eyeIcon.setFitHeight(20.0);  // Set size
-        eyeIcon.setFitWidth(20.0);
+        eyeIcon.setFitHeight(30.0);  // Set size
+        eyeIcon.setFitWidth(30);
         eyeIcon.setLayoutX(550.0);  // Set position
         eyeIcon.setLayoutY(446.0);
+
+        // password validation properties
+        passwordValidationLabel.setLayoutX(151.0);
+        passwordValidationLabel.setLayoutY(480.0);
+        passwordValidationLabel.setStyle("-fx-text-fill: red;");
+        // email validation properties
+        emailValidationLabel.setLayoutX(151.0);
+        emailValidationLabel.setLayoutY(360.0);
+        emailValidationLabel.setStyle("-fx-text-fill: red;");
+        // password visability fun
         setupPasswordVisibilityToggle();
-        getChildren().addAll(signUpText, userNameText, userNameField, emailText,
-                emailField, passwordText, showPasswordField, passwordField, registerButton, eyeIcon);
+        // password validation  fun
+        setupPasswordValidation ();
+        // email validation fun
+        setupEmailValidation();
+
+        // adding elements to Anchor pane node
+        getChildren().addAll(signUpText, userNameText, userNameField, emailText, emailField, passwordText,
+                showPasswordField, passwordField, registerButton, eyeIcon,passwordValidationLabel,emailValidationLabel);
 
         registerButton.setLayoutX(138.0);
         registerButton.setLayoutY(535.0);
@@ -123,10 +145,11 @@ public class SignUpBase extends AnchorPane {
                 String userName = userNameField.getText();
                 String email = emailField.getText();
                 String password = passwordField.getText();
+                String userType = "1";  // mean user in register state
 
                 AuthenticateSignUp authenticate; // object from Authenticate
                 if (!userName.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-                    authenticate = new AuthenticateSignUp(userName, email, password);
+                    authenticate = new AuthenticateSignUp(userName, email, password,userType);
 
                     try {
                         Thread.sleep(2000); // Sleep for 2 seconds to allow the response to come in
@@ -189,4 +212,45 @@ public class SignUpBase extends AnchorPane {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    //______________________________________________
+    //______________________________________________
+    // working on Type of password user Enter
+    private void setupPasswordValidation(){
+                                        // lamda take three elements
+        passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(validatePassword(newValue)){
+                passwordValidationLabel.setText("");
+            }
+            else{
+                passwordValidationLabel.setText("Password must be at least 8 characters" +
+                        " and contain uppercase, lowercase, numbers, and special characters.");
+            }
+
+        });
+    }
+
+    private boolean validatePassword(String password) {
+        // Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number, and one special character
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+        return password.matches(passwordPattern);
+    }
+
+    //______________________________________________
+    //______________________________________________
+    // working on email validation
+    private void setupEmailValidation() {
+        emailField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (validateEmail(newValue)) {
+                emailValidationLabel.setText("");
+            } else {
+                emailValidationLabel.setText("Invalid email format.");
+            }
+        });
+    }
+
+    private boolean validateEmail(String email) {
+        String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+        return email.matches(emailPattern);
+    }
+
 }

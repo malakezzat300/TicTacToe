@@ -3,37 +3,44 @@ package sample.SignUpPage;
 import org.json.simple.JSONObject;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
 
 public class AuthenticateSignUp implements Runnable {
 
-    private  JSONObject signUpObject;
-    private Socket client;
-    private DataInputStream inMsg;
-    private PrintWriter outMsg; // Use PrintWriter for sending text data
-    private String jsonText;
-    private String userCase = "2";
+    private JSONObject signUpObject;
+    private Socket client;              // client Socket
+    private DataInputStream inMsg;     // data input
+    private DataOutputStream outMsg; // Use data output message for sending text data
+    private  String jsonText;        // to add jason as text
+    private String userCase = "0"; // case of user that come from Server
+
 
     // Constructor to initialize and start the thread
-    public AuthenticateSignUp(String userName, String email, String password) {
-        signUpObject = new JSONObject();
+    public AuthenticateSignUp(String userName, String email, String password,String userType) {
+        // Ensure other initializations are done here
+        if (userName == null || email == null || password == null || userType == null) {
+            throw new IllegalArgumentException("Arguments must not be null");
+        }
+
         signUpObject.put("UserName", userName);
         signUpObject.put("Email", email);
         signUpObject.put("Password", password);
+        signUpObject.put("UserType", userType);
+
 
         // Convert JSON to string
-        jsonText = signUpObject.toJSONString();
+        jsonText = signUpObject.toString();
 
         // Initialize socket connection and start the thread
         try {
-            client = new Socket("127.0.0.1", 5005);
-            outMsg = new PrintWriter(client.getOutputStream(), true); // Auto-flush enabled
+            client = new Socket("127.0.0.1", 8000);
+            outMsg = new DataOutputStream(client.getOutputStream()); // Auto-flush enabled
             Thread thread = new Thread(this);
             thread.start();
         } catch (IOException e) {
-            throw new RuntimeException("Failed to create socket or output stream", e);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -45,7 +52,12 @@ public class AuthenticateSignUp implements Runnable {
     // Method to send data
     public void sendSignUpData() {
         if (outMsg != null) {
-            outMsg.println(jsonText); // Send JSON data to the server
+            try {
+                outMsg.writeUTF(jsonText); // Send JSON data to the server
+
+            }catch (Exception e){
+                System.out.println("No Data Sent error on outMsg");
+            }
         }
     }
 
@@ -58,7 +70,7 @@ public class AuthenticateSignUp implements Runnable {
             inMsg = new DataInputStream(client.getInputStream());
             String message;
             while ((message = inMsg.readUTF()) != null) { // Read UTF-8 encoded strings
-                userCase = message; // Process the response
+                userCase = message;                      // Process the response
                 System.out.println("Received from server: " + userCase);
             }
         } catch (IOException e) {
@@ -75,4 +87,3 @@ public class AuthenticateSignUp implements Runnable {
         }
     }
 }
-
