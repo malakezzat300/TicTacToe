@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import sample.CustomButtonController;
 
 import java.io.InputStream;
+import java.util.Objects;
 
 public class SignUpBase extends AnchorPane {
 
@@ -40,7 +41,7 @@ public class SignUpBase extends AnchorPane {
         if (imageStream == null) {
             System.out.println("Image not found!");
         }
-        eyeIcon = new ImageView(new Image(imageStream));
+        eyeIcon = new ImageView(new Image(Objects.requireNonNull(imageStream)));
 
         signUpText = new Text();
         userNameText = new Text();
@@ -139,43 +140,40 @@ public class SignUpBase extends AnchorPane {
         //______________________________________________
         // working on button register
 
-        registerButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                String userName = userNameField.getText();
-                String email = emailField.getText();
-                String password = passwordField.getText();
-                String userType = "1";  // mean user in register state
+        registerButton.setOnAction(event -> {
+            String userName = userNameField.getText();
+            String email = emailField.getText();
+            String password = passwordField.getText();
+            String userType = "1";  // mean user in register state
 
-                AuthenticateSignUp authenticate; // object from Authenticate
-                if (!userName.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-                    authenticate = new AuthenticateSignUp(userName, email, password,userType);
+            AuthenticateSignUp authenticate; // object from Authenticate
+            if (!userName.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
+                authenticate = new AuthenticateSignUp(userName, email, password,userType);
 
-                    try {
-                        Thread.sleep(2000); // Sleep for 2 seconds to allow the response to come in
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                    // Now check the userCase
-                    String userCase = authenticate.getUserCase();
-                    switch (userCase) {
-                        case "1":
-                            // Handle success case if needed
-                            break;
-                        case "2":  // Means userName exists
-                            showEmailExistsAlert("UserName is Already Exists");
-                            break;
-                        case "3":  // Means email exists
-                            showEmailExistsAlert("Email is Already Exists");
-                            break;
-                        default:
-                            // Handle unknown case if needed
-                            break;
-                    }
-                } else {
-                    showEmailExistsAlert("Please fill in all fields.");
+                try {
+                    Thread.sleep(2000); // Sleep for 2 seconds to allow the response to come in
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+
+                // Now check the userCase
+                String userCase = authenticate.getUserCase();
+                switch (userCase) {
+                    case "1":
+                        // Handle success case if needed
+                        break;
+                    case "2":  // Means userName exists
+                        showEmailExistsAlert("UserName is Already Exists");
+                        break;
+                    case "3":  // Means email exists
+                        showEmailExistsAlert("Email is Already Exists");
+                        break;
+                    default:
+                        // Handle unknown case if needed
+                        break;
+                }
+            } else {
+                showEmailExistsAlert("Please fill in all fields.");
             }
         });
     }
