@@ -225,14 +225,18 @@ public class SignUpBase extends GridPane {
                 if (!userName.isEmpty()&&email.isEmpty()&&password.isEmpty()){
                     authenticate.sendSignUpData();
                 }
-                if (authenticate.getUserCase().equals("1")){
+                switch (authenticate.getUserCase()) {
+                    case "1":
 
-                } else if (authenticate.getUserCase().equals("2")) { // mean userName Exsist
+                        break;
+                    case "2":  // mean userName Exsist
 
-                    showEmailExistsAlert("UserName is Already Exists");
+                        showEmailExistsAlert("UserName is Already Exists");
 
-                } else if (authenticate.getUserCase().equals("3")) { // means EmailExsist
-                    showEmailExistsAlert("Email is Already Exists ");
+                        break;
+                    case "3":  // means EmailExsist
+                        showEmailExistsAlert("Email is Already Exists ");
+                        break;
                 }
             }
         });

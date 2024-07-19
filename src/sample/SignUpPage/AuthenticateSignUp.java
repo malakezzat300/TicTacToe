@@ -23,26 +23,22 @@ public class AuthenticateSignUp implements Runnable {
         signUpObject.put("Email", email);
         signUpObject.put("Password", password);
 
-
         // Convert JSON to string
         jsonText = signUpObject.toJSONString();
 
-        // Start the thread
-        Thread thread = new Thread(this);
-        thread.start();
-
-        // Initialize socket connection
+        // Initialize socket connection and start the thread
         try {
             client = new Socket("127.0.0.1", 5005);
             outMsg = new PrintWriter(client.getOutputStream(), true); // Auto-flush enabled
+            Thread thread = new Thread(this);
+            thread.start();
         } catch (IOException e) {
             throw new RuntimeException("Failed to create socket or output stream", e);
         }
     }
 
-    // gitting user Case
-
-    public String getUserCase(){
+    // Getter for userCase
+    public String getUserCase() {
         return userCase;
     }
 
@@ -76,8 +72,6 @@ public class AuthenticateSignUp implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         }
     }
 }
