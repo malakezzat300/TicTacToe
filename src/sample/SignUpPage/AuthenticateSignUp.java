@@ -9,12 +9,12 @@ import java.net.Socket;
 
 public class AuthenticateSignUp implements Runnable {
 
-    private JSONObject signUpObject;
+    private  JSONObject signUpObject;
     private Socket client;
     private DataInputStream inMsg;
     private PrintWriter outMsg; // Use PrintWriter for sending text data
     private String jsonText;
-    private String userCase;
+    private String userCase = "2";
 
     // Constructor to initialize and start the thread
     public AuthenticateSignUp(String userName, String email, String password) {
