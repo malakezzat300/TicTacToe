@@ -6,6 +6,8 @@ public class DAO {
     Connection con;
     public DAO() throws SQLException {
         try {
+                    DriverManager.registerDriver(new Driver());
+
              String mycon = "jdbc:mysql://localhost:3306/players";
              con = DriverManager.getConnection(mycon, "root", "root");
         }catch (Exception e) {
