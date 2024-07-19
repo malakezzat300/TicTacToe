@@ -11,7 +11,8 @@ public class TestRun extends Application {
     public void start(Stage primaryStage) {
         Parent root = new SignUpBase();
         primaryStage.setTitle("Sign Up Page");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(new Scene(root));
+       // primaryStage.setResizable(true);
         primaryStage.show();
     }
 
