@@ -1,7 +1,9 @@
 package sample.SignUpPage;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -12,8 +14,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import sample.CustomButtonController;
 
 public class SignUpBase extends GridPane {
+
+    AuthenticateSignUp authenticate ; // object from Authenticate
 
     private final ColumnConstraints columnConstraints;
     private final ColumnConstraints columnConstraints0;
@@ -30,7 +35,7 @@ public class SignUpBase extends GridPane {
     private final TextField userNameField;
     private final Text emailText;
     private final Text passwordText;
-    private final Button registerButton;
+    private final CustomButtonController registerButton;
     private final Text userNameText;
     private final TextField emailField;
     private final BorderPane borderPane;
@@ -59,15 +64,16 @@ public class SignUpBase extends GridPane {
         userNameField = new TextField();
         emailText = new Text();
         passwordText = new Text();
-        registerButton = new Button();
+        registerButton = new CustomButtonController();
         userNameText = new Text();
         emailField = new TextField();
         borderPane = new BorderPane();
         text = new Text();
         passwordField = new PasswordField();
         showPasswordField = new TextField();
-        eyeIcon = new
-                ImageView(new Image(getClass().getResourceAsStream("eye_icon.png")));
+        // putting eye resource
+        eyeIcon = new ImageView(new Image(getClass().
+                getResourceAsStream("eye_icon.png")));
 
         setupLayout();
         setupPasswordVisibilityToggle();
@@ -201,7 +207,37 @@ public class SignUpBase extends GridPane {
         getColumnConstraints().addAll(columnConstraints, columnConstraints0, columnConstraints1);
         getRowConstraints().addAll(rowConstraints, rowConstraints0, rowConstraints1, rowConstraints2, rowConstraints3, rowConstraints4, rowConstraints5, rowConstraints6, rowConstraints7);
         getChildren().addAll(userNameField, emailText, passwordText, registerButton, userNameText, emailField, borderPane, passwordField, showPasswordField, eyeIcon);
+
+        /********************************************/
+        /********************************************/
+        // working on button register
+
+        registerButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String userName = userNameField.getText();
+                String email = emailField.getText();
+                String password = passwordField.getText();
+                // send data to Authenticate class
+                authenticate  = new AuthenticateSignUp(userName,email,password) ;
+                if (!userName.isEmpty()&&email.isEmpty()&&password.isEmpty()){
+                    authenticate.sendSignUpData();
+                }
+                if (authenticate.getUserCase().equals("1")){
+
+                } else if (authenticate.getUserCase().equals("2")) { // mean userName Exsist
+
+                    showEmailExistsAlert("UserName is Already Exists");
+
+                } else if (authenticate.getUserCase().equals("3")) { // means EmailExsist
+                    showEmailExistsAlert("Email is Already Exsists ");
+                }
+            }
+        });
+
     }
+    /********************************************/
+    /********************************************/
 
     // the Two Functions To Toggile and hide password
 
@@ -221,5 +257,19 @@ public class SignUpBase extends GridPane {
             passwordField.setVisible(false);
             isPasswordVisible = true;
         }
+
     }
+    // alert to put to user
+
+    public void showEmailExistsAlert(String message) {
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Sign Up Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+
+
 }
