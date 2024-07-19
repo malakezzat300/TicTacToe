@@ -1,4 +1,6 @@
-package sample.database;
+package sample;
+
+import com.mysql.cj.jdbc.Driver;
 
 import java.sql.*;
 
@@ -6,23 +8,21 @@ public class DAO {
     Connection con;
     public DAO() throws SQLException {
         try {
-                    DriverManager.registerDriver(new Driver());
-
-             String mycon = "jdbc:mysql://localhost:3306/players";
+            DriverManager.registerDriver(new Driver());
+            String mycon = "jdbc:mysql://localhost:3306/players";
              con = DriverManager.getConnection(mycon, "root", "root");
         }catch (Exception e) {
             throw e;
                }
     }
-    public synchronized void insert(String user, String pass, String email) throws SQLException {
+    public synchronized void insert(String user, String pass, String email) throws Exception {
         try {
-
-
-            con.createStatement().executeLargeUpdate("Insert INTO players VALUES ('"+user+"',"+pass+",'"+email+"',"+0+")");
+            con.createStatement().executeUpdate("Insert INTO players VALUES ('"+user+"','"+pass+"','"+email+"',"+0+")");
 
         }catch (Exception e)
         {
-            throw  e;
+            System.out.println(e.getMessage());
+            throw  new Exception("user name or email exists");
         }
     }
     public synchronized void addscore(String user) throws Exception {
@@ -45,7 +45,9 @@ public class DAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int count = resultSet.getInt(1);
+
                 if (count > 0) {
+                    System.out.println(count);
                     throw new Exception("email or user exists");
                 }
             }
@@ -104,5 +106,21 @@ public class DAO {
             }
         }
     }
+    public synchronized Integer numberofpalyers() {
+        try {
+            String query = "SELECT COUNT(*) FROM players ";
+            PreparedStatement preparedStatement= con.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            int count =0;
+            resultSet.next();
+            count = resultSet.getInt(1);
+            System.out.println("cout" +count);
+            return count;
+        }catch (Exception e){
+           return 0;
+
+    }
+    }
 
 }
+
