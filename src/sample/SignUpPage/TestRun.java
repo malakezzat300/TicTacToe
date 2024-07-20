@@ -12,9 +12,10 @@ public class TestRun extends Application {
         Parent root = new SignUpBase();
         primaryStage.setTitle("Sign Up Page");
         primaryStage.setScene(new Scene(root));
-        primaryStage.setMaxWidth(800);
+        //primaryStage.setMaxWidth(800);
 
-       // primaryStage.setResizable(true);
+        primaryStage.setResizable(true);
+        primaryStage.setFullScreen(true);
         primaryStage.show();
     }
 
