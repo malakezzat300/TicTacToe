@@ -10,10 +10,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = new sampleBase() {};
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        Parent root = new StartScreenBase(primaryStage) {};
+        primaryStage.setTitle("Tic Tac Toe");
+        primaryStage.setScene(new Scene(root,800, 800));
         primaryStage.show();
+        primaryStage.setMinHeight(800);
+        primaryStage.setMinWidth(800);
+        primaryStage.setFullScreen(true);
+
     }
 
 

@@ -8,7 +8,7 @@ public abstract class CustomLabelBase extends Label {
     public CustomLabelBase() {
 
         setText("Label");
-        setFont(new Font("Comic Sans MS", 24.0));
+        setFont(new Font("Comic Sans MS", 48.0));
 
     }
 }
