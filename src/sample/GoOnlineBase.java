@@ -1,5 +1,10 @@
 package sample;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -9,6 +14,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public abstract class GoOnlineBase extends GridPane {
 
@@ -25,7 +33,7 @@ public abstract class GoOnlineBase extends GridPane {
     protected final CustomButtonController loginButton;
     protected final ImageView imageView;
 
-    public GoOnlineBase() {
+    public GoOnlineBase(Stage stage) {
 
         columnConstraints = new ColumnConstraints();
         columnConstraints0 = new ColumnConstraints();
@@ -119,6 +127,26 @@ public abstract class GoOnlineBase extends GridPane {
         GridPane.setValignment(loginButton, javafx.geometry.VPos.CENTER);
         loginButton.setMnemonicParsing(false);
         loginButton.setText("Log in");
+        loginButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
+                Scene scene = null;
+                try {
+                    scene = new Scene(fxmlLoader.load(), 900.0, 700);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                stage.setResizable(true);
+
+                stage.setScene(scene);
+                stage.show();
+                stage.setMinHeight(600);
+                stage.setMinWidth(600);
+                stage.setFullScreen(true);
+
+            }
+        });
 
         getColumnConstraints().add(columnConstraints);
         getColumnConstraints().add(columnConstraints0);

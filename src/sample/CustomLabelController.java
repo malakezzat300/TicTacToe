@@ -6,7 +6,7 @@ import javafx.scene.input.MouseEvent;
 import java.awt.*;
 import java.io.IOException;
 
-public abstract class CustomLabelController extends CustomLabelBase {
+public class CustomLabelController extends CustomLabelBase {
 
     public CustomLabelController(){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("custom_label.fxml"));

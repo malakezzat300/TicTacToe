@@ -183,7 +183,7 @@ public abstract class StartScreenBase extends GridPane {
         multiplayerOnlineButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Parent root = new GoOnlineBase() {};
+                Parent root = new GoOnlineBase(stage) {};
                 stage.setScene(new Scene(root,800, 800));
                 stage.show();
                 stage.setMinHeight(800);
