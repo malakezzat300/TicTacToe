@@ -41,7 +41,7 @@ public class SignUpBase extends AnchorPane {
         // backGround image
 
         // Background image (Stretch to fit)
-        Image background = new Image(getClass().getResourceAsStream("BackGround.jpg"));
+        Image background = new Image(Objects.requireNonNull(getClass().getResourceAsStream("BackGround.jpg")));
         BackgroundImage bgImage = new BackgroundImage(background, BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO,
