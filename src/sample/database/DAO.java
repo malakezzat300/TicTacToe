@@ -1,32 +1,26 @@
 package sample.database;
 
-import com.mysql.cj.jdbc.Driver;
-import sample.database.User;
-
 import java.sql.*;
-
-import static sample.database.View.stringProperty2;
-
 
 public class DAO {
     Connection con;
     public DAO() throws SQLException {
         try {
-            DriverManager.registerDriver(new Driver());
-            String mycon = "jdbc:mysql://localhost:3306/players";
-            con = DriverManager.getConnection(mycon, "root", "root");
+             String mycon = "jdbc:mysql://localhost:3306/players";
+             con = DriverManager.getConnection(mycon, "root", "root");
         }catch (Exception e) {
             throw e;
-        }
+               }
     }
-    public synchronized void insert(String user, String pass, String email) throws Exception {
+    public synchronized void insert(String user, String pass, String email) throws SQLException {
         try {
-            con.createStatement().executeUpdate("Insert INTO players VALUES ('"+user+"','"+pass+"','"+email+"',"+0+")");
+
+
+            con.createStatement().executeLargeUpdate("Insert INTO players VALUES ('"+user+"',"+pass+",'"+email+"',"+0+")");
 
         }catch (Exception e)
         {
-            System.out.println(e.getMessage());
-            throw  new Exception("user name or email exists");
+            throw  e;
         }
     }
     public synchronized void addscore(String user) throws Exception {
@@ -49,9 +43,7 @@ public class DAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int count = resultSet.getInt(1);
-
                 if (count > 0) {
-                    System.out.println(count);
                     throw new Exception("email or user exists");
                 }
             }
@@ -108,34 +100,6 @@ public class DAO {
             if (count <= 0) {
                 throw new Exception("username  does not exists");
             }
-        }
-    }
-    public   synchronized void getallsuers() throws Exception {
-        String query = "SELECT * FROM players";
-        PreparedStatement preparedStatement= con.prepareStatement(query);
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        while (resultSet.next()){
-            User n= new User();
-
-            n.name=resultSet.getString(1);
-            n.email=resultSet.getString(3);
-            stringProperty2.add(n);
-        }
-    }
-    public synchronized Integer numberofpalyers() {
-        try {
-            String query = "SELECT COUNT(*) FROM players ";
-            PreparedStatement preparedStatement= con.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            int count =0;
-            resultSet.next();
-            count = resultSet.getInt(1);
-            System.out.println("cout" +count);
-            return count;
-        }catch (Exception e){
-            return 0;
-
         }
     }
 
