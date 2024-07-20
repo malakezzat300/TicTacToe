@@ -9,14 +9,14 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception{
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 900.0, 700);
-        //stage.setMaximized(true);
-        stage.setResizable(true);
-        stage.setFullScreen(true);
-        stage.setScene(scene);
-        stage.show();
+    public void start(Stage primaryStage) throws Exception{
+        Parent root = new StartScreenBase(primaryStage) {};
+        primaryStage.setTitle("Tic Tac Toe");
+        primaryStage.setScene(new Scene(root,800, 800));
+        primaryStage.show();
+        primaryStage.setMinHeight(800);
+        primaryStage.setMinWidth(800);
+        primaryStage.setFullScreen(true);
     }
 
 
