@@ -11,7 +11,6 @@ public abstract class sampleBase extends GridPane {
     protected final RowConstraints rowConstraints;
     protected final BorderPane borderPane;
     protected final CustomButtonController button;
-    protected final CustomLabelController label;
 
 
     public sampleBase() {
@@ -20,7 +19,6 @@ public abstract class sampleBase extends GridPane {
         rowConstraints = new RowConstraints();
         borderPane = new BorderPane();
         button = new CustomButtonController();
-        label = new CustomLabelController();
 
 
 
@@ -38,9 +36,6 @@ public abstract class sampleBase extends GridPane {
 
         borderPane.setCenter(button);
 
-        BorderPane.setAlignment(label, javafx.geometry.Pos.CENTER);
-        label.setText("Label");
-        borderPane.setTop(label);
 
         getColumnConstraints().add(columnConstraints);
         getRowConstraints().add(rowConstraints);
