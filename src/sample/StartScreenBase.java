@@ -5,11 +5,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -32,6 +36,7 @@ public abstract class StartScreenBase extends GridPane {
     protected final CustomButtonController multiplayerOnlineButton;
     protected final CustomButtonController recordsButton;
     protected final CustomButtonController exitButton;
+    protected final ImageView imageView;
 
     public StartScreenBase(Stage stage) {
 
@@ -52,6 +57,7 @@ public abstract class StartScreenBase extends GridPane {
         multiplayerOnlineButton = new CustomButtonController();
         recordsButton = new CustomButtonController();
         exitButton = new CustomButtonController();
+        imageView = new ImageView();
 
         setMinHeight(800.0);
         setMinWidth(800.0);
@@ -61,14 +67,17 @@ public abstract class StartScreenBase extends GridPane {
         columnConstraints.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
         columnConstraints.setMaxWidth(Double.MAX_VALUE);
         columnConstraints.setMinWidth(10.0);
+        columnConstraints.setPercentWidth(20);
 
         columnConstraints0.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
         columnConstraints0.setMaxWidth(Double.MAX_VALUE);
         columnConstraints0.setMinWidth(10.0);
+        columnConstraints0.setPercentWidth(60);
 
         columnConstraints1.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
         columnConstraints1.setMaxWidth(Double.MAX_VALUE);
         columnConstraints1.setMinWidth(10.0);
+        columnConstraints1.setPercentWidth(20);
 
         rowConstraints.setMaxHeight(44.0);
         rowConstraints.setMinHeight(10.0);
@@ -113,6 +122,17 @@ public abstract class StartScreenBase extends GridPane {
         ticTacToeText.setText("Tic Tac Toe");
         ticTacToeText.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
 
+
+        GridPane.setColumnIndex(imageView, 0);
+        GridPane.setRowIndex(imageView, 0);
+        GridPane.setColumnSpan(imageView, 2147483647);
+        GridPane.setRowSpan(imageView,2147483647);
+        imageView.setFitHeight(2000);
+        imageView.setFitWidth(2000);
+        imageView.setPickOnBounds(true);
+        imageView.setPreserveRatio(true);
+        imageView.setImage(new Image(getClass().getResource("../assets/tictactoebackground.jpg").toExternalForm()));
+
         GridPane.setColumnIndex(singleModeButton, 1);
         GridPane.setHalignment(singleModeButton, javafx.geometry.HPos.CENTER);
         GridPane.setRowIndex(singleModeButton, 2);
@@ -123,6 +143,12 @@ public abstract class StartScreenBase extends GridPane {
         singleModeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                Parent root = new OfflineNamesBase(stage) {};
+                stage.setScene(new Scene(root,200, 200));
+                stage.show();
+                stage.setMinHeight(600);
+                stage.setMinWidth(600);
+                stage.setFullScreen(true);
 
             }
         });
@@ -137,6 +163,12 @@ public abstract class StartScreenBase extends GridPane {
         multiplayerOfflineButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                Parent root = new OfflineNamesBase(stage) {};
+                stage.setScene(new Scene(root,600, 600));
+                stage.show();
+                stage.setMinHeight(600);
+                stage.setMinWidth(600);
+                stage.setFullScreen(true);
 
             }
         });
@@ -199,12 +231,14 @@ public abstract class StartScreenBase extends GridPane {
         getRowConstraints().add(rowConstraints4);
         getRowConstraints().add(rowConstraints5);
         getRowConstraints().add(rowConstraints6);
+        getChildren().add(imageView);
         getChildren().add(ticTacToeText);
         getChildren().add(singleModeButton);
         getChildren().add(multiplayerOfflineButton);
         getChildren().add(multiplayerOnlineButton);
         getChildren().add(recordsButton);
         getChildren().add(exitButton);
+
 
     }
 }

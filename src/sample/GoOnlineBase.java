@@ -2,9 +2,12 @@ package sample;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public abstract class GoOnlineBase extends GridPane {
@@ -20,6 +23,7 @@ public abstract class GoOnlineBase extends GridPane {
     protected final CustomLabelController goOnlineText;
     protected final CustomButtonController signupButton;
     protected final CustomButtonController loginButton;
+    protected final ImageView imageView;
 
     public GoOnlineBase() {
 
@@ -34,6 +38,7 @@ public abstract class GoOnlineBase extends GridPane {
         goOnlineText = new CustomLabelController();
         signupButton = new CustomButtonController();
         loginButton = new CustomButtonController();
+        imageView = new ImageView();
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -45,18 +50,22 @@ public abstract class GoOnlineBase extends GridPane {
         columnConstraints.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
         columnConstraints.setMaxWidth(Double.MAX_VALUE);
         columnConstraints.setMinWidth(10.0);
+        columnConstraints.setPercentWidth(20);
 
         columnConstraints0.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
         columnConstraints0.setMaxWidth(Double.MAX_VALUE);
         columnConstraints0.setMinWidth(10.0);
+        columnConstraints0.setPercentWidth(30);
 
         columnConstraints1.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
         columnConstraints1.setMaxWidth(Double.MAX_VALUE);
         columnConstraints1.setMinWidth(10.0);
+        columnConstraints1.setPercentWidth(30);
 
         columnConstraints2.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
         columnConstraints2.setMaxWidth(Double.MAX_VALUE);
         columnConstraints2.setMinWidth(10.0);
+        columnConstraints2.setPercentWidth(20);
 
         rowConstraints.setMinHeight(5.0);
         rowConstraints.setPrefHeight(5.0);
@@ -74,6 +83,17 @@ public abstract class GoOnlineBase extends GridPane {
         rowConstraints2.setPrefHeight(30.0);
         rowConstraints2.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
 
+        GridPane.setColumnIndex(imageView, 0);
+        GridPane.setRowIndex(imageView, 0);
+        GridPane.setColumnSpan(imageView, 2147483647);
+        GridPane.setRowSpan(imageView,2147483647);
+        imageView.setFitHeight(2000);
+        imageView.setFitWidth(2000);
+        imageView.setPickOnBounds(true);
+        imageView.setPreserveRatio(true);
+        imageView.setImage(new Image(getClass().getResource("../assets/tictactoebackground.jpg").toExternalForm()));
+
+
         GridPane.setColumnIndex(goOnlineText, 1);
         GridPane.setColumnSpan(goOnlineText, 2);
         GridPane.setHalignment(goOnlineText, javafx.geometry.HPos.CENTER);
@@ -82,8 +102,9 @@ public abstract class GoOnlineBase extends GridPane {
         goOnlineText.setAlignment(javafx.geometry.Pos.CENTER);
         goOnlineText.setContentDisplay(javafx.scene.control.ContentDisplay.CENTER);
         goOnlineText.setText("Go Online");
+        goOnlineText.setTextFill(Color.BLACK);
         goOnlineText.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-        goOnlineText.setFont(new Font(68.0));
+        goOnlineText.setFont(new Font(120));
 
         GridPane.setColumnIndex(signupButton, 1);
         GridPane.setHalignment(signupButton, javafx.geometry.HPos.CENTER);
@@ -107,6 +128,7 @@ public abstract class GoOnlineBase extends GridPane {
         getRowConstraints().add(rowConstraints0);
         getRowConstraints().add(rowConstraints1);
         getRowConstraints().add(rowConstraints2);
+        getChildren().add(imageView);
         getChildren().add(goOnlineText);
         getChildren().add(signupButton);
         getChildren().add(loginButton);
