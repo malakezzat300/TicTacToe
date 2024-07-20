@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -10,12 +12,14 @@ public abstract class sampleBase extends GridPane {
     protected final BorderPane borderPane;
     protected final CustomButtonController button;
 
+
     public sampleBase() {
 
         columnConstraints = new ColumnConstraints();
         rowConstraints = new RowConstraints();
         borderPane = new BorderPane();
         button = new CustomButtonController();
+
 
 
         setHgap(10);
@@ -28,6 +32,8 @@ public abstract class sampleBase extends GridPane {
         BorderPane.setAlignment(button, javafx.geometry.Pos.CENTER);
         button.setMnemonicParsing(false);
         button.setText("Button");
+
+
         borderPane.setCenter(button);
 
 
