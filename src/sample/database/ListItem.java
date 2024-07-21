@@ -6,7 +6,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class ListItem extends ListCell<User> {
+ class ListItem extends ListCell<User> {
     HBox box;
     TextField name;
     TextField email;
