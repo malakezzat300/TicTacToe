@@ -20,12 +20,12 @@ public class CustomButtonController extends CustomButtonBase {
     }
 
     private void handleMouseEntered() {
-        this.setStyle("-fx-background-color: lightblue;");
-        setTextFill(Color.BLACK);
+        this.setStyle("-fx-background-color: #464646; -fx-background-radius: 20px;");
+        setTextFill(Color.WHITE);
     }
 
     private void handleMouseExited() {
-        this.setStyle("-fx-background-color: #2c2c2c;");
+        this.setStyle("-fx-background-color: #2c2c2c; -fx-background-radius: 20px;");
         setTextFill(Color.WHITE);
     }
 
