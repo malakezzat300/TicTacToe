@@ -177,6 +177,7 @@ public class SignUpBase extends AnchorPane {
                 switch (userCase) {
                     case "1":
                         // Handle success case if needed
+
                         break;
                     case "2":  // Means userName exists
                         showEmailExistsAlert("UserName is Already Exists");
