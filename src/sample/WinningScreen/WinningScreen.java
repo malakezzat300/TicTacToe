@@ -1,4 +1,6 @@
 package sample.WinningScreen;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -67,6 +69,23 @@ public  class WinningScreen extends AnchorPane {
         mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(mediaPlayer.getStartTime()));
 
         getChildren().addAll(mediaView,vBox); // adding vBox and media view in Anchor pane
+
+        // action on PlayAgainButton
+
+        playAgainButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+            }
+        });
+
+
+        // action on BackHome Button
+
+        backHomeButton.setOnAction(event -> {
+
+
+        });
 
 
 
