@@ -37,6 +37,8 @@ public abstract class StartScreenBase extends GridPane {
     protected final CustomButtonController recordsButton;
     protected final CustomButtonController exitButton;
     protected final ImageView imageView;
+    protected final int SINGLE_MODE = 1;
+    protected final int OFFLINE_MODE = 2;
 
     public StartScreenBase(Stage stage) {
 
@@ -143,7 +145,7 @@ public abstract class StartScreenBase extends GridPane {
         singleModeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Parent root = new OfflineNamesBase(stage) {};
+                Parent root = new OfflineNamesBase(stage,1) {};
                 stage.setScene(new Scene(root,200, 200));
                 stage.show();
                 stage.setMinHeight(600);
@@ -163,7 +165,7 @@ public abstract class StartScreenBase extends GridPane {
         multiplayerOfflineButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Parent root = new OfflineNamesBase(stage) {};
+                Parent root = new OfflineNamesBase(stage,2) {};
                 stage.setScene(new Scene(root,600, 600));
                 stage.show();
                 stage.setMinHeight(600);

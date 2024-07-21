@@ -2,6 +2,8 @@ package sample.SignUpPage;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -11,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sample.CustomButtonController;
 import javafx.scene.image.Image;
@@ -36,12 +39,12 @@ public class SignUpBase extends AnchorPane {
     private final ImageView eyeIcon;
     private boolean isPasswordVisible = false;
 
-    public SignUpBase() {
+    public SignUpBase(Stage stage) {
 
         // backGround image
 
         // Background image (Stretch to fit)
-        Image background = new Image(Objects.requireNonNull(getClass().getResourceAsStream("BackGround.jpg")));
+        Image background = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/assets/tictactoebackground.jpg")));
         BackgroundImage bgImage = new BackgroundImage(background, BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO,
@@ -177,6 +180,13 @@ public class SignUpBase extends AnchorPane {
                 switch (userCase) {
                     case "1":
                         // Handle success case if needed
+                        Parent root = new SignUpBase(stage);
+                        Scene scene = new Scene(root, 900.0, 700);
+                        stage.setScene(scene);
+                        stage.show();
+                        stage.setMinHeight(800);
+                        stage.setMinWidth(800);
+                        stage.setFullScreen(true);
                         break;
                     case "2":  // Means userName exists
                         showEmailExistsAlert("UserName is Already Exists");

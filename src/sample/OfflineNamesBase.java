@@ -37,7 +37,7 @@ public abstract class OfflineNamesBase extends StackPane {
     protected final TextField firstPlayerTextField;
     protected final TextField secondPlayerTextField;
 
-    public OfflineNamesBase(Stage stage) {
+    public OfflineNamesBase(Stage stage,int mode) {
 
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -149,6 +149,7 @@ public abstract class OfflineNamesBase extends StackPane {
         GridPane.setValignment(startButton, javafx.geometry.VPos.TOP);
         startButton.setMnemonicParsing(false);
         startButton.setText("Start");
+        startButton.setDefaultButton(true);
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -160,7 +161,10 @@ public abstract class OfflineNamesBase extends StackPane {
                 if(!secondPlayerTextField.getText().equals("")){
                     playerTwo = secondPlayerTextField.getText();
                 }
-                Parent root = new GameScreenBase(stage,playerOne,playerTwo) {};
+                if(mode == 1){
+                    playerTwo = "Computer";
+                }
+                Parent root = new GameScreenBase(stage,playerOne,playerTwo,mode) {};
                 stage.setScene(new Scene(root,800, 800));
                 stage.show();
                 stage.setMinHeight(800);
@@ -173,6 +177,8 @@ public abstract class OfflineNamesBase extends StackPane {
             }
         });
 
+
+
         GridPane.setColumnIndex(firstPlayerTextField, 1);
         GridPane.setRowIndex(firstPlayerTextField, 2);
         GridPane.setValignment(firstPlayerTextField, javafx.geometry.VPos.TOP);
@@ -182,6 +188,13 @@ public abstract class OfflineNamesBase extends StackPane {
         GridPane.setRowIndex(secondPlayerTextField, 4);
         GridPane.setValignment(secondPlayerTextField, javafx.geometry.VPos.TOP);
         secondPlayerTextField.setFont(new Font(18.0));
+
+        if(mode == 1){
+            label1.setVisible(false);
+            secondPlayerTextField.setVisible(false);
+            label0.setText("Player");
+            label.setText("Enter Your Name:");
+        }
 
         gridPane.getColumnConstraints().add(columnConstraints);
         gridPane.getColumnConstraints().add(columnConstraints0);
