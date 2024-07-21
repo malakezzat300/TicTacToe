@@ -1,6 +1,6 @@
 package sample.database;
 
-
+import sample.database.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +10,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import java.io.IOException;
 
 public  class View extends AnchorPane {
    public static SimpleStringProperty stringProperty= new SimpleStringProperty();
@@ -170,6 +171,11 @@ public  class View extends AnchorPane {
         getChildren().add(button);
         getChildren().add(users);
         SServerButton.setOnAction(e->{
+            MyTask task= new MyTask();
+            Thread t= new Thread(task);
+            task.valueProperty().addListener((observable, oldValue, newValue) -> Main.s=newValue);
+            t.setDaemon(true);
+            t.start();
             stringProperty.addListener(ee->{offlinelabe.setText(stringProperty.getValue());});
             stringProperty.setValue(dao.numberofpalyers().toString());
             StoServerButton.setDisable(false);
@@ -185,6 +191,14 @@ public  class View extends AnchorPane {
 
         });
         StoServerButton.setOnAction(e->{
+            try {
+
+                sample.database.Main.s.serverSocket.close();
+
+
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
             stringProperty.setValue("0");
             stringProperty2.clear();
             users.setItems(stringProperty2);

@@ -1,7 +1,8 @@
 package sample.database;
 
+
+
 import com.mysql.cj.jdbc.Driver;
-import sample.database.User;
 
 import java.sql.*;
 
@@ -64,6 +65,8 @@ public class DAO {
             checkindatabase(email,name);
             insert(name,pass,email);
         }catch (Exception exception){
+            System.out.println("eeeeeeeefffffffeeee");
+            System.out.println(exception.getMessage());
             throw exception;
         }
     }
