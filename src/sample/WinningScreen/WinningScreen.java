@@ -1,22 +1,47 @@
 package sample.WinningScreen;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
+import sample.CustomButtonController;
 
 public  class WinningScreen extends AnchorPane {
 
     protected final MediaView mediaView;
     protected final VBox vBox;
-    protected final Button playAgainButton;
-    protected final Button backHomeButton;
+    protected final CustomButtonController playAgainButton;
+    protected final CustomButtonController backHomeButton;
 
-    public WinningScreen() {
+    String videoPath;
+    Media media;
+    MediaPlayer mediaPlayer;
 
-        mediaView = new MediaView();
-        vBox = new VBox();
-        playAgainButton = new Button();
-        backHomeButton = new Button();
+
+    public WinningScreen(Stage stage) {
+
+        // media intialize
+        videoPath = String.valueOf(getClass().getResource("/sample/WinningScreen/CelebrateVideo.mp4"));
+        media = new Media(videoPath) ; // give it the path
+        mediaPlayer = new MediaPlayer(media) ;
+        mediaView = new MediaView(mediaPlayer);
+
+
+        mediaView.setFitHeight(400.0);  // some configration for media view
+        mediaView.setFitWidth(600.0);
+        mediaView.setPreserveRatio(true);
+        mediaView.fitWidthProperty().bind(stage.widthProperty());
+        mediaView.fitHeightProperty().bind(stage.heightProperty());
+
+
+
+        // buttons intialize
+        playAgainButton = new CustomButtonController();
+        backHomeButton = new CustomButtonController();
+        vBox = new VBox(80,playAgainButton,backHomeButton);
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -25,28 +50,25 @@ public  class WinningScreen extends AnchorPane {
         setPrefHeight(400.0);
         setPrefWidth(600.0);
 
-        mediaView.setFitHeight(400.0);
-        mediaView.setFitWidth(600.0);
 
-        vBox.setLayoutX(493.0);
-        vBox.setLayoutY(116.0);
-        vBox.setPrefHeight(200.0);
-        vBox.setPrefWidth(100.0);
 
-        playAgainButton.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
-        playAgainButton.setMnemonicParsing(false);
+        vBox.setAlignment(Pos.CENTER_RIGHT);
+        vBox.setStyle("-fx-padding: 20px;");
+
         playAgainButton.setText("Play Again");
-
-        backHomeButton.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
-        backHomeButton.setLayoutX(493.0);
-        backHomeButton.setLayoutY(285.0);
-        backHomeButton.setMnemonicParsing(false);
         backHomeButton.setText("Back Home");
 
-        getChildren().add(mediaView);
-        vBox.getChildren().add(playAgainButton);
-        getChildren().add(vBox);
-        getChildren().add(backHomeButton);
+        // put the VBox in the right of the Anchor pane
+        AnchorPane.setTopAnchor(vBox, 20.0);
+        AnchorPane.setRightAnchor(vBox, 20.0);
+
+        mediaPlayer.play(); // play the media
+        // Set media to repeat
+        mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(mediaPlayer.getStartTime()));
+
+        getChildren().addAll(mediaView,vBox); // adding vBox and media view in Anchor pane
+
+
 
     }
 }
