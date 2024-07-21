@@ -23,7 +23,7 @@ public class AuthenticateSignUp implements Runnable {
         if (userName == null || email == null || password == null || userType == null) {
             throw new IllegalArgumentException("Arguments must not be null");
         }
-
+        signUpObject = new JSONObject();
         signUpObject.put("UserName", userName);
         signUpObject.put("Email", email);
         signUpObject.put("Password", password);

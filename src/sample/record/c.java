@@ -26,7 +26,7 @@ class c extends AnchorPane {
         setMinHeight(USE_PREF_SIZE);
         setMinWidth(USE_PREF_SIZE);
 
-        this.setStyle("-fx-background-image: url('/sample/record/back.jpg'); " +
+        this.setStyle("-fx-background-image: url('/assets/tictactoebackground.jpg'); " +
                 "-fx-background-size: cover; " +
                 "-fx-background-position: center center;");
         AnchorPane.setBottomAnchor(mylist, 50.0);

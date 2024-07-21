@@ -45,7 +45,7 @@ public class SceneController {
 
     public void switchToGameBoard(ActionEvent event) throws IOException {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Parent root = new GameScreenBase(stage,"playerOne","playerTwo") {};
+        Parent root = new GameScreenBase(stage,"playerOne","playerTwo",3) {};
         stage.setScene(new Scene(root,800, 800));
         stage.show();
         stage.setMinHeight(800);

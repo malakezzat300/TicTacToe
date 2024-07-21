@@ -1,29 +1,30 @@
 package sample;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
 
 public abstract class GameScreenBase extends GridPane {
 
@@ -77,9 +78,12 @@ public abstract class GameScreenBase extends GridPane {
     protected char[][] matrix= new char[3][3];
     protected String playerOne;
     protected String playerTwo;
+    protected Media sound;
+    protected MediaPlayer mediaPlayer;
+    protected ArrayList<ImageView> boardButtons;
 
 
-    public GameScreenBase(Stage stage, String playerOne, String playerTwo) {
+    public GameScreenBase(Stage stage, String playerOne, String playerTwo,int mode) {
 
 
         this.playerOne = playerOne;
@@ -128,6 +132,17 @@ public abstract class GameScreenBase extends GridPane {
         playerText = new CustomLabelController();
         playerTurnText = new CustomLabelController();
         winLine = new Line();
+        boardButtons = new ArrayList<>();
+
+        boardButtons.add(zeroXzeroButton);
+        boardButtons.add(zeroXoneButton);
+        boardButtons.add(zeroXtwoButton);
+        boardButtons.add(oneXzeroButton);
+        boardButtons.add(oneXoneButton);
+        boardButtons.add(oneXtwoButton);
+        boardButtons.add(twoXzeroButton);
+        boardButtons.add(twoXoneButton);
+        boardButtons.add(twoXtwoButton);
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -376,10 +391,16 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     zeroXzeroButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[0][0] = putXorO.charAt(10);
+                    zeroXzeroButton.setDisable(true);
                     if(isWinState()){
                         doWinEvent();
+                    } else if(isDrawState()){
+                        doDrawEvent();
+                    } else {
+                        if (mode == 1 && isComputerTurn()) {
+                            makeComputerPlay();
+                        }
                     }
-                    zeroXzeroButton.setDisable(true);
                 }
             }
         });
@@ -399,10 +420,16 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     zeroXoneButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[0][1] = putXorO.charAt(10);
+                    zeroXoneButton.setDisable(true);
                     if(isWinState()){
                         doWinEvent();
+                    } else if(isDrawState()){
+                        doDrawEvent();
+                    } else {
+                        if (mode == 1 && isComputerTurn()) {
+                            makeComputerPlay();
+                        }
                     }
-                    zeroXoneButton.setDisable(true);
                 }
             }
         });
@@ -422,13 +449,20 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     zeroXtwoButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[0][2] = putXorO.charAt(10);
+                    zeroXtwoButton.setDisable(true);
                     if(isWinState()){
                         doWinEvent();
+                    } else if(isDrawState()){
+                        doDrawEvent();
+                    } else {
+                        if (mode == 1 && isComputerTurn()) {
+                            makeComputerPlay();
+                        }
                     }
-                    zeroXtwoButton.setDisable(true);
                 }
             }
         });
+
         GridPane.setMargin(zeroXtwoButton, new Insets(30.0, 30.0, 0.0, 0.0));
 
         GridPane.setColumnIndex(oneXzeroButton, 1);
@@ -445,10 +479,16 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     oneXzeroButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[1][0] = putXorO.charAt(10);
+                    oneXzeroButton.setDisable(true);
                     if(isWinState()){
                         doWinEvent();
+                    } else if(isDrawState()){
+                        doDrawEvent();
+                    } else {
+                        if (mode == 1 && isComputerTurn()) {
+                            makeComputerPlay();
+                        }
                     }
-                    oneXzeroButton.setDisable(true);
                 }
             }
         });
@@ -469,10 +509,16 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     oneXoneButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[1][1] = putXorO.charAt(10);
+                    oneXoneButton.setDisable(true);
                     if(isWinState()){
                         doWinEvent();
+                    } else if(isDrawState()){
+                        doDrawEvent();
+                    } else {
+                        if (mode == 1 && isComputerTurn()) {
+                            makeComputerPlay();
+                        }
                     }
-                    oneXoneButton.setDisable(true);
                 }
             }
         });
@@ -492,10 +538,16 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     oneXtwoButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[1][2] = putXorO.charAt(10);
+                    oneXtwoButton.setDisable(true);
                     if(isWinState()){
                         doWinEvent();
+                    } else if(isDrawState()){
+                        doDrawEvent();
+                    } else {
+                        if (mode == 1 && isComputerTurn()) {
+                            makeComputerPlay();
+                        }
                     }
-                    oneXtwoButton.setDisable(true);
                 }
             }
         });
@@ -515,10 +567,16 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     twoXzeroButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[2][0] = putXorO.charAt(10);
+                    twoXzeroButton.setDisable(true);
                     if(isWinState()){
                         doWinEvent();
+                    } else if(isDrawState()){
+                        doDrawEvent();
+                    } else {
+                        if (mode == 1 && isComputerTurn()) {
+                            makeComputerPlay();
+                        }
                     }
-                    twoXzeroButton.setDisable(true);
                 }
             }
         });
@@ -539,10 +597,16 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     twoXoneButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[2][1] = putXorO.charAt(10);
+                    twoXoneButton.setDisable(true);
                     if(isWinState()){
                         doWinEvent();
+                    } else if(isDrawState()){
+                        doDrawEvent();
+                    } else {
+                        if (mode == 1 && isComputerTurn()) {
+                            makeComputerPlay();
+                        }
                     }
-                    twoXoneButton.setDisable(true);
                 }
             }
         });
@@ -563,10 +627,16 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     twoXtwoButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[2][2] = putXorO.charAt(10);
+                    twoXtwoButton.setDisable(true);
                     if(isWinState()){
                         doWinEvent();
+                    } else if(isDrawState()){
+                        doDrawEvent();
+                    } else {
+                        if (mode == 1 && isComputerTurn()) {
+                            makeComputerPlay();
+                        }
                     }
-                    twoXtwoButton.setDisable(true);
                 }
             }
         });
@@ -779,10 +849,12 @@ public abstract class GameScreenBase extends GridPane {
 
     public String putXorO(){
         if(turnNumber % 2 == 0){
+            //makeXSound();
             ++turnNumber;
             playerTurnText.setText(playerTwo + " Turn ( O )");
             return XPATH;
         } else {
+            //makeOSound();
             ++turnNumber;
             playerTurnText.setText(playerOne + " Turn ( X )");
             return OPATH;
@@ -817,4 +889,95 @@ public abstract class GameScreenBase extends GridPane {
         withdrawButton.setDisable(true);
         recordButton.setDisable(true);
     }
+
+    public boolean isDrawState(){
+        if(zeroXzeroButton.isDisabled() &&
+        zeroXoneButton.isDisabled() &&
+        zeroXtwoButton.isDisabled() &&
+        oneXzeroButton.isDisabled() &&
+        oneXoneButton.isDisabled() &&
+        oneXtwoButton.isDisabled() &&
+        twoXzeroButton.isDisabled() &&
+        twoXoneButton.isDisabled() &&
+        twoXtwoButton.isDisabled() &&
+        !isWinState()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void doDrawEvent(){
+        withdrawButton.setDisable(true);
+        playerTurnText.setText("The Match is Draw!");
+    }
+
+    public boolean isComputerTurn(){
+        if(turnNumber % 2 != 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int getXFromImageView(ImageView imageView){
+        if (imageView.equals(zeroXzeroButton) || imageView.equals(zeroXoneButton) || imageView.equals(zeroXtwoButton)) {
+            return 0;
+        } else if (imageView.equals(oneXzeroButton) || imageView.equals(oneXoneButton) || imageView.equals(oneXtwoButton) ) {
+            return 1;
+        } else if (imageView.equals(twoXzeroButton) || imageView.equals(twoXoneButton) || imageView.equals(twoXtwoButton) ) {
+            return 2;
+        } else {
+            return -1;
+        }
+    }
+
+    public int getYFromImageView(ImageView imageView){
+        if (imageView.equals(zeroXzeroButton) || imageView.equals(oneXzeroButton) || imageView.equals(twoXzeroButton)) {
+            return 0;
+        } else if (imageView.equals(zeroXoneButton) || imageView.equals(oneXoneButton) || imageView.equals(twoXoneButton) ) {
+            return 1;
+        } else if (imageView.equals(zeroXtwoButton) || imageView.equals(oneXtwoButton) || imageView.equals(twoXtwoButton) ) {
+            return 2;
+        } else {
+            return -1;
+        }
+    }
+
+    public void makeComputerPlay(){
+        Random random = new Random();
+        int randomInt = random.nextInt(9);
+        ImageView boradButton = boardButtons.get(randomInt);
+        if(boradButton.isDisabled()){
+            makeComputerPlay();
+        } else {
+            String putXorO = putXorO();
+            boradButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
+            matrix[getXFromImageView(boradButton)][getYFromImageView(boradButton)] = putXorO.charAt(10);
+            if(isWinState()){
+                doWinEvent();
+            }
+            boradButton.setDisable(true);
+        }
+        if(isWinState()){
+            doWinEvent();
+        } else if(isDrawState()){
+            doDrawEvent();
+        }
+    }
+
+    /*
+    public void makeOSound(){
+        sound = new Media(Objects.requireNonNull(getClass().getResource("sounds/osound.mp3")).toExternalForm());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
+    }
+
+    public void makeXSound(){
+        sound = new Media(Objects.requireNonNull(getClass().getResource("sounds/xsound.mp3")).toExternalForm());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
+    }
+     */
+
 }
