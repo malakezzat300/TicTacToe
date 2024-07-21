@@ -21,30 +21,30 @@
                </image>
             </ImageView>
       
-                  <Label layoutX="930.0" layoutY="232.0" text="Login">
+                  <Label layoutX="884.0" layoutY="197.0" text="Login">
                <font>
-                  <Font name="Jura light" size="36.0" />
+                  <Font size="64.0" />
                </font>
             </Label>
-                  <TextField fx:id="usernameField" layoutX="820.0" layoutY="362.0" prefHeight="66.0" prefWidth="327.0" stylesheets="@style.css">
+                  <TextField fx:id="usernameField" layoutX="747.0" layoutY="365.0" prefHeight="60.0" prefWidth="450.0" stylesheets="@style.css">
                <font>
                   <Font size="24.0" />
                </font></TextField>
-                  <Label layoutX="825.0" layoutY="326.0" prefHeight="31.0" prefWidth="138.0" text="Username">
+                  <Label layoutX="752.0" layoutY="329.0" prefHeight="31.0" prefWidth="138.0" text="Username">
                <font>
                   <Font name="Jura SemiBold" size="26.0" />
                </font>
             </Label>
-                  <PasswordField fx:id="passwordField" layoutX="820.0" layoutY="486.0" prefHeight="66.0" prefWidth="327.0">
+                  <PasswordField fx:id="passwordField" layoutX="747.0" layoutY="489.0" prefHeight="60.0" prefWidth="450.0">
                <font>
                   <Font size="24.0" />
                </font></PasswordField>
-                  <Label graphicTextGap="7.0" layoutX="819.0" layoutY="451.0" text="Password">
+                  <Label graphicTextGap="7.0" layoutX="746.0" layoutY="454.0" text="Password">
                       <font>
                           <Font name="Jura SemiBold" size="26.0" />
                       </font>
                   </Label>
-                  <Button graphicTextGap="8.0" layoutX="909.0" layoutY="595.0" onAction="#btnLoginClicked" prefHeight="46.0" prefWidth="171.0" style="-fx-background-color: #2c2c3c; -fx-background-radius: 8; -fx-opacity: 0.9;" text="Login" textFill="WHITE">
+                  <Button graphicTextGap="8.0" layoutX="838.0" layoutY="610.0" onAction="#btnLoginClicked" prefHeight="46.0" prefWidth="250.0" style="-fx-background-color: #2c2c3c; -fx-background-radius: 8; -fx-opacity: 0.9;" text="Login" textFill="WHITE">
                <font>
                   <Font name="Jura SemiBold" size="18.0" />
                </font>
