@@ -1,6 +1,5 @@
 package sample.database;
 
-import sample.database.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,9 +9,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+
 import java.io.IOException;
 
-public  class View extends AnchorPane {
+  class View extends AnchorPane {
    public static SimpleStringProperty stringProperty= new SimpleStringProperty();
     public static ObservableList<User> stringProperty2= FXCollections.observableArrayList();
 
@@ -49,7 +49,8 @@ public  class View extends AnchorPane {
         offlinelabe = new Label();
         button = new Button();
         users = new ListView<User>();
-
+        users.setStyle("  -fx-background-color: transparent;\n" +
+                "    -fx-border-color: transparent; ");
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
@@ -154,7 +155,7 @@ public  class View extends AnchorPane {
         users.setLayoutX(14.0);
         users.setLayoutY(140.0);
         users.setPrefHeight(90);
-        users.setPrefWidth(350);
+        users.setPrefWidth(480);
         StoServerButton.setDisable(true);
         getChildren().add(SServerButton);
         getChildren().add(StoServerButton);
@@ -173,7 +174,7 @@ public  class View extends AnchorPane {
         SServerButton.setOnAction(e->{
             MyTask task= new MyTask();
             Thread t= new Thread(task);
-            task.valueProperty().addListener((observable, oldValue, newValue) -> Main.s=newValue);
+            task.valueProperty().addListener((observable, oldValue, newValue) -> sample.database.Main.s =newValue);
             t.setDaemon(true);
             t.start();
             stringProperty.addListener(ee->{offlinelabe.setText(stringProperty.getValue());});
@@ -193,7 +194,7 @@ public  class View extends AnchorPane {
         StoServerButton.setOnAction(e->{
             try {
 
-                sample.database.Main.s.serverSocket.close();
+                Main.s.serverSocket.close();
 
 
             } catch (IOException ioException) {
@@ -207,6 +208,7 @@ public  class View extends AnchorPane {
             SServerButton.setDisable(false);
 
         });
+
     }
 }
 

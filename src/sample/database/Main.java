@@ -22,11 +22,22 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        s= new MainServer();
+
 
         Parent root = new View(dao);
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 500, 500));
+        Scene scene=new Scene(root, 1200, 700);
+        primaryStage.setOnCloseRequest(event -> {
+            try {
+                dao.con.close();
+                if (s!=null)
+                s.serverSocket.close();
+            } catch (Exception throwables) {
+                System.out.println(throwables.getMessage());
+            }
+
+        });
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 

@@ -6,11 +6,11 @@ import com.mysql.cj.jdbc.Driver;
 
 import java.sql.*;
 
-import static sample.database.View.stringProperty2;
+import static  sample.database.View.stringProperty2;
 
 
-public class DAO {
-    Connection con;
+ class DAO {
+ public     Connection con;
     public DAO() throws SQLException {
         try {
             DriverManager.registerDriver(new Driver());
@@ -18,6 +18,39 @@ public class DAO {
             con = DriverManager.getConnection(mycon, "root", "root");
         }catch (Exception e) {
             throw e;
+        }
+
+    }
+    public  void  save(String player1,String player2,String winning){
+        try {
+            String sql = "INSERT INTO game (player1, player2, winning) VALUES (?, ?, ?)";
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, player1);
+            statement.setString(2, player2);
+            statement.setString(3, winning);
+            int rows = statement.executeUpdate();
+            if (rows > 0) {
+                System.out.println("A new game record has been inserted successfully.");
+            }
+        }catch (Exception e){
+
+        }
+    }
+    public synchronized void signup(String name, String pass , String email) throws Exception {
+        try {
+            checkindatabase(email,name);
+            insert(name,pass,email);
+        }catch (Exception exception){
+
+            System.out.println(exception.getMessage());
+            throw exception;
+        }
+    }
+    public synchronized void signin(String name, String pass) throws Exception {
+        try {
+            check(pass,name);
+        }catch (Exception exception){
+            throw exception;
         }
     }
     public synchronized void insert(String user, String pass, String email) throws Exception {
@@ -60,23 +93,7 @@ public class DAO {
             throw e;
         }
     }
-    public synchronized void sigup(String name,String pass , String email) throws Exception {
-        try {
-            checkindatabase(email,name);
-            insert(name,pass,email);
-        }catch (Exception exception){
-            System.out.println("eeeeeeeefffffffeeee");
-            System.out.println(exception.getMessage());
-            throw exception;
-        }
-    }
-    public synchronized void singin(String name,String pass) throws Exception {
-        try {
-            check(pass,name);
-        }catch (Exception exception){
-            throw exception;
-        }
-    }
+
     public synchronized void check(String pass,String user) throws Exception {
         try {
             checkuser(user);
@@ -85,6 +102,7 @@ public class DAO {
             throw e;
         }
     }
+
 
     private void checkpass(String pass, String user) throws Exception {
         String query2 = "SELECT COUNT(*) FROM players WHERE  username = ? AND password = ?";

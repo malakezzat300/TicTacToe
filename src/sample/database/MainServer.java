@@ -3,10 +3,11 @@ package sample.database;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public class MainServer extends  Thread{
-    ServerSocket serverSocket = new ServerSocket(8000);
+ class MainServer extends  Thread{
+   public    ServerSocket  serverSocket;
 
     public MainServer() throws IOException {
+        serverSocket = new ServerSocket(8000);
         start();
     }
     @Override
