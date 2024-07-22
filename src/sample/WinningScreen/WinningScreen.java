@@ -1,8 +1,11 @@
 package sample.WinningScreen;
+
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -10,8 +13,11 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import sample.CustomButtonController;
+import sample.GameScreen;
+import sample.GameScreenBase;
+import sample.StartScreenBase;
 
-public  class WinningScreen extends AnchorPane {
+public class WinningScreen extends AnchorPane {
 
     protected final MediaView mediaView;
     protected final VBox vBox;
@@ -75,7 +81,13 @@ public  class WinningScreen extends AnchorPane {
         playAgainButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                mediaPlayer.stop();
+                Parent root = new GameScreenBase(stage,GameScreenBase.getPlayerOne(),GameScreenBase.getPlayerTwo(),GameScreenBase.getMode()) {};
+                stage.setScene(new Scene(root,600, 600));
+                stage.show();
+                stage.setMinHeight(600);
+                stage.setMinWidth(600);
+                stage.setFullScreen(true);
             }
         });
 
@@ -83,8 +95,14 @@ public  class WinningScreen extends AnchorPane {
         // action on BackHome Button
 
         backHomeButton.setOnAction(event -> {
-
-
+            stage.close();
+            mediaPlayer.stop();
+            Parent root = new StartScreenBase(stage) {};
+            stage.setScene(new Scene(root,600, 600));
+            stage.show();
+            stage.setMinHeight(600);
+            stage.setMinWidth(600);
+            stage.setFullScreen(true);
         });
 
 

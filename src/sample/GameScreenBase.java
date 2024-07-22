@@ -1,15 +1,12 @@
 package sample;
 
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -21,6 +18,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import sample.WinningScreen.WinningScreen;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -76,18 +74,22 @@ public abstract class GameScreenBase extends GridPane {
     protected final static String OPATH = "../assets/o.png";
     protected static int turnNumber = 0;
     protected char[][] matrix= new char[3][3];
-    protected String playerOne;
-    protected String playerTwo;
+    protected static String playerOne;
+    protected static String playerTwo;
     protected Media sound;
     protected MediaPlayer mediaPlayer;
     protected ArrayList<ImageView> boardButtons;
-
+    protected Stage stage;
+    protected static int playerOneWins = 0;
+    protected static int playerTwoWins = 0;
+    protected static int mode;
 
     public GameScreenBase(Stage stage, String playerOne, String playerTwo,int mode) {
 
-
-        this.playerOne = playerOne;
-        this.playerTwo = playerTwo;
+        this.stage = stage;
+        GameScreenBase.playerOne = playerOne;
+        GameScreenBase.playerTwo = playerTwo;
+        GameScreenBase.mode = mode;
         columnConstraints = new ColumnConstraints();
         columnConstraints0 = new ColumnConstraints();
         columnConstraints1 = new ColumnConstraints();
@@ -659,6 +661,9 @@ public abstract class GameScreenBase extends GridPane {
                 stage.setMinHeight(800);
                 stage.setMinWidth(800);
                 stage.setFullScreen(true);
+                turnNumber = 0;
+                playerOneWins = 0;
+                playerTwoWins = 0;
             }
         });
         GridPane.setMargin(withdrawButton, new Insets(0.0));
@@ -670,7 +675,7 @@ public abstract class GameScreenBase extends GridPane {
         recordButton.setFitWidth(120.0);
         recordButton.setPickOnBounds(true);
         recordButton.setPreserveRatio(true);
-        recordButton.setImage(new Image(getClass().getResource("../assets/play.png").toExternalForm()));
+        //recordButton.setImage(new Image(getClass().getResource("../assets/play.png").toExternalForm()));
         GridPane.setMargin(recordButton, new Insets(20.0, 0.0, 0.0, 20.0));
 
         GridPane.setColumnIndex(playerTurnText, 3);
@@ -686,7 +691,7 @@ public abstract class GameScreenBase extends GridPane {
         GridPane.setHalignment(playerText, javafx.geometry.HPos.CENTER);
         GridPane.setRowIndex(playerText, 2);
         GridPane.setValignment(playerText, javafx.geometry.VPos.CENTER);
-        playerText.setText(playerOne + "\n" + "VS" + "\n" + playerTwo);
+        playerText.setText(playerOne + " : " + playerOneWins + "\n\n" + "VS" + "\n\n" + playerTwo + " : " + playerTwoWins);
         playerText.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         playerText.setTextFill(Color.BLACK);
         playerText.setFont(new Font(24.0));
@@ -849,12 +854,12 @@ public abstract class GameScreenBase extends GridPane {
 
     public String putXorO(){
         if(turnNumber % 2 == 0){
-            //makeXSound();
+            makeXSound();
             ++turnNumber;
             playerTurnText.setText(playerTwo + " Turn ( O )");
             return XPATH;
         } else {
-            //makeOSound();
+            makeOSound();
             ++turnNumber;
             playerTurnText.setText(playerOne + " Turn ( X )");
             return OPATH;
@@ -863,9 +868,10 @@ public abstract class GameScreenBase extends GridPane {
 
     public String getWinner(){
         if(turnNumber % 2 == 0){
+            ++playerTwoWins;
             return playerTwo;
         } else {
-
+            ++playerOneWins;
             return playerOne;
         }
     }
@@ -874,6 +880,10 @@ public abstract class GameScreenBase extends GridPane {
         makeWinLine(getWinState());
         disableAllButtons();
         playerTurnText.setText("The Winner is " + getWinner());
+        playerText.setText(playerOne + " : " + playerOneWins + "\n\n" + "VS" + "\n\n" + playerTwo + " : " + playerTwoWins);
+        turnNumber = 0;
+        openWinnerScreen();
+
     }
 
     public void disableAllButtons(){
@@ -888,6 +898,20 @@ public abstract class GameScreenBase extends GridPane {
         twoXtwoButton.setDisable(true);
         withdrawButton.setDisable(true);
         recordButton.setDisable(true);
+    }
+
+    public void enableAllButtons(){
+        zeroXzeroButton.setDisable(false);
+        zeroXoneButton.setDisable(false);
+        zeroXtwoButton.setDisable(false);
+        oneXzeroButton.setDisable(false);
+        oneXoneButton.setDisable(false);
+        oneXtwoButton.setDisable(false);
+        twoXzeroButton.setDisable(false);
+        twoXoneButton.setDisable(false);
+        twoXtwoButton.setDisable(false);
+        withdrawButton.setDisable(false);
+        recordButton.setDisable(false);
     }
 
     public boolean isDrawState(){
@@ -956,17 +980,15 @@ public abstract class GameScreenBase extends GridPane {
             matrix[getXFromImageView(boradButton)][getYFromImageView(boradButton)] = putXorO.charAt(10);
             if(isWinState()){
                 doWinEvent();
+            } else if(isDrawState()){
+                doDrawEvent();
             }
             boradButton.setDisable(true);
         }
-        if(isWinState()){
-            doWinEvent();
-        } else if(isDrawState()){
-            doDrawEvent();
-        }
+
     }
 
-    /*
+
     public void makeOSound(){
         sound = new Media(Objects.requireNonNull(getClass().getResource("sounds/osound.mp3")).toExternalForm());
         mediaPlayer = new MediaPlayer(sound);
@@ -978,6 +1000,26 @@ public abstract class GameScreenBase extends GridPane {
         mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.play();
     }
-     */
+
+    public void openWinnerScreen(){
+        Parent root = new WinningScreen(stage) {};
+        stage.setScene(new Scene(root,800, 800));
+        stage.setMinHeight(800);
+        stage.setMinWidth(1500);
+        stage.setFullScreen(true);
+        stage.show();
+    }
+
+    public static String getPlayerOne() {
+        return playerOne;
+    }
+
+    public static String getPlayerTwo() {
+        return playerTwo;
+    }
+
+    public static int getMode() {
+        return mode;
+    }
 
 }
