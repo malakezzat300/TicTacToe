@@ -55,6 +55,16 @@ public class SceneController {
         stage.setFullScreen(true);
     }
 
+    public void switchToPlayerListPage(ActionEvent event) throws IOException {
+        Parent recordParent = FXMLLoader.load(this.getClass().getResource("PlayrList.fxml"));
+        Scene requestPageScene = new Scene(recordParent);
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(requestPageScene);
+        stage.show();
+        stage.setFullScreen(false);
+    }
+
+
     /*
     public void switchToSigupPrompt(ActionEvent event) throws IOException {
         Parent recordParent = FXMLLoader.load(this.getClass().getResource("signup.fxml"));
