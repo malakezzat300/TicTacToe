@@ -33,7 +33,7 @@ public class RecordController {
     void onAccepted(ActionEvent event) {
         try {
             try {
-                this.Switch.switchToRecordPrompt(event);
+                this.Switch.switchToGameBoard(event);
             } catch (IOException var3) {
                 IOException e1 = var3;
                 e1.printStackTrace();

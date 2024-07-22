@@ -9,7 +9,7 @@ public class TestRun extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Parent root = new SignUpBase();
+        Parent root = new SignUpBase(primaryStage);
         primaryStage.setTitle("Sign Up Page");
         primaryStage.setScene(new Scene(root));
         //primaryStage.setMaxWidth(800);

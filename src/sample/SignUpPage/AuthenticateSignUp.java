@@ -1,11 +1,11 @@
 package sample.SignUpPage;
 
 import org.json.simple.JSONObject;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+
 
 public class AuthenticateSignUp implements Runnable {
 

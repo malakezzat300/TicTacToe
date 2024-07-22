@@ -32,7 +32,7 @@ import java.io.IOException;
     protected final ListView<User> users;
 
     public View(DAO dao) {
-        setStyle("-fx-background-image: url('/sample/database/back.jpg'); " +
+        setStyle("-fx-background-image: url('/assets/tictactoebackground.jpg'); " +
                 "-fx-background-size: cover; " +
                 "-fx-background-position: center center;");
         SServerButton = new Button();
