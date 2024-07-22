@@ -26,7 +26,7 @@
                   <Font size="64.0" />
                </font>
             </Label>
-                  <TextField fx:id="usernameField" layoutX="747.0" layoutY="365.0" prefHeight="60.0" prefWidth="450.0" stylesheets="@style.css">
+                  <TextField fx:id="usernameField" layoutX="747.0" layoutY="365.0" prefHeight="60.0" prefWidth="450.0" >
                <font>
                   <Font size="24.0" />
                </font></TextField>
