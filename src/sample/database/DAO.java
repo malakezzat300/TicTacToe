@@ -21,28 +21,13 @@ import static  sample.database.View.stringProperty2;
         }
 
     }
-    public  void  save(String player1,String player2,String winning){
-        try {
-            String sql = "INSERT INTO game (player1, player2, winning) VALUES (?, ?, ?)";
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, player1);
-            statement.setString(2, player2);
-            statement.setString(3, winning);
-            int rows = statement.executeUpdate();
-            if (rows > 0) {
-                System.out.println("A new game record has been inserted successfully.");
-            }
-        }catch (Exception e){
 
-        }
-    }
     public synchronized void signup(String name, String pass , String email) throws Exception {
         try {
             checkindatabase(email,name);
             insert(name,pass,email);
         }catch (Exception exception){
 
-            System.out.println(exception.getMessage());
             throw exception;
         }
     }

@@ -48,13 +48,12 @@ import javafx.scene.shape.Rectangle;
                 name.setStyle(" -fx-background-color: transparent;-fx-text-fill: black; -fx-font-weight: bold;");
                 email.setStyle(" -fx-background-color: transparent;-fx-text-fill: black; -fx-font-weight: bold;");
 
-                if (item.Status) {
+                if (item.Status==1) {
                     rectangle.setFill(Color.GREEN);
-                } else {
+                } else if (item.Status==0){
                     rectangle.setFill(Color.RED);
-                }
+                }else rectangle.setFill(Color.AQUA);
             }
-
             box.getChildren().setAll(circle,name, email, rectangle);
             setGraphic(box);
         }
