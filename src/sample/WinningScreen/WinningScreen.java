@@ -95,6 +95,8 @@ public class WinningScreen extends AnchorPane {
         // action on BackHome Button
 
         backHomeButton.setOnAction(event -> {
+            GameScreenBase.setPlayerOneWins(0);
+            GameScreenBase.setPlayerTwoWins(0);
             stage.close();
             mediaPlayer.stop();
             Parent root = new StartScreenBase(stage) {};

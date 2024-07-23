@@ -1022,4 +1022,11 @@ public abstract class GameScreenBase extends GridPane {
         return mode;
     }
 
+    public static void setPlayerOneWins(int PlayerOneWins) {
+        playerOneWins = PlayerOneWins;
+    }
+
+    public static void setPlayerTwoWins(int PlayerTwoWins) {
+        playerTwoWins = PlayerTwoWins;
+    }
 }
