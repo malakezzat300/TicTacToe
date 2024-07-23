@@ -1,7 +1,5 @@
 package sample.SignUpPage;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -16,8 +14,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sample.CustomButtonController;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import sample.GoOnlineBase;
 
 import java.io.InputStream;
 import java.util.Objects;
@@ -133,7 +131,7 @@ public class SignUpBase extends AnchorPane {
         registerButton.setLayoutY(643.0);
         registerButton.setMnemonicParsing(false);
         registerButton.setPrefHeight(31.0);
-        registerButton.setPrefWidth(155.0);
+        registerButton.setPrefWidth(250);
         registerButton.setText("Register");
 
         // password validation properties
@@ -180,7 +178,7 @@ public class SignUpBase extends AnchorPane {
                 switch (userCase) {
                     case "1":
                         // Handle success case if needed
-                        Parent root = new SignUpBase(stage);
+                        Parent root = new GoOnlineBase(stage) {};
                         Scene scene = new Scene(root, 900.0, 700);
                         stage.setScene(scene);
                         stage.show();
