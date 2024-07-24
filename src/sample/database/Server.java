@@ -44,15 +44,17 @@ class Server extends Thread {
                 netWork.start();
             } catch (Exception e) {
                 Platform.runLater(() -> updateUIForUser(user.name, 0));
+                MainServer.servers.remove(this);
+
                 if (user.Status==2)
                 {
                     try {
-                        netWork.sendwinng();
+                        netWork.sendwinng(user.name,user.Oppentment);
                     } catch (IOException ioException) {
                         System.out.println(ioException.getMessage());
                     }
                 }
-                MainServer.servers.remove(this);
+                System.out.println("logout "+user.name);
                 try {
                     NetWork.sendlistplayer();
                 } catch (Exception exception) {

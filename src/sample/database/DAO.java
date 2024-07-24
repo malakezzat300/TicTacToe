@@ -59,6 +59,19 @@ import static  sample.database.View.stringProperty2;
             throw e;
         }
     }
+     public synchronized int getscore(String user) throws Exception {
+         try {
+             String updateScoreSQL = "SELECT score  WHERE username ='"+user+"'";
+             ResultSet set=con.createStatement().executeQuery(updateScoreSQL);
+             if (set.next())
+                 return set.getInt(1);
+                 throw new Exception("Not found");
+         }catch (Exception e)
+         {
+             throw e;
+         }
+     }
+
     public synchronized void checkindatabase(String email,String user) throws Exception {
         try {
             String query = "SELECT COUNT(*) FROM players WHERE email = ? OR username = ?";
