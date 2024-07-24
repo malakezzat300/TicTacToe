@@ -3,6 +3,10 @@ package sample.database;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -30,6 +34,9 @@ import java.io.IOException;
     protected final Label offlinelabe;
     protected final Button button;
     protected final ListView<User> users;
+    protected final CategoryAxis categoryAxis;
+    protected final NumberAxis numberAxis;
+    protected final BarChart<String,Number> barChart;
 
     public View(DAO dao) {
         setStyle("-fx-background-image: url('/assets/tictactoebackground.jpg'); " +
@@ -49,6 +56,28 @@ import java.io.IOException;
         offlinelabe = new Label();
         button = new Button();
         users = new ListView<User>();
+        categoryAxis = new CategoryAxis();
+        numberAxis = new NumberAxis();
+        barChart = new BarChart<String,Number>(categoryAxis, numberAxis);
+
+        barChart.setTitle("Players Chart");
+        categoryAxis.setLabel("Player status");
+        numberAxis.setLabel("Conuter");
+
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Offline");
+        series1.getData().add(new XYChart.Data("", 8));
+
+        XYChart.Series series2 = new XYChart.Series();
+        series2.setName("In Game");
+        series2.getData().add(new XYChart.Data("", 12));
+
+        XYChart.Series series3 = new XYChart.Series();
+        series3.setName("Online");
+        series3.getData().add(new XYChart.Data("", 5));
+
+        barChart.getData().addAll(series1,series2,series3);
+
         users.setStyle("  -fx-background-color: transparent;\n" +
                 "    -fx-border-color: transparent; ");
         setMaxHeight(USE_PREF_SIZE);
@@ -149,6 +178,17 @@ import java.io.IOException;
         button.setTextOverrun(javafx.scene.control.OverrunStyle.CLIP);
         button.setFont(new Font(27.0));
 
+        categoryAxis.setSide(javafx.geometry.Side.BOTTOM);
+
+        numberAxis.setSide(javafx.geometry.Side.LEFT);
+        barChart.setBarGap(20);
+        barChart.setCategoryGap(20);
+        barChart.setLayoutX(42.0);
+        barChart.setLayoutY(200);
+
+
+
+
         AnchorPane.setBottomAnchor(users, 1.0);
         AnchorPane.setLeftAnchor(users, 11.0);
         AnchorPane.setTopAnchor(users, 140.0);
@@ -170,7 +210,7 @@ import java.io.IOException;
         PlayerButton.getChildren().add(offlinelabe);
         getChildren().add(PlayerButton);
         getChildren().add(button);
-        getChildren().add(users);
+        getChildren().add(barChart);
         SServerButton.setOnAction(e->{
             MyTask task= new MyTask();
             Thread t= new Thread(task);
