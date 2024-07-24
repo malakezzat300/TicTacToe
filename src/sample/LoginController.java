@@ -44,7 +44,7 @@ public class LoginController {
             String password = this.passwordField.getText();
             if ("ahmed".equals(username) && "123".equals(password)) {
                 try {
-                    this.Switch.switchToRquestPage(event);
+                    this.Switch.switchToPlayerListPage(event);
                 } catch (IOException var5) {
                     IOException e1 = var5;
                     e1.printStackTrace();
