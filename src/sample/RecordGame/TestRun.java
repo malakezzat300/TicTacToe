@@ -10,8 +10,6 @@ import java.util.List;
 
 public class TestRun  extends Application {
 
-    List<String> records = new ArrayList<String>();
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         // make an object of readRecordedGame and pass the list with fileName;
