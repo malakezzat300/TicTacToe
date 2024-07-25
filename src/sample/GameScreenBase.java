@@ -61,6 +61,7 @@ public abstract class GameScreenBase extends GridPane {
     protected Rectangle rectangle5;
     protected Rectangle rectangle6;
     protected Rectangle rectangle7;
+    protected Rectangle rectangle8;
     protected ImageView zeroXzeroButton;
     protected ImageView zeroXoneButton;
     protected ImageView zeroXtwoButton;
@@ -140,6 +141,7 @@ public abstract class GameScreenBase extends GridPane {
         rectangle5 = new Rectangle();
         rectangle6 = new Rectangle();
         rectangle7 = new Rectangle();
+        rectangle8 = new Rectangle();
         zeroXzeroButton = new ImageView();
         zeroXoneButton = new ImageView();
         zeroXtwoButton = new ImageView();
@@ -393,6 +395,18 @@ public abstract class GameScreenBase extends GridPane {
         rectangle7.setStroke(javafx.scene.paint.Color.BLACK);
         rectangle7.setStrokeWidth(6.0);
         rectangle7.setWidth(210.0);
+
+        GridPane.setColumnIndex(rectangle8, 1);
+        GridPane.setRowIndex(rectangle8, 2);
+        rectangle8.setArcHeight(5.0);
+        rectangle8.setArcWidth(5.0);
+        rectangle8.setFill(javafx.scene.paint.Color.WHITE);
+        rectangle8.setHeight(1200.0);
+        rectangle8.setOpacity(0.3);
+        rectangle8.setStroke(javafx.scene.paint.Color.WHITE);
+        rectangle8.setStrokeType(javafx.scene.shape.StrokeType.INSIDE);
+        rectangle8.setWidth(1600.0);
+        GridPane.setMargin(rectangle8, new Insets(0.0, 0.0, 0.0, 220.0));
 
         GridPane.setColumnIndex(winLine, 1);
         GridPane.setHalignment(winLine, javafx.geometry.HPos.CENTER);
@@ -814,6 +828,7 @@ public abstract class GameScreenBase extends GridPane {
         getRowConstraints().add(rowConstraints2);
         getRowConstraints().add(rowConstraints3);
         getChildren().add(backgroundImageView);
+        getChildren().add(rectangle8);
         gridPane.getColumnConstraints().add(columnConstraints7);
         gridPane.getColumnConstraints().add(columnConstraints8);
         gridPane.getColumnConstraints().add(columnConstraints9);
@@ -889,6 +904,7 @@ public abstract class GameScreenBase extends GridPane {
         rectangle5 = new Rectangle();
         rectangle6 = new Rectangle();
         rectangle7 = new Rectangle();
+        rectangle8 = new Rectangle();
         zeroXzeroButton = new ImageView();
         zeroXoneButton = new ImageView();
         zeroXtwoButton = new ImageView();
@@ -1144,6 +1160,19 @@ public abstract class GameScreenBase extends GridPane {
         rectangle7.setStroke(javafx.scene.paint.Color.BLACK);
         rectangle7.setStrokeWidth(6.0);
         rectangle7.setWidth(210.0);
+
+        GridPane.setColumnIndex(rectangle8, 1);
+        GridPane.setRowIndex(rectangle8, 2);
+        rectangle8.setX(120);
+        rectangle8.setArcHeight(5.0);
+        rectangle8.setArcWidth(5.0);
+        rectangle8.setFill(javafx.scene.paint.Color.WHITE);
+        rectangle8.setHeight(1200.0);
+        rectangle8.setOpacity(0.3);
+        rectangle8.setStroke(javafx.scene.paint.Color.WHITE);
+        rectangle8.setStrokeType(javafx.scene.shape.StrokeType.INSIDE);
+        rectangle8.setWidth(1600.0);
+        GridPane.setMargin(rectangle8, new Insets(0.0, 0.0, 0.0, 220.0));
 
         GridPane.setColumnIndex(winLine, 1);
         GridPane.setHalignment(winLine, javafx.geometry.HPos.CENTER);
@@ -1610,6 +1639,7 @@ public abstract class GameScreenBase extends GridPane {
         getRowConstraints().add(rowConstraints2);
         getRowConstraints().add(rowConstraints3);
         getChildren().add(backgroundImageView);
+        getChildren().add(rectangle8);
         gridPane.getColumnConstraints().add(columnConstraints7);
         gridPane.getColumnConstraints().add(columnConstraints8);
         gridPane.getColumnConstraints().add(columnConstraints9);
