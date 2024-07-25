@@ -1,4 +1,6 @@
 package sample.SignUpPage;
+
+
 import org.json.simple.JSONObject;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -23,22 +25,18 @@ public class AuthenticateSignUp implements Runnable {
             throw new IllegalArgumentException("Arguments must not be null");
         }
         signUpObject= new JSONObject();
-
-    /*    signUpObject.put("UserName", userName);
+        signUpObject.put("UserName", userName);
         signUpObject.put("Email", email);
         signUpObject.put("Password", password);
-        signUpObject.put("UserType", userType);*/
+        signUpObject.put("UserType", userType);
 
-        signUpObject.put(Types.type,Types.SignUp);
-        signUpObject.put(Types.Username,userName) ;
-        signUpObject.put(Types.Email,email) ;
-        signUpObject.put(Types.Password,password) ;
 
         // Convert JSON to string
         jsonText = signUpObject.toString();
+
         // Initialize socket connection and start the thread
         try {
-            client = new Socket("10.145.18.10", 8000);
+            client = new Socket("127.0.0.1", 8000);
             outMsg = new DataOutputStream(client.getOutputStream()); // Auto-flush enabled
             inMsg = new DataInputStream(client.getInputStream());
 
