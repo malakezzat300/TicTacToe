@@ -36,6 +36,7 @@
                 <Image url="@../assets/tictactoebackground.jpg" />
             </image>
         </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="1200.0" opacity="0.3" stroke="WHITE" strokeType="INSIDE" width="1500.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
         <GridPane fx:id="childGridPane" alignment="CENTER" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.valignment="CENTER">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="33.33" />
@@ -104,7 +105,7 @@
         </Button>
         <ImageView fx:id="recordButton" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
             <image>
-                <Image url="@../assets/play.png" />
+                <Image url="@../assets/record.png" />
             </image>
          <GridPane.margin>
             <Insets left="20.0" top="20.0" />

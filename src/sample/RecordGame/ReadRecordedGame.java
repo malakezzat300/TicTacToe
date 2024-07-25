@@ -7,11 +7,11 @@ import java.util.List;
 
 public class ReadRecordedGame {
 
-    private final String directoryPath = "D:\\1-ITI STUDY\\TicTacToe\\src\\sample\\RecordGame\\RecordsFiles";
+    private final String directoryPath = "C:\\TicTacToe\\Records\\";
 
     public List<String> readRecord(String fileName) {
         List<String> recordedGames = new ArrayList<>();    // list to be fill and returned
-        File fileToSearch = new File(fileName+".txt");
+        File fileToSearch = new File(fileName+".dat");
 
         try {
             File directoryToSearchIn = new File(directoryPath);
@@ -49,6 +49,7 @@ public class ReadRecordedGame {
         }
         return null;
     }
+
 
 
 

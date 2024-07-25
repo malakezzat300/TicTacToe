@@ -2,6 +2,8 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,6 +18,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public abstract class OfflineNamesBase extends StackPane {
 
@@ -36,9 +40,17 @@ public abstract class OfflineNamesBase extends StackPane {
     protected final CustomButtonController startButton;
     protected final TextField firstPlayerTextField;
     protected final TextField secondPlayerTextField;
+    protected static String playerOne;
+    protected static String playerTwo;
+    protected static int mode;
+    protected final static int SINGLE_MODE = 1;
+    protected final static int OFFLINE_MODE = 2;
+    protected final static int SINGLE_MODE_RECORDING = 3;
+    protected final static int OFFLINE_MODE_RECORDING = 4;
 
     public OfflineNamesBase(Stage stage,int mode) {
 
+        OfflineNamesBase.mode = mode;
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
         columnConstraints0 = new ColumnConstraints();
@@ -153,17 +165,39 @@ public abstract class OfflineNamesBase extends StackPane {
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String playerOne = "Player1";
-                String playerTwo = "Player2";
+                playerOne = "Player1";
+                playerTwo = "Player2";
                 if(!firstPlayerTextField.getText().equals("")){
                     playerOne = firstPlayerTextField.getText();
                 }
                 if(!secondPlayerTextField.getText().equals("")){
                     playerTwo = secondPlayerTextField.getText();
                 }
-                if(mode == 1){
+                if(mode == SINGLE_MODE){
                     playerTwo = "Computer";
                 }
+
+                /*
+                do you want to record the game screen
+                 */
+                Parent recordParent = null;
+                try {
+                    recordParent = FXMLLoader.load(this.getClass().getResource("record.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                assert recordParent != null;
+                Scene requestPageScene = new Scene(recordParent);
+                Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                stage.setScene(requestPageScene);
+                stage.show();
+                stage.setFullScreen(true);
+
+
+
+
+                //-----------------------------------
+                /*
                 Parent root = new GameScreenBase(stage,playerOne,playerTwo,mode) {};
                 stage.setScene(new Scene(root,800, 800));
                 stage.show();
@@ -173,6 +207,8 @@ public abstract class OfflineNamesBase extends StackPane {
                 stage.setMaxWidth(3000);
                 stage.setFullScreen(true);
 
+
+                 */
 
             }
         });
@@ -214,5 +250,17 @@ public abstract class OfflineNamesBase extends StackPane {
         gridPane.getChildren().add(secondPlayerTextField);
         getChildren().add(gridPane);
 
+    }
+
+    public static String getPlayerOne(){
+        return playerOne;
+    }
+
+    public static String getPlayerTwo(){
+        return playerTwo;
+    }
+
+    public static int getMode(){
+        return mode;
     }
 }

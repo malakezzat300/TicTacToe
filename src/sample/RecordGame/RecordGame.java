@@ -1,6 +1,7 @@
 package sample.RecordGame;
 
 import org.json.simple.JSONObject;
+import sample.RecordUnit;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class RecordGame {
 
-    String directoryPath = "D:\\1-ITI STUDY\\TicTacToe\\src\\sample\\RecordGame\\RecordsFiles";
+    static String directoryPath = "C:\\TicTacToe\\Records\\";
     String fileName;
     List<String> recordedGame;
 
@@ -35,13 +36,14 @@ public class RecordGame {
 
     public static void main(String[] args) {
 
-        RecordGame recordGame = new RecordGame(); // object of recordGame
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(directoryPath+"malak Computer 20241525041519.dat"))) {
+                ArrayList<RecordUnit> records = (ArrayList<RecordUnit>) ois.readObject();
+                for (RecordUnit record : records) {
+                    System.out.println(record);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        List tagroba = new ArrayList();
-        tagroba.add("ahmed");
-        tagroba.add("zezo");
-        tagroba.add("lolo");
-
-        recordGame.saveRecords(tagroba, "ahmed3"); // pass the JsonString and file Name
     }
 }
