@@ -4,6 +4,8 @@ import javafx.concurrent.Task;
 
 import java.util.ArrayList;
 
+import static sample.database.View.*;
+
 class MyTask extends Task<MainServer> {
     @Override
     protected MainServer call() throws Exception {
@@ -11,12 +13,12 @@ class MyTask extends Task<MainServer> {
     }
 }
 
-class MyOtherTask extends Task<ArrayList<Integer>> {
+class MyOtherTask extends Task<String> {
     @Override
-    protected ArrayList<Integer> call() throws Exception {
+    protected String call() throws Exception {
         while (true){
 
-
+            updateMessage(offlines+" "+online+" "+ingame);
         }
     }
 }

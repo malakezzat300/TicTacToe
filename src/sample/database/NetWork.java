@@ -28,7 +28,6 @@ public class NetWork {
             String message=server.dataInputStream.readUTF();
             object1=(JSONObject) JSONValue.parse(message);
 
-            //SingIn -->
         if (types.SignIn.equals(object1.get(types.type))) {
             RequestSignIng(object1);
         }else if(types.RequestToPlay.equals(object1.get(types.type))){
@@ -71,6 +70,9 @@ public class NetWork {
             server.dataOutputStream.writeUTF(object1.toString());
             System.out.println(servers.size());
             NetWork.sendlistplayer();
+            View.addonline(1);
+            View.addoffline(-1);
+
 
         }catch (Exception e){
             ErrorRespose(e);

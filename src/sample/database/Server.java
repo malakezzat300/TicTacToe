@@ -15,7 +15,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import static sample.database.Main.dao;
-import static sample.database.View.stringProperty2;
+import static sample.database.View.*;
 
 class Server extends Thread {
     NetWork netWork=new NetWork(dao,this);
@@ -45,6 +45,10 @@ class Server extends Thread {
             } catch (Exception e) {
                 Platform.runLater(() -> updateUIForUser(user.name, 0));
                 MainServer.servers.remove(this);
+
+                addoffline(1);
+
+                addonline(-1);
                 if (user.Status==2)
                 {
                     try {
@@ -52,6 +56,7 @@ class Server extends Thread {
                     } catch (IOException ioException) {
                         System.out.println(ioException.getMessage());
                     }
+                    View.addingame(-2);
                 }
                 System.out.println("logout "+user.name);
                 try {
