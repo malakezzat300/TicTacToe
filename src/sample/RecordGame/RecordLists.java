@@ -81,7 +81,7 @@ public class RecordLists extends AnchorPane {
             hBox.setSpacing(150);
 
 
-            playersListView.getItems().add(hBox);  // add HBox in the listView
+            playersListView.getItems().add(hBox);  // add  every HBox in the listView
 
         }
 

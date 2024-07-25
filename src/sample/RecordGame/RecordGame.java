@@ -10,7 +10,7 @@ import java.util.List;
 
 public class RecordGame {
 
-    String directoryPath = "D:\\1-ITI STUDY\\TicTacToe\\src\\sample\\RecordGame\\Records";
+    String directoryPath = "D:\\1-ITI STUDY\\TicTacToe\\src\\sample\\RecordGame\\RecordsFiles";
     String fileName;
     List<String> recordedGame;
 
@@ -27,7 +27,7 @@ public class RecordGame {
                                     // try with resources
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath.toFile(), true))) {
             writer.write(ConvertedList); // write the String
-            writer.write("\n|"); // needed when read file
+            writer.write("\n"); // needed when read file
         } catch (IOException e) {
             e.printStackTrace(); // Print stack trace for debugging
         }

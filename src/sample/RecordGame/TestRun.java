@@ -10,14 +10,11 @@ import java.util.List;
 
 public class TestRun  extends Application {
 
-    List<String> records = new ArrayList<String>();
-
     @Override
     public void start(Stage primaryStage) throws Exception {
-        records.add("ahmed");
-        records.add("lolo");
-        records.add("medo");
-        Parent root = new RecordLists(records);
+        // make an object of readRecordedGame and pass the list with fileName;
+        ReadRecordedGame readFile = new ReadRecordedGame();
+        Parent root = new RecordLists(readFile.readRecord("ahmed3"));
         Scene scene = new Scene(root) ;
         primaryStage.setScene(scene);
 
