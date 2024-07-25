@@ -402,7 +402,7 @@ public abstract class GameScreenBase extends GridPane {
         rectangle8.setArcWidth(5.0);
         rectangle8.setFill(javafx.scene.paint.Color.WHITE);
         rectangle8.setHeight(1200.0);
-        rectangle8.setOpacity(0.3);
+        rectangle8.setOpacity(0.5);
         rectangle8.setStroke(javafx.scene.paint.Color.WHITE);
         rectangle8.setStrokeType(javafx.scene.shape.StrokeType.INSIDE);
         rectangle8.setWidth(1600.0);
@@ -803,7 +803,7 @@ public abstract class GameScreenBase extends GridPane {
         playerTurnText.setText(playerOne + " Turn ( X )");
         playerTurnText.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         playerTurnText.setTextFill(Color.BLACK);
-        playerTurnText.setFont(new Font(30.0));
+        playerTurnText.setFont(new Font(48));
 
         GridPane.setColumnIndex(playerText, 6);
         GridPane.setHalignment(playerText, javafx.geometry.HPos.CENTER);
@@ -812,7 +812,7 @@ public abstract class GameScreenBase extends GridPane {
         playerText.setText(playerOne + " : " + playerOneWins + "\n\n" + "VS" + "\n\n" + playerTwo + " : " + playerTwoWins);
         playerText.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         playerText.setTextFill(Color.BLACK);
-        playerText.setFont(new Font(24.0));
+        playerText.setFont(new Font(32));
 
         getColumnConstraints().add(columnConstraints);
         getColumnConstraints().add(columnConstraints0);
@@ -1168,7 +1168,7 @@ public abstract class GameScreenBase extends GridPane {
         rectangle8.setArcWidth(5.0);
         rectangle8.setFill(javafx.scene.paint.Color.WHITE);
         rectangle8.setHeight(1200.0);
-        rectangle8.setOpacity(0.3);
+        rectangle8.setOpacity(0.5);
         rectangle8.setStroke(javafx.scene.paint.Color.WHITE);
         rectangle8.setStrokeType(javafx.scene.shape.StrokeType.INSIDE);
         rectangle8.setWidth(1600.0);
@@ -1614,7 +1614,7 @@ public abstract class GameScreenBase extends GridPane {
         playerTurnText.setText(matchRecord1.getMessage());
         playerTurnText.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         playerTurnText.setTextFill(Color.BLACK);
-        playerTurnText.setFont(new Font(30.0));
+        playerTurnText.setFont(new Font(48));
 
         GridPane.setColumnIndex(playerText, 6);
         GridPane.setHalignment(playerText, javafx.geometry.HPos.CENTER);
@@ -1623,7 +1623,7 @@ public abstract class GameScreenBase extends GridPane {
         playerText.setText(playerOne + "\n\n" + "VS" + "\n\n" + playerTwo);
         playerText.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         playerText.setTextFill(Color.BLACK);
-        playerText.setFont(new Font(24.0));
+        playerText.setFont(new Font(32));
 
         getColumnConstraints().add(columnConstraints);
         getColumnConstraints().add(columnConstraints0);

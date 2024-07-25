@@ -3,6 +3,7 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -34,6 +36,7 @@ public abstract class OfflineNamesBase extends StackPane {
     protected final RowConstraints rowConstraints3;
     protected final RowConstraints rowConstraints4;
     protected final ImageView imageView;
+    protected final Rectangle rectangle;
     protected final Label label;
     protected final Label label0;
     protected final Label label1;
@@ -62,6 +65,7 @@ public abstract class OfflineNamesBase extends StackPane {
         rowConstraints3 = new RowConstraints();
         rowConstraints4 = new RowConstraints();
         imageView = new ImageView();
+        rectangle = new Rectangle();
         label = new Label();
         label0 = new Label();
         label1 = new Label();
@@ -131,12 +135,25 @@ public abstract class OfflineNamesBase extends StackPane {
         imageView.setPreserveRatio(true);
         imageView.setImage(new Image(getClass().getResource("../assets/tictactoebackground.jpg").toExternalForm()));
 
+        GridPane.setRowIndex(rectangle, 2);
+        GridPane.setRowSpan(rectangle, 2);
+        rectangle.setArcHeight(5.0);
+        rectangle.setArcWidth(5.0);
+        rectangle.setFill(javafx.scene.paint.Color.WHITE);
+        rectangle.setHeight(1000.0);
+        rectangle.setOpacity(0.5);
+        rectangle.setStroke(javafx.scene.paint.Color.WHITE);
+        rectangle.setStrokeType(javafx.scene.shape.StrokeType.INSIDE);
+        rectangle.setWidth(1000.0);
+        GridPane.setMargin(rectangle, new Insets(0.0, 0.0, 0.0, 450.0));
+
+
         GridPane.setColumnIndex(label, 1);
         GridPane.setValignment(label, javafx.geometry.VPos.BOTTOM);
         label.setText("Enter Two Names:");
         label.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         label.setTextFill(Color.BLACK);
-        label.setFont(new Font(24.0));
+        label.setFont(new Font(32));
 
         GridPane.setColumnIndex(label0, 1);
         GridPane.setRowIndex(label0, 1);
@@ -144,7 +161,7 @@ public abstract class OfflineNamesBase extends StackPane {
         label0.setText("Player 1");
         label0.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         label0.setTextFill(Color.BLACK);
-        label0.setFont(new Font(18.0));
+        label0.setFont(new Font(24));
 
         GridPane.setColumnIndex(label1, 1);
         GridPane.setRowIndex(label1, 3);
@@ -153,7 +170,7 @@ public abstract class OfflineNamesBase extends StackPane {
         label1.setText("Player 2");
         label1.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         label1.setTextFill(Color.BLACK);
-        label1.setFont(new Font(18.0));
+        label1.setFont(new Font(24));
 
         GridPane.setColumnIndex(startButton, 1);
         GridPane.setHalignment(startButton, javafx.geometry.HPos.CENTER);
@@ -242,6 +259,7 @@ public abstract class OfflineNamesBase extends StackPane {
         gridPane.getRowConstraints().add(rowConstraints3);
         gridPane.getRowConstraints().add(rowConstraints4);
         gridPane.getChildren().add(imageView);
+        gridPane.getChildren().add(rectangle);
         gridPane.getChildren().add(label);
         gridPane.getChildren().add(label0);
         gridPane.getChildren().add(label1);
