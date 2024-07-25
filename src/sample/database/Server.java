@@ -15,7 +15,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import static sample.database.Main.dao;
-import static sample.database.View.stringProperty2;
+import static sample.database.View.*;
 
 class Server extends Thread {
     NetWork netWork=new NetWork(dao,this);
@@ -24,12 +24,11 @@ class Server extends Thread {
     public DataOutputStream dataOutputStream;
     private ServerSocket serverSocket;
     User user=new User();
-    public String player2;
     public Server(ServerSocket serverSocket) throws IOException {
         this.serverSocket = serverSocket;
         if (!serverSocket.isClosed()) {
-            System.out.println("Server is starting...");
             socket = serverSocket.accept();
+            System.out.println("created new socket");
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
             start();
@@ -39,13 +38,17 @@ class Server extends Thread {
     @Override
     public void run() {
         super.run();
-        while (!socket.isClosed()&&socket.isConnected()) {
+        while (socket.isConnected()) {
             try {
+                user.online=true;
                 netWork.start();
             } catch (Exception e) {
                 Platform.runLater(() -> updateUIForUser(user.name, 0));
                 MainServer.servers.remove(this);
 
+                addoffline(1);
+
+                addonline(-1);
                 if (user.Status==2)
                 {
                     try {
@@ -53,6 +56,7 @@ class Server extends Thread {
                     } catch (IOException ioException) {
                         System.out.println(ioException.getMessage());
                     }
+                    View.addingame(-2);
                 }
                 System.out.println("logout "+user.name);
                 try {

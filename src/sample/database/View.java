@@ -1,5 +1,6 @@
 package sample.database;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,8 +14,20 @@ import javafx.scene.text.Font;
 import java.io.IOException;
 
   class View extends AnchorPane {
-   public static SimpleStringProperty stringProperty= new SimpleStringProperty();
-    public static ObservableList<User> stringProperty2= FXCollections.observableArrayList();
+      public synchronized static void   addoffline(int x){
+        offlines+=x;
+      }
+      public synchronized static void   addonline(int x){
+          online+=x;
+      }
+      public synchronized static void   addingame(int x){
+          ingame+=x;
+      }
+      public static Integer offlines=0;
+      public static Integer online=0;
+      public static Integer ingame=0;
+
+      public static ObservableList<User> stringProperty2= FXCollections.observableArrayList();
 
     protected final Button SServerButton;
     protected final Button StoServerButton;
@@ -172,13 +185,26 @@ import java.io.IOException;
         getChildren().add(button);
         getChildren().add(users);
         SServerButton.setOnAction(e->{
+            MyOtherTask myTask= new MyOtherTask();
+            Thread t2= new Thread(myTask);
             MyTask task= new MyTask();
             Thread t= new Thread(task);
+            offlines=dao.numberofpalyers();
             task.valueProperty().addListener((observable, oldValue, newValue) -> sample.database.Main.s =newValue);
             t.setDaemon(true);
             t.start();
-            stringProperty.addListener(ee->{offlinelabe.setText(stringProperty.getValue());});
-            stringProperty.setValue(dao.numberofpalyers().toString());
+
+            myTask.messageProperty().addListener((observable, oldValue, newValue) -> {
+                System.out.println(newValue);
+               String[] s = newValue.split(" ");
+                Platform.runLater(()->{
+                    offlinelabe.setText(s[0]);
+                    onlinelabe.setText(s[1]);
+                    ingamelabel.setText(s[2]);
+                });
+            });
+            t2.setDaemon(true);
+            t2.start();
             StoServerButton.setDisable(false);
             SServerButton.setDisable(true);
             try {
@@ -197,13 +223,13 @@ import java.io.IOException;
                 Main.s.serverSocket.close();
 
 
+
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-            stringProperty.setValue("0");
+            offlines=0;
             stringProperty2.clear();
             users.setItems(stringProperty2);
-            stringProperty.removeListener(ee->{offlinelabe.setText(stringProperty.getValue());});
             StoServerButton.setDisable(true);
             SServerButton.setDisable(false);
 
