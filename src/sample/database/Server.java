@@ -24,12 +24,11 @@ class Server extends Thread {
     public DataOutputStream dataOutputStream;
     private ServerSocket serverSocket;
     User user=new User();
-    public String player2;
     public Server(ServerSocket serverSocket) throws IOException {
         this.serverSocket = serverSocket;
         if (!serverSocket.isClosed()) {
-            System.out.println("Server is starting...");
             socket = serverSocket.accept();
+            System.out.println("created new socket");
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
             start();
@@ -39,13 +38,13 @@ class Server extends Thread {
     @Override
     public void run() {
         super.run();
-        while (!socket.isClosed()&&socket.isConnected()) {
+        while (socket.isConnected()) {
             try {
+                user.online=true;
                 netWork.start();
             } catch (Exception e) {
                 Platform.runLater(() -> updateUIForUser(user.name, 0));
                 MainServer.servers.remove(this);
-
                 if (user.Status==2)
                 {
                     try {

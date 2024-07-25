@@ -1,5 +1,6 @@
 package sample.database;
 
+import com.mysql.cj.xdevapi.JsonArray;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -12,6 +13,7 @@ import static sample.database.MainServer.size;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class NetWork {
     DAO dao;
@@ -22,9 +24,11 @@ public class NetWork {
     }
 
     public void start() throws Exception {
-        JSONObject object1=new JSONObject();
+           JSONObject object1;
             String message=server.dataInputStream.readUTF();
             object1=(JSONObject) JSONValue.parse(message);
+
+            //SingIn -->
         if (types.SignIn.equals(object1.get(types.type))) {
             RequestSignIng(object1);
         }else if(types.RequestToPlay.equals(object1.get(types.type))){
@@ -88,8 +92,8 @@ public class NetWork {
         object.put(types.Message,e.getMessage());
         server.dataOutputStream.writeUTF(object.toString());
     }
-    public void RequestToPlay(JSONObject object) throws IOException {
-        String Opponent=(String)object.get(types.Opponent);
+    public void RequestToPlay(JSONObject object) throws Exception {
+        String Opponent=(String)  object.get(types.Opponent);
         server.user.Oppentment=(String) object.get(types.Opponent);
         server.user.Status=1;
         for (int i = 0; i < servers.size(); i++) {
@@ -114,6 +118,7 @@ public class NetWork {
                     servers.get(i).user.Oppentment= server.user.name;
                     object1.put(types.Opponent, server.user.name);
                     servers.get(i).dataOutputStream.writeUTF(object1.toString());
+                    sendlistplayer();
                     return;
                 }
             }
@@ -138,24 +143,27 @@ public class NetWork {
         for (int i = 0; i < servers.size(); i++) {
             JSONArray array = new JSONArray();
             for (int j = 0; j < servers.size(); j++) {
-                if (i==j)continue;
+                if (i == j) continue;
                 JSONObject object = new JSONObject();
-                object.put(types.type,types.UpdateList);
-                object.put(types.Username,servers.get(j).user.name);
-                object.put(types.State,servers.get(j).user.Status);
+                object.put(types.Username, servers.get(j).user.name);
+                object.put(types.State, servers.get(j).user.Status);
                 array.add(object);
             }
-            System.out.println(" updated for  "+ servers.get(i).user.name);
-
-            try {
-             servers.get(i).dataOutputStream.writeUTF(array.toString());
-            }catch (Exception e){
-                System.out.println(e.getMessage());
+            System.out.println(" updated for  " + servers.get(i).user.name);
+            JSONObject object2 = new JSONObject();
+            if (servers.size() > 1) {
+                try {
+                    object2.put(types.type, types.UpdateList);
+                    object2.put(types.List, array);
+                    servers.get(i).dataOutputStream.writeUTF(object2.toString());
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
             }
         }
     }
 
-    public  void  ResposeToPlay(JSONObject object) throws IOException {
+    public  void  ResposeToPlay(JSONObject object) throws Exception {
         String Opponent=(String)object.get(types.Message);
         String player1= server.user.Oppentment;
         for (int i = 0; i < servers.size(); i++) {
@@ -173,6 +181,7 @@ public class NetWork {
                     servers.get(i).user.Status=0;
                 }
                 servers.get(i).dataOutputStream.writeUTF(object.toString());
+                sendlistplayer();
                 return;
             }
         }
@@ -222,11 +231,11 @@ class types {
     public static String EndGame = "EndGame";
     public static String Currentbusy = "Currentbusy";
     public static String CurrentInGame = "CurrentInGame";
+    public static String List = "List";
 
     public static String YouLose = "YouLose";
     public static String SignIn = "SignIn";
     public static String SignUp = "SignUp";
-    public static String Player = "Player";
     public static String Email = "Email";
     public static String Password = "Password";
     public static String Username = "Username";
@@ -235,7 +244,7 @@ class types {
     public static String Accept = "Accept";
     public static String Refuse = "Refuse";
     public static String point = "point";
-    public static String State = "point";
+    public static String State = "State";
 
     public static JSONObject createSingin(String username, String password){
         JSONObject object = new JSONObject();
@@ -244,10 +253,30 @@ class types {
         object.put(types.Password,password);
         return object;
     }
+
     public static JSONObject createRequestToPlay(String opponent){
         JSONObject object = new JSONObject();
         object.put(types.type,types.RequestToPlay);
         object.put(types.Opponent,opponent);
         return object;
+    }
+    public static ArrayList<User> updateList(String message){
+        JSONObject object = (JSONObject) JSONValue.parse(message);
+        JSONArray jsonArray=(JSONArray) JSONValue.parse(object.get(types.List).toString());
+        ArrayList<User> users= new ArrayList<>();
+        for (int i = 0; i < jsonArray.size(); i++) {
+            User user = new User();
+            user.name=(String) ((JSONObject)jsonArray.get(i)).get(types.Username);
+            Long xe=(Long) ((JSONObject)jsonArray.get(i)).get(types.State);
+            user.Status= Math.toIntExact(xe);
+            users.add(user);
+        }
+        System.out.println(users.size());
+return users;
+    }
+    public static JSONObject createsignup(String name , String password , String email){
+        JSONObject object = new JSONObject();
+        object.put(types.type,types.SignUp);
+return null;
     }
 }
