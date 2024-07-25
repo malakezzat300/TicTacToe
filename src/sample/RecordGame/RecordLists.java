@@ -1,95 +1,90 @@
 package sample.RecordGame;
 
-import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.ListCell;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-class  RecordLists extends AnchorPane  {
+import javafx.scene.layout.StackPane;
 
-    protected final ListView mylist;
+import java.util.List;
 
-    public RecordLists() {
+public class RecordLists extends AnchorPane {
 
-        mylist = new ListView();
+    protected final ListView<HBox> playersListView; // Change to ListView of HBox
+    List<String> recordsT;
+
+    public RecordLists(List<String> records) { // take a list Here
+        recordsT = records;
+        playersListView = new ListView<>();
+
+   /*     // make list viewe in the middlee
+        AnchorPane.setTopAnchor(playersListView, 20.0);
+        AnchorPane.setLeftAnchor(playersListView, 20.0);
+        AnchorPane.setRightAnchor(playersListView, 20.0);
+        AnchorPane.setBottomAnchor(playersListView, 20.0);*/
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
         setMinWidth(USE_PREF_SIZE);
-
-        this.setStyle("-fx-background-image: url('/assets/tictactoebackground.jpg'); " +
+        setPrefHeight(594.0);
+        setPrefWidth(746.0);
+        setStyle("-fx-background-image: url('/sample/RecordGame/BackGround.jpg'); " +
                 "-fx-background-size: cover; " +
                 "-fx-background-position: center center;");
-        AnchorPane.setBottomAnchor(mylist, 50.0);
-        AnchorPane.setLeftAnchor(mylist, 50.0);
-        AnchorPane.setRightAnchor(mylist, 50.0);
-        AnchorPane.setTopAnchor(mylist, 50.0);
-        mylist.setLayoutX(57.0);
-        mylist.setLayoutY(71.0);
-        mylist.setMaxHeight(Double.MAX_VALUE);
-        mylist.setMaxWidth(Double.MAX_VALUE);
-        mylist.setPrefHeight(466.0);
-        mylist.setPrefWidth(333.0);
-        mylist.setCellFactory(e->new ListCell<String >(){
-            HBox box;
-            TextField name;
-            ImageView image;
-            Image myim;
 
-            {
-                box = new HBox();
-                name = new TextField();
-                name.setDisable(true);
-                try {
+        playersListView.setLayoutX(20);
+        playersListView.setLayoutY(100);
+        playersListView.setPrefHeight(800);
+        playersListView.setPrefWidth(500);
+        playersListView.setMinHeight(300);
+        playersListView.setMinWidth(300);
+        playersListView.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
 
-                    image = new ImageView("sample/record/play1.png");
-                    image.setFitHeight(30.0);
-                    image.setFitWidth(30.0);
+        int counter = 1;
+        // Populate ListView with HBox
+        for (String recordName : recordsT) {
 
-                }catch (Exception e){
-                    //System.out.println(e.getMessage());
+            String record = "Record" ;
+            HBox hBox = new HBox();
+            Label recordNameLabel = new Label(record+counter);
+            counter++;
+
+            ImageView imageView = new ImageView();
+
+            recordNameLabel.setPrefHeight(21.0);
+            recordNameLabel.setPrefWidth(72.0);
+            recordNameLabel.setPadding(new Insets(10.0, 0.0, 0.0, 0.0));
+
+            imageView.setFitHeight(46.0);
+            imageView.setFitWidth(55.0);
+            imageView.setPickOnBounds(true);
+            imageView.setPreserveRatio(true);
+            imageView.setImage(new Image(getClass().getResource("play1.png").toExternalForm()));
+            imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+
+                    // action here like show the Recorded video
+                    System.out.println("make an Action here ");
                 }
+            });
 
-            }
+            hBox.getChildren().add(recordNameLabel);  // add the label
+            hBox.getChildren().add(imageView);    // add the image
+            hBox.setPadding(new Insets(10.0, 0.0, 0.0, 30.0));
+            hBox.setSpacing(150);
 
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
 
-                if (empty || item == null) {
-                    box.getChildren().clear();
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    name.setText(item.isEmpty() ? "name" : item);
-                    name.setStyle("-fx-text-fill: black; -fx-font-weight: bold;");
-                    box.getChildren().setAll(name, image);
-                    HBox.setHgrow(name, Priority.ALWAYS);
-                    name.setMaxWidth(Double.MAX_VALUE);
-                    name.styleProperty().bind(
-                            Bindings.concat("-fx-font-size: ",mylist.heightProperty().divide(25).asString(), "px;")
-                    );
+            playersListView.getItems().add(hBox);  // add HBox in the listView
 
-                    setGraphic(box);
-                }
-            }
-        });
-        ObservableList<String> strings= FXCollections.observableArrayList();
-        strings.add("xxxxxxxx");
-        mylist.setItems(strings);
-        mylist.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+        }
 
-        getChildren().add(mylist);
-
+        getChildren().add(playersListView);
     }
 }
-
-
-
