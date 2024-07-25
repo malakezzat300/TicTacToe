@@ -66,6 +66,8 @@ public abstract class GameScreenBase extends GridPane {
     protected ImageView twoXoneButton;
     protected ImageView twoXtwoButton;
     protected CustomButtonController withdrawButton;
+    protected CustomButtonController backHomeButton;
+    protected CustomButtonController playAgainButton;
     protected ImageView recordButton;
     protected CustomLabelController playerText;
     protected CustomLabelController playerTurnText;
@@ -130,6 +132,8 @@ public abstract class GameScreenBase extends GridPane {
         twoXoneButton = new ImageView();
         twoXtwoButton = new ImageView();
         withdrawButton = new CustomButtonController();
+        backHomeButton = new CustomButtonController();
+        playAgainButton = new CustomButtonController();
         recordButton = new ImageView();
         playerText = new CustomLabelController();
         playerTurnText = new CustomLabelController();
@@ -650,8 +654,8 @@ public abstract class GameScreenBase extends GridPane {
         GridPane.setValignment(withdrawButton, javafx.geometry.VPos.CENTER);
         withdrawButton.setMnemonicParsing(false);
         withdrawButton.setPrefHeight(31.0);
-        withdrawButton.setPrefWidth(200);
-        withdrawButton.setText("withdraw");
+        withdrawButton.setPrefWidth(250);
+        withdrawButton.setText("Withdraw");
         withdrawButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -668,6 +672,58 @@ public abstract class GameScreenBase extends GridPane {
         });
         GridPane.setMargin(withdrawButton, new Insets(0.0));
 
+        GridPane.setColumnIndex(playAgainButton, 6);
+        GridPane.setHalignment(playAgainButton, javafx.geometry.HPos.CENTER);
+        GridPane.setRowIndex(playAgainButton, 0);
+        GridPane.setValignment(playAgainButton, javafx.geometry.VPos.CENTER);
+        playAgainButton.setMnemonicParsing(false);
+        playAgainButton.setPrefHeight(31.0);
+        playAgainButton.setPrefWidth(250);
+        playAgainButton.setText("Play Again");
+        playAgainButton.setVisible(false);
+        playAgainButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                playAgainButton.setVisible(false);
+                backHomeButton.setVisible(false);
+                Parent root = new GameScreenBase(stage,GameScreenBase.getPlayerOne(),GameScreenBase.getPlayerTwo(),GameScreenBase.getMode()) {};
+                stage.setScene(new Scene(root,800, 800));
+                stage.show();
+                stage.setMinHeight(800);
+                stage.setMinWidth(800);
+                stage.setFullScreen(true);
+            }
+        });
+        GridPane.setMargin(playAgainButton, new Insets(0.0));
+
+
+        GridPane.setColumnIndex(backHomeButton, 6);
+        GridPane.setHalignment(backHomeButton, javafx.geometry.HPos.CENTER);
+        GridPane.setRowIndex(backHomeButton, 1);
+        GridPane.setValignment(backHomeButton, javafx.geometry.VPos.CENTER);
+        backHomeButton.setMnemonicParsing(false);
+        backHomeButton.setPrefHeight(31.0);
+        backHomeButton.setPrefWidth(250);
+        backHomeButton.setText("Back Home");
+        backHomeButton.setVisible(false);
+        backHomeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                playAgainButton.setVisible(false);
+                backHomeButton.setVisible(false);
+                GameScreenBase.setPlayerOneWins(0);
+                GameScreenBase.setPlayerTwoWins(0);
+                stage.close();
+                Parent root = new StartScreenBase(stage) {};
+                stage.setScene(new Scene(root,600, 600));
+                stage.show();
+                stage.setMinHeight(800);
+                stage.setMinWidth(800);
+                stage.setFullScreen(true);
+            }
+        });
+        GridPane.setMargin(backHomeButton, new Insets(0.0));
+
         GridPane.setColumnIndex(recordButton, 1);
         GridPane.setHalignment(recordButton, javafx.geometry.HPos.CENTER);
         GridPane.setValignment(recordButton, javafx.geometry.VPos.CENTER);
@@ -675,7 +731,7 @@ public abstract class GameScreenBase extends GridPane {
         recordButton.setFitWidth(120.0);
         recordButton.setPickOnBounds(true);
         recordButton.setPreserveRatio(true);
-        //recordButton.setImage(new Image(getClass().getResource("../assets/play.png").toExternalForm()));
+        recordButton.setImage(new Image(getClass().getResource("../assets/play.png").toExternalForm()));
         GridPane.setMargin(recordButton, new Insets(20.0, 0.0, 0.0, 20.0));
 
         GridPane.setColumnIndex(playerTurnText, 3);
@@ -737,6 +793,8 @@ public abstract class GameScreenBase extends GridPane {
         gridPane.getChildren().add(winLine);
         getChildren().add(gridPane);
         getChildren().add(withdrawButton);
+        getChildren().add(playAgainButton);
+        getChildren().add(backHomeButton);
         getChildren().add(recordButton);
         getChildren().add(playerText);
         getChildren().add(playerTurnText);
@@ -934,6 +992,8 @@ public abstract class GameScreenBase extends GridPane {
     public void doDrawEvent(){
         withdrawButton.setDisable(true);
         playerTurnText.setText("The Match is Draw!");
+        playAgainButton.setVisible(true);
+        backHomeButton.setVisible(true);
     }
 
     public boolean isComputerTurn(){
