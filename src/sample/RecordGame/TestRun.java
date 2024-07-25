@@ -14,7 +14,7 @@ public class TestRun  extends Application {
     public void start(Stage primaryStage) throws Exception {
         // make an object of readRecordedGame and pass the list with fileName;
         ReadRecordedGame readFile = new ReadRecordedGame();
-        Parent root = new RecordLists(readFile.readRecord("ahmed3"));
+        Parent root = new RecordLists(primaryStage,readFile.readRecord("ahmed3"));
         Scene scene = new Scene(root) ;
         primaryStage.setScene(scene);
 

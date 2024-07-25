@@ -16,6 +16,12 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import sample.RecordGame.RecordLists;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class StartScreenBase extends GridPane {
 
@@ -37,8 +43,11 @@ public abstract class StartScreenBase extends GridPane {
     protected final CustomButtonController recordsButton;
     protected final CustomButtonController exitButton;
     protected final ImageView imageView;
-    protected final int SINGLE_MODE = 1;
-    protected final int OFFLINE_MODE = 2;
+    protected final static int SINGLE_MODE = 1;
+    protected final static int OFFLINE_MODE = 2;
+    protected final static int SINGLE_MODE_RECORDING = 3;
+    protected final static int OFFLINE_MODE_RECORDING = 4;
+    protected final static String recordsPath = "C:\\TicTacToe\\Records\\";
 
     public StartScreenBase(Stage stage) {
 
@@ -145,7 +154,7 @@ public abstract class StartScreenBase extends GridPane {
         singleModeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Parent root = new OfflineNamesBase(stage,1) {};
+                Parent root = new OfflineNamesBase(stage,SINGLE_MODE) {};
                 stage.setScene(new Scene(root,200, 200));
                 stage.show();
                 stage.setMinHeight(600);
@@ -165,7 +174,7 @@ public abstract class StartScreenBase extends GridPane {
         multiplayerOfflineButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Parent root = new OfflineNamesBase(stage,2) {};
+                Parent root = new OfflineNamesBase(stage,OFFLINE_MODE) {};
                 stage.setScene(new Scene(root,600, 600));
                 stage.show();
                 stage.setMinHeight(600);
@@ -205,6 +214,13 @@ public abstract class StartScreenBase extends GridPane {
             @Override
             public void handle(ActionEvent event) {
 
+                ArrayList<String> arrayList = getFiles();
+                Parent root = new RecordLists(stage,arrayList) {};
+                stage.setScene(new Scene(root,800, 800));
+                stage.show();
+                stage.setMinHeight(800);
+                stage.setMinWidth(800);
+                stage.setFullScreen(true);
             }
         });
 
@@ -242,5 +258,29 @@ public abstract class StartScreenBase extends GridPane {
         getChildren().add(exitButton);
 
 
+    }
+
+
+    public ArrayList<String> getFiles(){
+        File directory = new File(recordsPath);
+        File[] filesList = directory.listFiles();
+        ArrayList<String> fileNames = new ArrayList<>();
+        if (filesList != null) {
+            List<File> files = new ArrayList<>();
+            Collections.addAll(files, filesList);
+
+            files.sort((file1, file2) -> Long.compare(file2.lastModified(), file1.lastModified()));
+
+            for (File file : files) {
+                if (file.isFile()) {
+                    String nameOfRecord = file.getName().substring(0, file.getName().indexOf('.'));
+                    fileNames.add(nameOfRecord);
+                }
+            }
+
+        } else {
+            System.out.println("The specified directory does not exist or is not a directory.");
+        }
+        return fileNames;
     }
 }
