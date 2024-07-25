@@ -32,7 +32,7 @@ public class WinningScreen extends AnchorPane {
     public WinningScreen(Stage stage) {
 
         // media intialize
-        videoPath = String.valueOf(getClass().getResource("/sample/WinningScreen/CelebrateVideo.mp4"));
+        videoPath = String.valueOf(getClass().getResource("CelebrateVideo.mp4"));
         media = new Media(videoPath) ; // give it the path
         mediaPlayer = new MediaPlayer(media) ;
         mediaView = new MediaView(mediaPlayer);

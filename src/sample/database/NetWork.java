@@ -5,7 +5,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
-import org.junit.jupiter.api.Test;
+import sample.SignUpPage.Types;
 
 import static sample.database.MainServer.servers;
 import static sample.database.MainServer.size;
@@ -30,23 +30,23 @@ public class NetWork {
 
         if (types.SignIn.equals(object1.get(types.type))) {
             RequestSignIng(object1);
-        }else if(types.RequestToPlay.equals(object1.get(types.type))){
+        }else if(Types.RequestToPlay.equals(object1.get(Types.type))){
             RequestToPlay(object1); }
-        else if(types.RequestToPlayResponse.equals(object1.get(types.type))){
+        else if(Types.RequestToPlayResponse.equals(object1.get(Types.type))){
             ResposeToPlay(object1);
         }
-        else if(types.SignUp.equals(object1.get(types.type))){
+        else if(Types.SignUp.equals(object1.get(Types.type))){
             RequesSignUp(object1);
         }
     }
     public void RequesSignUp(JSONObject object) throws IOException {
         try {
-            String name=  (String) object.get(types.Username);
-            String email=  (String) object.get(types.Email);
-            String pass=  (String) object.get(types.Password);
+            String name=  (String) object.get(Types.Username);
+            String email=  (String) object.get(Types.Email);
+            String pass=  (String) object.get(Types.Password);
             dao.signup(name,pass,email);
             object=new JSONObject();
-            object.put(types.type,types.Success);
+            object.put(Types.type,Types.Success);
             server.dataOutputStream.writeUTF(object.toString());
         }catch (Exception e){
             ErrorRespose(e);
@@ -54,8 +54,8 @@ public class NetWork {
     }
     public void RequestSignIng(JSONObject object) throws Exception{
         try {
-            String Name=(String) object.get(types.Username);
-            String PassWord=(String) object.get(types.Password);
+            String Name=(String) object.get(Types.Username);
+            String PassWord=(String) object.get(Types.Password);
             dao.signin(Name,PassWord);
             for (int i = 0; i < servers.size(); i++) {
                 if (servers.get(i).user.name.equals(Name)){
@@ -66,7 +66,7 @@ public class NetWork {
             servers.add(server);
             System.out.println(" name login "+server.user.name);
             JSONObject object1= new JSONObject();
-            object1.put(types.type,types.Success);
+            object1.put(Types.type,Types.Success);
             server.dataOutputStream.writeUTF(object1.toString());
             System.out.println(servers.size());
             NetWork.sendlistplayer();
@@ -80,9 +80,9 @@ public class NetWork {
     }
     public void RequestSignUp(JSONObject object) throws Exception{
         try {
-            String Name=(String) object.get(types.Username);
-            String Email=(String) object.get(types.Email);
-            String PassWord=(String) object.get(types.Password);
+            String Name=(String) object.get(Types.Username);
+            String Email=(String) object.get(Types.Email);
+            String PassWord=(String) object.get(Types.Password);
             dao.signup(Name,PassWord,Email);
         }catch (Exception e){
             ErrorRespose(e);
@@ -90,8 +90,8 @@ public class NetWork {
     }
     public void ErrorRespose(Exception e) throws IOException {
         JSONObject object=new JSONObject();
-        object.put(types.type,types.Error);
-        object.put(types.Message,e.getMessage());
+        object.put(Types.type,Types.Error);
+        object.put(Types.Message,e.getMessage());
         server.dataOutputStream.writeUTF(object.toString());
     }
     public void RequestToPlay(JSONObject object) throws Exception {
@@ -101,13 +101,13 @@ public class NetWork {
         for (int i = 0; i < servers.size(); i++) {
             if (servers.get(i).user.name .equals(Opponent)){
                 if (servers.get(i).user.Status==1){
-                    object = responseBusy(types.Currentbusy);
+                    object = responseBusy(Types.Currentbusy);
                     server.user.Status=0;
                     server.user.Oppentment=null;
                     server.dataOutputStream.writeUTF(object.toString());
                     return;
                 }else if (servers.get(i).user.Status==2){
-                     object = responseBusy(types.CurrentInGame);
+                     object = responseBusy(Types.CurrentInGame);
                      server.user.Status=0;
                      server.user.Oppentment=null;
                      server.dataOutputStream.writeUTF(object.toString());
@@ -115,17 +115,17 @@ public class NetWork {
                 }else if (servers.get(i).user.Status==0){
                     JSONObject object1 = new JSONObject();
                     server.user.Oppentment=servers.get(i).user.name;
-                    object1.put(types.type, types.RequestToPlay);
+                    object1.put(Types.type, Types.RequestToPlay);
                     servers.get(i).user.Status = 1;
                     servers.get(i).user.Oppentment= server.user.name;
-                    object1.put(types.Opponent, server.user.name);
+                    object1.put(Types.Opponent, server.user.name);
                     servers.get(i).dataOutputStream.writeUTF(object1.toString());
                     sendlistplayer();
                     return;
                 }
             }
         }
-         object = responseBusy(types.Offline);
+         object = responseBusy(Types.Offline);
         server.user.Status=0;
         server.user.Oppentment=null;
         server.dataOutputStream.writeUTF(object.toString());
@@ -134,8 +134,8 @@ public class NetWork {
     private JSONObject responseBusy(String currentbusy) {
         JSONObject object;
         object = new JSONObject();
-        object.put(types.type, types.RequestToPlayResponse);
-        object.put(types.Message, currentbusy);
+        object.put(Types.type, Types.RequestToPlayResponse);
+        object.put(Types.Message, currentbusy);
         return object;
     }
 
@@ -171,7 +171,7 @@ public class NetWork {
         for (int i = 0; i < servers.size(); i++) {
             String plyer2=servers.get(i).user.name;
             if (servers.get(i).user.name.equals(server.user.Oppentment)){
-                if (object.get(types.Message).equals(types.Accept)){
+                if (object.get(Types.Message).equals(Types.Accept)){
                     server.user.Status=2;
                     servers.get(i).user.Oppentment=server.user.name;
                     servers.get(i).user.name=server.user.Oppentment;
@@ -192,8 +192,8 @@ public class NetWork {
         for (int i = 0; i < servers.size(); i++) {
             if (servers.get(i).user.name .equals(winner)){
                 JSONObject object = new JSONObject();
-                object.put(types.type,types.EndGame);
-                object.put(types.Message,types.YouWin);
+                object.put(Types.type,Types.EndGame);
+                object.put(Types.Message,Types.YouWin);
                 servers.get(i).user.Oppentment=null;
                 servers.get(i).user.Status=0;
                 try {
@@ -205,8 +205,8 @@ public class NetWork {
             }
             if (servers.get(i).user.name .equals(loser)){
                 JSONObject object = new JSONObject();
-                object.put(types.type,types.EndGame);
-                object.put(types.Message,types.YouLose);
+                object.put(Types.type,Types.EndGame);
+                object.put(Types.Message,Types.YouLose);
                 servers.get(i).user.Oppentment=null;
                 servers.get(i).user.Status=0;
                 servers.get(i).dataOutputStream.writeUTF(object.toString());
@@ -216,7 +216,7 @@ public class NetWork {
     }
 
     public void RequestToMove(JSONObject object){
-        String point =(String) object.get(types.point);
+        String point =(String) object.get(Types.point);
 
     }
 }
