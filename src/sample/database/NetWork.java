@@ -16,7 +16,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class NetWork {
+ class NetWork {
     DAO dao;
     Server server;
     public NetWork(DAO dao,Server server){
