@@ -2,6 +2,9 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,13 +12,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public abstract class OfflineNamesBase extends StackPane {
 
@@ -30,15 +37,25 @@ public abstract class OfflineNamesBase extends StackPane {
     protected final RowConstraints rowConstraints3;
     protected final RowConstraints rowConstraints4;
     protected final ImageView imageView;
+    protected final Rectangle rectangle;
     protected final Label label;
     protected final Label label0;
     protected final Label label1;
     protected final CustomButtonController startButton;
     protected final TextField firstPlayerTextField;
     protected final TextField secondPlayerTextField;
+    protected static String playerOne;
+    protected static String playerTwo;
+    protected static int mode;
+    protected final static int SINGLE_MODE = 1;
+    protected final static int OFFLINE_MODE = 2;
+    protected final static int SINGLE_MODE_RECORDING = 3;
+    protected final static int OFFLINE_MODE_RECORDING = 4;
+    protected final ImageView backButton;
 
     public OfflineNamesBase(Stage stage,int mode) {
 
+        OfflineNamesBase.mode = mode;
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
         columnConstraints0 = new ColumnConstraints();
@@ -50,12 +67,14 @@ public abstract class OfflineNamesBase extends StackPane {
         rowConstraints3 = new RowConstraints();
         rowConstraints4 = new RowConstraints();
         imageView = new ImageView();
+        rectangle = new Rectangle();
         label = new Label();
         label0 = new Label();
         label1 = new Label();
         startButton = new CustomButtonController();
         firstPlayerTextField = new TextField();
         secondPlayerTextField = new TextField();
+        backButton = new BackButton();
 
         gridPane.setMaxHeight(USE_PREF_SIZE);
         gridPane.setMaxWidth(USE_PREF_SIZE);
@@ -119,12 +138,25 @@ public abstract class OfflineNamesBase extends StackPane {
         imageView.setPreserveRatio(true);
         imageView.setImage(new Image(getClass().getResource("../assets/tictactoebackground.jpg").toExternalForm()));
 
+        GridPane.setRowIndex(rectangle, 2);
+        GridPane.setRowSpan(rectangle, 2);
+        rectangle.setArcHeight(5.0);
+        rectangle.setArcWidth(5.0);
+        rectangle.setFill(javafx.scene.paint.Color.WHITE);
+        rectangle.setHeight(800);
+        rectangle.setOpacity(0.5);
+        rectangle.setStroke(javafx.scene.paint.Color.WHITE);
+        rectangle.setStrokeType(javafx.scene.shape.StrokeType.INSIDE);
+        rectangle.setWidth(800);
+        GridPane.setMargin(rectangle, new Insets(0.0, 0.0, 0.0, 580));
+
+
         GridPane.setColumnIndex(label, 1);
         GridPane.setValignment(label, javafx.geometry.VPos.BOTTOM);
         label.setText("Enter Two Names:");
         label.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         label.setTextFill(Color.BLACK);
-        label.setFont(new Font(24.0));
+        label.setFont(new Font(32));
 
         GridPane.setColumnIndex(label0, 1);
         GridPane.setRowIndex(label0, 1);
@@ -132,7 +164,7 @@ public abstract class OfflineNamesBase extends StackPane {
         label0.setText("Player 1");
         label0.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         label0.setTextFill(Color.BLACK);
-        label0.setFont(new Font(18.0));
+        label0.setFont(new Font(24));
 
         GridPane.setColumnIndex(label1, 1);
         GridPane.setRowIndex(label1, 3);
@@ -141,7 +173,7 @@ public abstract class OfflineNamesBase extends StackPane {
         label1.setText("Player 2");
         label1.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         label1.setTextFill(Color.BLACK);
-        label1.setFont(new Font(18.0));
+        label1.setFont(new Font(24));
 
         GridPane.setColumnIndex(startButton, 1);
         GridPane.setHalignment(startButton, javafx.geometry.HPos.CENTER);
@@ -153,17 +185,39 @@ public abstract class OfflineNamesBase extends StackPane {
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String playerOne = "Player1";
-                String playerTwo = "Player2";
+                playerOne = "Player1";
+                playerTwo = "Player2";
                 if(!firstPlayerTextField.getText().equals("")){
                     playerOne = firstPlayerTextField.getText();
                 }
                 if(!secondPlayerTextField.getText().equals("")){
                     playerTwo = secondPlayerTextField.getText();
                 }
-                if(mode == 1){
+                if(mode == SINGLE_MODE){
                     playerTwo = "Computer";
                 }
+
+                /*
+                do you want to record the game screen
+                 */
+                Parent recordParent = null;
+                try {
+                    recordParent = FXMLLoader.load(this.getClass().getResource("record.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                assert recordParent != null;
+                Scene requestPageScene = new Scene(recordParent);
+                Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                stage.setScene(requestPageScene);
+                stage.show();
+                stage.setFullScreen(true);
+
+
+
+
+                //-----------------------------------
+                /*
                 Parent root = new GameScreenBase(stage,playerOne,playerTwo,mode) {};
                 stage.setScene(new Scene(root,800, 800));
                 stage.show();
@@ -173,6 +227,8 @@ public abstract class OfflineNamesBase extends StackPane {
                 stage.setMaxWidth(3000);
                 stage.setFullScreen(true);
 
+
+                 */
 
             }
         });
@@ -188,6 +244,22 @@ public abstract class OfflineNamesBase extends StackPane {
         GridPane.setRowIndex(secondPlayerTextField, 4);
         GridPane.setValignment(secondPlayerTextField, javafx.geometry.VPos.TOP);
         secondPlayerTextField.setFont(new Font(18.0));
+
+        GridPane.setColumnIndex(backButton, 2);
+        GridPane.setHalignment(backButton, javafx.geometry.HPos.CENTER);
+        GridPane.setValignment(backButton, javafx.geometry.VPos.CENTER);
+        GridPane.setMargin(backButton, new Insets(0.0, 0.0, 50, 250));
+        backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Parent root = new StartScreenBase(stage) {};
+                stage.setScene(new Scene(root,800, 800));
+                stage.show();
+                stage.setMinHeight(800);
+                stage.setMinWidth(800);
+                stage.setFullScreen(true);
+            }
+        });
 
         if(mode == 1){
             label1.setVisible(false);
@@ -206,13 +278,27 @@ public abstract class OfflineNamesBase extends StackPane {
         gridPane.getRowConstraints().add(rowConstraints3);
         gridPane.getRowConstraints().add(rowConstraints4);
         gridPane.getChildren().add(imageView);
+        gridPane.getChildren().add(rectangle);
         gridPane.getChildren().add(label);
         gridPane.getChildren().add(label0);
         gridPane.getChildren().add(label1);
         gridPane.getChildren().add(startButton);
         gridPane.getChildren().add(firstPlayerTextField);
         gridPane.getChildren().add(secondPlayerTextField);
+        gridPane.getChildren().add(backButton);
         getChildren().add(gridPane);
 
+    }
+
+    public static String getPlayerOne(){
+        return playerOne;
+    }
+
+    public static String getPlayerTwo(){
+        return playerTwo;
+    }
+
+    public static int getMode(){
+        return mode;
     }
 }

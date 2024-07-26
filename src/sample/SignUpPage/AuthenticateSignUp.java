@@ -2,6 +2,8 @@ package sample.SignUpPage;
 
 
 import org.json.simple.JSONObject;
+import sample.types;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -24,11 +26,13 @@ public class AuthenticateSignUp implements Runnable {
         if (userName == null || email == null || password == null || userType == null) {
             throw new IllegalArgumentException("Arguments must not be null");
         }
-        signUpObject = new JSONObject();
-        signUpObject.put("UserName", userName);
-        signUpObject.put("Email", email);
-        signUpObject.put("Password", password);
-        signUpObject.put("UserType", userType);
+
+
+        signUpObject= types.createsignup(userName,password,email);
+//        signUpObject.put("UserName", userName);
+//        signUpObject.put("Email", email);
+//        signUpObject.put("Password", password);
+//        signUpObject.put("UserType", userType);
 
 
         // Convert JSON to string
@@ -36,8 +40,10 @@ public class AuthenticateSignUp implements Runnable {
 
         // Initialize socket connection and start the thread
         try {
-            client = new Socket("127.0.0.1", 8000);
+            client = new Socket("10.241.12.166", 8000);
             outMsg = new DataOutputStream(client.getOutputStream()); // Auto-flush enabled
+            inMsg = new DataInputStream(client.getInputStream());
+
             Thread thread = new Thread(this);
             thread.start();
         } catch (IOException e) {
@@ -64,26 +70,34 @@ public class AuthenticateSignUp implements Runnable {
 
     @Override
     public void run() {
-        sendSignUpData(); // Send data as soon as the thread starts
+        while (true) {
+            sendSignUpData(); // Send data as soon as the thread starts
 
-        // Continuously read responses from the server
-        try {
-            inMsg = new DataInputStream(client.getInputStream());
-            String message;
-            while ((message = inMsg.readUTF()) != null) { // Read UTF-8 encoded strings
-                userCase = message;                      // Process the response
-                System.out.println("Received from server: " + userCase);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to read data", e);
-        } finally {
-            // Close resources
+            // Continuously read responses from the server
             try {
-                if (inMsg != null) inMsg.close();
-                if (outMsg != null) outMsg.close();
-                if (client != null) client.close();
+
+                String message;
+                while ((message = inMsg.readUTF()) != null) { // Read UTF-8 encoded strings
+                    userCase = message;
+                    System.out.println(message);    // Process the response
+                    System.out.println("Received from server: " + userCase);
+                }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
+                throw new RuntimeException("Failed to read data", e);
+
+
+            } finally {
+                // Close resources
+                try {
+                    if (inMsg != null) inMsg.close();
+                    if (outMsg != null) outMsg.close();
+                    if (client != null) client.close();
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                    break;
+                }
             }
         }
     }

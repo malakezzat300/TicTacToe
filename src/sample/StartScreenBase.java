@@ -10,12 +10,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import sample.RecordGame.RecordLists;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class StartScreenBase extends GridPane {
 
@@ -37,8 +44,12 @@ public abstract class StartScreenBase extends GridPane {
     protected final CustomButtonController recordsButton;
     protected final CustomButtonController exitButton;
     protected final ImageView imageView;
-    protected final int SINGLE_MODE = 1;
-    protected final int OFFLINE_MODE = 2;
+    protected final static int SINGLE_MODE = 1;
+    protected final static int OFFLINE_MODE = 2;
+    protected final static int SINGLE_MODE_RECORDING = 3;
+    protected final static int OFFLINE_MODE_RECORDING = 4;
+    protected final static String recordsPath = "C:\\TicTacToe\\Records\\";
+    protected final ImageView settingsButton;
 
     public StartScreenBase(Stage stage) {
 
@@ -60,6 +71,7 @@ public abstract class StartScreenBase extends GridPane {
         recordsButton = new CustomButtonController();
         exitButton = new CustomButtonController();
         imageView = new ImageView();
+        settingsButton = new ImageView();
 
         setMinHeight(800.0);
         setMinWidth(800.0);
@@ -145,7 +157,7 @@ public abstract class StartScreenBase extends GridPane {
         singleModeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Parent root = new OfflineNamesBase(stage,1) {};
+                Parent root = new OfflineNamesBase(stage,SINGLE_MODE) {};
                 stage.setScene(new Scene(root,200, 200));
                 stage.show();
                 stage.setMinHeight(600);
@@ -161,11 +173,11 @@ public abstract class StartScreenBase extends GridPane {
         GridPane.setValignment(multiplayerOfflineButton, javafx.geometry.VPos.CENTER);
         multiplayerOfflineButton.setMnemonicParsing(false);
         multiplayerOfflineButton.setMinWidth(600);
-        multiplayerOfflineButton.setText("Multi-player offline");
+        multiplayerOfflineButton.setText("Two-Players Mode");
         multiplayerOfflineButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Parent root = new OfflineNamesBase(stage,2) {};
+                Parent root = new OfflineNamesBase(stage,OFFLINE_MODE) {};
                 stage.setScene(new Scene(root,600, 600));
                 stage.show();
                 stage.setMinHeight(600);
@@ -181,7 +193,7 @@ public abstract class StartScreenBase extends GridPane {
         GridPane.setValignment(multiplayerOnlineButton, javafx.geometry.VPos.CENTER);
         multiplayerOnlineButton.setMnemonicParsing(false);
         multiplayerOnlineButton.setMinWidth(600);
-        multiplayerOnlineButton.setText("Multi-player online");
+        multiplayerOnlineButton.setText("Multi-player Online");
         multiplayerOnlineButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -205,6 +217,13 @@ public abstract class StartScreenBase extends GridPane {
             @Override
             public void handle(ActionEvent event) {
 
+                ArrayList<String> arrayList = getFiles();
+                Parent root = new RecordLists(stage,arrayList) {};
+                stage.setScene(new Scene(root,800, 800));
+                stage.show();
+                stage.setMinHeight(800);
+                stage.setMinWidth(800);
+                stage.setFullScreen(true);
             }
         });
 
@@ -219,6 +238,27 @@ public abstract class StartScreenBase extends GridPane {
             @Override
             public void handle(ActionEvent event) {
                 Platform.exit();
+            }
+        });
+
+        GridPane.setColumnIndex(settingsButton, 2);
+        GridPane.setHalignment(settingsButton, javafx.geometry.HPos.CENTER);
+        GridPane.setRowIndex(settingsButton, 1);
+        GridPane.setValignment(settingsButton, javafx.geometry.VPos.CENTER);
+        settingsButton.setFitHeight(120.0);
+        settingsButton.setFitWidth(120.0);
+        settingsButton.setPickOnBounds(true);
+        settingsButton.setPreserveRatio(true);
+        settingsButton.setImage(new Image(getClass().getResource("/assets/settings.png").toExternalForm()));
+        settingsButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Parent root = new SettingsScreenBase(stage) {};
+                stage.setScene(new Scene(root,800, 800));
+                stage.show();
+                stage.setMinHeight(800);
+                stage.setMinWidth(800);
+                stage.setFullScreen(true);
             }
         });
 
@@ -240,7 +280,32 @@ public abstract class StartScreenBase extends GridPane {
         getChildren().add(multiplayerOnlineButton);
         getChildren().add(recordsButton);
         getChildren().add(exitButton);
+        getChildren().add(settingsButton);
 
 
+    }
+
+
+    public ArrayList<String> getFiles(){
+        File directory = new File(recordsPath);
+        File[] filesList = directory.listFiles();
+        ArrayList<String> fileNames = new ArrayList<>();
+        if (filesList != null) {
+            List<File> files = new ArrayList<>();
+            Collections.addAll(files, filesList);
+
+            files.sort((file1, file2) -> Long.compare(file2.lastModified(), file1.lastModified()));
+
+            for (File file : files) {
+                if (file.isFile()) {
+                    String nameOfRecord = file.getName().substring(0, file.getName().indexOf('.'));
+                    fileNames.add(nameOfRecord);
+                }
+            }
+
+        } else {
+            System.out.println("The specified directory does not exist or is not a directory.");
+        }
+        return fileNames;
     }
 }

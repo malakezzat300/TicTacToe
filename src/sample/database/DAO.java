@@ -1,15 +1,16 @@
 package sample.database;
 
+
+
 import com.mysql.cj.jdbc.Driver;
-import sample.database.User;
 
 import java.sql.*;
 
-import static sample.database.View.stringProperty2;
+import static sample.database.View.userList;
 
 
-public class DAO {
-    Connection con;
+class DAO {
+ public     Connection con;
     public DAO() throws SQLException {
         try {
             DriverManager.registerDriver(new Driver());
@@ -17,6 +18,24 @@ public class DAO {
             con = DriverManager.getConnection(mycon, "root", "root");
         }catch (Exception e) {
             throw e;
+        }
+
+    }
+
+    public synchronized void signup(String name, String pass , String email) throws Exception {
+        try {
+            checkindatabase(email,name);
+            insert(name,pass,email);
+        }catch (Exception exception){
+
+            throw exception;
+        }
+    }
+    public synchronized void signin(String name, String pass) throws Exception {
+        try {
+            check(pass,name);
+        }catch (Exception exception){
+            throw exception;
         }
     }
     public synchronized void insert(String user, String pass, String email) throws Exception {
@@ -40,6 +59,19 @@ public class DAO {
             throw e;
         }
     }
+     public synchronized int getscore(String user) throws Exception {
+         try {
+             String updateScoreSQL = "SELECT score  WHERE username ='"+user+"'";
+             ResultSet set=con.createStatement().executeQuery(updateScoreSQL);
+             if (set.next())
+                 return set.getInt(1);
+                 throw new Exception("Not found");
+         }catch (Exception e)
+         {
+             throw e;
+         }
+     }
+
     public synchronized void checkindatabase(String email,String user) throws Exception {
         try {
             String query = "SELECT COUNT(*) FROM players WHERE email = ? OR username = ?";
@@ -59,21 +91,7 @@ public class DAO {
             throw e;
         }
     }
-    public synchronized void sigup(String name,String pass , String email) throws Exception {
-        try {
-            checkindatabase(email,name);
-            insert(name,pass,email);
-        }catch (Exception exception){
-            throw exception;
-        }
-    }
-    public synchronized void singin(String name,String pass) throws Exception {
-        try {
-            check(pass,name);
-        }catch (Exception exception){
-            throw exception;
-        }
-    }
+
     public synchronized void check(String pass,String user) throws Exception {
         try {
             checkuser(user);
@@ -82,6 +100,7 @@ public class DAO {
             throw e;
         }
     }
+
 
     private void checkpass(String pass, String user) throws Exception {
         String query2 = "SELECT COUNT(*) FROM players WHERE  username = ? AND password = ?";
@@ -119,7 +138,7 @@ public class DAO {
             User n= new User();
             n.name=resultSet.getString(1);
             n.email=resultSet.getString(3);
-            stringProperty2.add(n);
+            userList.add(n);
         }
     }
     public synchronized Integer numberofpalyers() {

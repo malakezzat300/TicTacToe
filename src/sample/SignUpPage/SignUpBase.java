@@ -1,6 +1,5 @@
 package sample.SignUpPage;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,14 +9,16 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sample.CustomButtonController;
-import javafx.scene.image.Image;
+import org.json.simple.JSONObject;
+import sample.*;
 import javafx.scene.layout.*;
+import sample.NetworkPackge.ClientSocket;
 
 import java.io.InputStream;
 import java.util.Objects;
@@ -38,9 +39,12 @@ public class SignUpBase extends AnchorPane {
 
     private final ImageView eyeIcon;
     private boolean isPasswordVisible = false;
+    protected final ImageView backButton;
 
     public SignUpBase(Stage stage) {
 
+
+        backButton = new BackButton();
         // backGround image
 
         // Background image (Stretch to fit)
@@ -133,7 +137,7 @@ public class SignUpBase extends AnchorPane {
         registerButton.setLayoutY(643.0);
         registerButton.setMnemonicParsing(false);
         registerButton.setPrefHeight(31.0);
-        registerButton.setPrefWidth(155.0);
+        registerButton.setPrefWidth(250);
         registerButton.setText("Register");
 
         // password validation properties
@@ -151,11 +155,26 @@ public class SignUpBase extends AnchorPane {
         // email validation fun
         setupEmailValidation();
 
+        backButton.setLayoutX(1600);
+        backButton.setLayoutY(60);
+        backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Parent root = new GoOnlineBase(stage) {};
+                stage.setScene(new Scene(root,800, 800));
+                stage.show();
+                stage.setMinHeight(800);
+                stage.setMinWidth(800);
+                stage.setFullScreen(true);
+            }
+        });
+
+
         // adding elements to Anchor pane node
         getChildren().addAll(signUpText, userNameText, userNameField,
                 emailText, emailField, passwordText,
                 showPasswordField, passwordField, registerButton,
-                eyeIcon,passwordValidationLabel,emailValidationLabel);
+                eyeIcon,passwordValidationLabel,emailValidationLabel,backButton);
         //______________________________________________
         // working on button register
 
@@ -165,39 +184,30 @@ public class SignUpBase extends AnchorPane {
             String password = passwordField.getText();
             String userType = "1";  // mean user in register state
 
-            AuthenticateSignUp authenticate; // object from Authenticate
             if (!userName.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-                authenticate = new AuthenticateSignUp(userName, email, password,userType);
-
-                try {
-                    Thread.sleep(2000); // Sleep for 2 seconds to allow the response to come in
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                ClientSocket clientSocket = ClientSocket.getInstance();
+                clientSocket.connectClient();
+                JSONObject jsonObject = types.createsignup(userName,password,email);
+                String jsonText = jsonObject.toString();
+                ClientSocket.sendToServer(jsonText,ClientSocket.SIGNUP);
+                try{
+                    Thread.sleep(200);
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+                if(clientSocket.isSuccess()){
+                    //show to user
+                    Parent root = new LoginScreenBase(stage) {};
+                    stage.setScene(new Scene(root,800, 800));
+                    stage.show();
+                    stage.setMinHeight(800);
+                    stage.setMinWidth(800);
+                    stage.setFullScreen(true);
+                } else {
+                    //show error to user
+                    clientSocket.getError();
                 }
 
-                // Now check the userCase
-                String userCase = authenticate.getUserCase();
-                switch (userCase) {
-                    case "1":
-                        // Handle success case if needed
-                        Parent root = new SignUpBase(stage);
-                        Scene scene = new Scene(root, 900.0, 700);
-                        stage.setScene(scene);
-                        stage.show();
-                        stage.setMinHeight(800);
-                        stage.setMinWidth(800);
-                        stage.setFullScreen(true);
-                        break;
-                    case "2":  // Means userName exists
-                        showEmailExistsAlert("UserName is Already Exists");
-                        break;
-                    case "3":  // Means email exists
-                        showEmailExistsAlert("Email is Already Exists");
-                        break;
-                    default:
-                        // Handle unknown case if needed
-                        break;
-                }
             } else {
                 showEmailExistsAlert("Please fill in all fields.");
             }

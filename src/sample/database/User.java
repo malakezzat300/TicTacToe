@@ -1,7 +1,9 @@
 package sample.database;
 
-public class User {
-  public   String name;
+ public class User {
+    public String name;
     public String email;
-    public  boolean Status;
+    public Integer Status=0;
+    public String Oppentment;
+    boolean online;
 }

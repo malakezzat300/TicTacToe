@@ -1,9 +1,15 @@
 package sample.database;
 
-
+import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -11,9 +17,21 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 
-public  class View extends AnchorPane {
-   public static SimpleStringProperty stringProperty= new SimpleStringProperty();
-    public static ObservableList<User> stringProperty2= FXCollections.observableArrayList();
+import java.io.IOException;
+
+  class View extends AnchorPane {
+      boolean ee=false;
+      MyTask2 task2= new MyTask2();
+      Thread t2= new Thread(task2);
+      MyTask task= new MyTask();
+      Thread t= new Thread(task);
+      public static int offlineCount = 0;
+      public static int onlineCount =0;
+      public static int inGameCount = 0;
+      public static IntegerProperty property= new SimpleIntegerProperty();
+
+
+      public static ObservableList<User> userList = FXCollections.observableArrayList();
 
     protected final Button SServerButton;
     protected final Button StoServerButton;
@@ -29,6 +47,9 @@ public  class View extends AnchorPane {
     protected final Label offlinelabe;
     protected final Button button;
     protected final ListView<User> users;
+    protected final CategoryAxis categoryAxis;
+    protected final NumberAxis numberAxis;
+    protected final BarChart<String,Number> barChart;
 
     public View(DAO dao) {
         setStyle("-fx-background-image: url('/assets/tictactoebackground.jpg'); " +
@@ -48,7 +69,17 @@ public  class View extends AnchorPane {
         offlinelabe = new Label();
         button = new Button();
         users = new ListView<User>();
+        categoryAxis = new CategoryAxis();
+        numberAxis = new NumberAxis();
+        barChart = new BarChart<String,Number>(categoryAxis, numberAxis);
 
+        barChart.setTitle("Players Chart");
+        categoryAxis.setLabel("Player status");
+        numberAxis.setLabel("Conuter");
+
+
+        users.setStyle("  -fx-background-color: transparent;\n" +
+                "    -fx-border-color: transparent; ");
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
@@ -147,13 +178,26 @@ public  class View extends AnchorPane {
         button.setTextOverrun(javafx.scene.control.OverrunStyle.CLIP);
         button.setFont(new Font(27.0));
 
+        categoryAxis.setSide(javafx.geometry.Side.BOTTOM);
+
+        numberAxis.setSide(javafx.geometry.Side.LEFT);
+        barChart.setBarGap(20);
+        barChart.setCategoryGap(20);
+        barChart.setLayoutX(42.0);
+        barChart.setLayoutY(200);
+        XYChart.Series series3 = new XYChart.Series();
+
+
+        XYChart.Series series2 = new XYChart.Series();
+        XYChart.Series series1 = new XYChart.Series();
+
         AnchorPane.setBottomAnchor(users, 1.0);
         AnchorPane.setLeftAnchor(users, 11.0);
         AnchorPane.setTopAnchor(users, 140.0);
         users.setLayoutX(14.0);
         users.setLayoutY(140.0);
         users.setPrefHeight(90);
-        users.setPrefWidth(350);
+        users.setPrefWidth(480);
         StoServerButton.setDisable(true);
         getChildren().add(SServerButton);
         getChildren().add(StoServerButton);
@@ -168,31 +212,71 @@ public  class View extends AnchorPane {
         PlayerButton.getChildren().add(offlinelabe);
         getChildren().add(PlayerButton);
         getChildren().add(button);
-        getChildren().add(users);
+        getChildren().add(barChart);
         SServerButton.setOnAction(e->{
-            stringProperty.addListener(ee->{offlinelabe.setText(stringProperty.getValue());});
-            stringProperty.setValue(dao.numberofpalyers().toString());
+            System.out.println("xxxxxxxxxxxxxxxxxx");
+            task2= new MyTask2();
+            task= new MyTask();
+            t= new Thread(task);
+            t2= new Thread(task2);
+            t.setDaemon(true);
+            t.start();
+            t2.setDaemon(true);
+            t2.start();
+            task2.messageProperty().addListener((observable, oldValue, newValue) -> {
+
+                Platform.runLater(()-> {
+                    series1.setName("Offline");
+                    series2.setName("InGame");
+                    series3.setName("Online");
+
+                           series1.getData().add(new XYChart.Data("", offlineCount));
+                           offlinelabe.setText(offlineCount + "");
+                           series2.getData().add(new XYChart.Data("", inGameCount));
+                           ingamelabel.setText(inGameCount + "");
+                           series3.getData().add(new XYChart.Data("", onlineCount));
+                           onlinelabe.setText(onlineCount + "");
+
+                });
+
+
+            });
+            task.valueProperty().addListener((observable, oldValue, newValue) -> sample.database.Main.s =newValue);
+            offlineCount=dao.numberofpalyers();
+
             StoServerButton.setDisable(false);
             SServerButton.setDisable(true);
             try {
                 dao.getallsuers();
-                users.setItems(stringProperty2);
+                users.setItems(userList);
                 users.setCellFactory(ez->new ListItem());
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
 
-
         });
         StoServerButton.setOnAction(e->{
-            stringProperty.setValue("0");
-            stringProperty2.clear();
-            users.setItems(stringProperty2);
-            stringProperty.removeListener(ee->{offlinelabe.setText(stringProperty.getValue());});
+            try {
+                offlineCount=0;
+                onlineCount=0;
+                inGameCount=0;
+
+                Main.s.serverSocket.close();
+                t.stop();
+                t2.stop();
+
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+
+            userList.clear();
+            users.setItems(userList);
             StoServerButton.setDisable(true);
             SServerButton.setDisable(false);
-
         });
+
+        barChart.getData().addAll(series1,series2,series3);
+
     }
 }
 
