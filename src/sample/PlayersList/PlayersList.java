@@ -18,6 +18,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import sample.BackButton;  // Ensure this is the correct import
+import sample.CustomLabelController;
 import sample.StartScreenBase;
 
 import java.util.ArrayList;
@@ -27,13 +28,15 @@ public class PlayersList extends AnchorPane {
 
     protected final ListView<HBox> playersListView;
     protected final List<String> players;
-    protected final Button backButton;  // Changed to Button for consistency
+    protected final ImageView backButton;  // Changed to Button for consistency
+    protected final Label ListPlayersLabel;
 
     public PlayersList(Stage stage) {
 
         playersListView = new ListView<>();
         players = new ArrayList<>();
-        backButton = new Button("Back");  // Changed to Button for consistency
+        backButton = new BackButton();  // Changed to Button for consistency
+        ListPlayersLabel = new CustomLabelController();
 
         // Sample players for demonstration
         players.add("Player 1");
@@ -50,40 +53,75 @@ public class PlayersList extends AnchorPane {
                 "-fx-background-size: cover; " +
                 "-fx-background-position: center center;");
 
-        playersListView.setLayoutX(20);
-        playersListView.setLayoutY(100);
-        playersListView.setPrefHeight(800);
+        // Header HBox
+        HBox headerBox = new HBox();
+        headerBox.setPrefHeight(50.0);
+        headerBox.setPrefWidth(700.0);
+        headerBox.setSpacing(40);
+        headerBox.setPadding(new Insets(10.0, 0.0, 0.0, 10.0));
+        headerBox.setLayoutX(650);  // Adjusted position
+        headerBox.setLayoutY(100); // Adjusted position
+
+        Label headerName = new Label("Player Name");
+        headerName.setPrefWidth(150.0);
+        headerName.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
+        Label headerScore = new Label("Score");
+        headerScore.setPrefWidth(100.0);
+        headerScore.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
+
+        Label headerStatus = new Label("Player Status");
+        headerStatus.setPrefWidth(100.0);
+        headerStatus.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
+
+        Label headerAction = new Label("Action");
+        headerAction.setPrefWidth(150.0);
+        headerAction.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
+        headerBox.getChildren().addAll(headerName, headerStatus, headerScore, headerAction);
+
+        // ListView Setup
+        playersListView.setLayoutX(650);  // Adjusted position to align with header
+        playersListView.setLayoutY(150); // Adjusted position to align with header
+        playersListView.setPrefHeight(400);
         playersListView.setPrefWidth(700);
         playersListView.setMinHeight(300);
         playersListView.setMinWidth(300);
-        playersListView.setLayoutX(600);
         playersListView.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+
 
         for (String player : players) {
             HBox hBox = new HBox();
             hBox.setPrefHeight(50.0);
-            hBox.setPrefWidth(407.0);
+            hBox.setPrefWidth(700.0);  // Adjusted to match ListView width
             hBox.setSpacing(40);
             hBox.setPadding(new Insets(10.0, 0.0, 0.0, 10.0));
 
             Label playerName = new Label(player);
             playerName.setPrefHeight(31.0);
             playerName.setPrefWidth(150.0);
-            playerName.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-            playerName.setPadding(new Insets(10.0, 0.0, 0.0, 0.0));
+            playerName.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
+
+
+            Label playerScore = new Label("0");  // Default score, adjust as needed
+            playerScore.setPrefHeight(21.0);
+            playerScore.setPrefWidth(100.0);
+            playerScore.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
+
 
             Label playerStatus = new Label("Status");
             playerStatus.setPrefHeight(21.0);
             playerStatus.setPrefWidth(100.0);
             playerStatus.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
-            playerStatus.setPadding(new Insets(10.0, 0.0, 0.0, 0.0));
 
             ImageView statusImageView = new ImageView();
             statusImageView.setFitHeight(33.0);
             statusImageView.setFitWidth(27.0);
             statusImageView.setPickOnBounds(true);
             statusImageView.setPreserveRatio(true);
-            statusImageView.setImage(new Image(getClass().getResource("/sample/assets/Online.png").toExternalForm()));
+            statusImageView.setImage(new Image(getClass().getResource("/assets/Online.png").toExternalForm()));
 
             Button askForGameButton = new Button("Ask For Game");
             askForGameButton.setMnemonicParsing(false);
@@ -98,17 +136,22 @@ public class PlayersList extends AnchorPane {
                 }
             });
 
-            hBox.getChildren().addAll(playerName, playerStatus, statusImageView, askForGameButton);
+            hBox.getChildren().addAll(playerName, playerScore, playerStatus, statusImageView, askForGameButton);
             playersListView.getItems().add(hBox);
         }
 
+        ListPlayersLabel.setLayoutX(1600);
+        ListPlayersLabel.setLayoutY(60);
+        ListPlayersLabel.setText("Records");
+
+        getChildren().add(headerBox);  // Add header to the layout
         getChildren().add(playersListView);
 
         backButton.setLayoutX(20);
         backButton.setLayoutY(60);
-        backButton.setOnAction(new EventHandler<ActionEvent>() {
+        backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(MouseEvent event) {
                 Parent root = new StartScreenBase(stage) {};
                 stage.setScene(new Scene(root, 800, 800));
                 stage.show();
@@ -118,6 +161,8 @@ public class PlayersList extends AnchorPane {
             }
         });
 
+
         getChildren().add(backButton);
+        getChildren().add(ListPlayersLabel);
     }
 }

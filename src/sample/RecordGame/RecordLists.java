@@ -124,7 +124,7 @@ public class RecordLists extends AnchorPane {
 
         recordsLabel.setLayoutX(150);
         recordsLabel.setLayoutY(60);
-        recordsLabel.setText("Records");
+        recordsLabel.setText("Players List");
 
 
         backButton.setLayoutX(1600);
