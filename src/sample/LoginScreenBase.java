@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,6 +14,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.json.simple.JSONObject;
+import sample.NetworkPackge.ClientSocket;
 
 import java.util.Objects;
 
@@ -110,6 +113,36 @@ public abstract class LoginScreenBase extends AnchorPane {
         button.setText("Login");
         button.setTextFill(javafx.scene.paint.Color.WHITE);
         button.setFont(new Font("Jura SemiBold", 18.0));
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ClientSocket clientSocket = ClientSocket.getInstance();
+                clientSocket.connectClient();
+                if (!usernameField.getText().isEmpty() && !passwordField.getText().isEmpty()){
+                    JSONObject jsonObject = types.createSingin(usernameField.getText(), passwordField.getText());
+                    String jsonText = jsonObject.toString();
+                    ClientSocket.sendToServer(jsonText, ClientSocket.LOGIN);
+                    try{
+                        Thread.sleep(200);
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+                    if(clientSocket.isSuccess()){
+                        //show to user
+//                        Parent root = new LoginScreenBase(stage) {};
+//                        stage.setScene(new Scene(root,800, 800));
+//                        stage.show();
+//                        stage.setMinHeight(800);
+//                        stage.setMinWidth(800);
+//                        stage.setFullScreen(true);
+                        System.out.println("working");
+                    } else {
+                        //show error to user
+                        clientSocket.getError();
+                    }
+                }
+            }
+        });
 
         imageView.setFitHeight(150.0);
         imageView.setFitWidth(150.0);
@@ -117,7 +150,7 @@ public abstract class LoginScreenBase extends AnchorPane {
         imageView.setLayoutY(63.0);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
-        imageView.setImage(new Image(getClass().getResource("wp8984753.jpg").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/assets/tictactoebackground.jpg").toExternalForm()));
 
         getChildren().add(backButton);
         getChildren().add(label);
