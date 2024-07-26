@@ -15,11 +15,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sample.BackButton;
-import sample.CustomButtonController;
+import org.json.simple.JSONObject;
+import sample.*;
 import javafx.scene.layout.*;
-import sample.GoOnlineBase;
-import sample.StartScreenBase;
+import sample.NetworkPackge.ClientSocket;
 
 import java.io.InputStream;
 import java.util.Objects;
@@ -185,39 +184,30 @@ public class SignUpBase extends AnchorPane {
             String password = passwordField.getText();
             String userType = "1";  // mean user in register state
 
-            AuthenticateSignUp authenticate; // object from Authenticate
             if (!userName.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-                authenticate = new AuthenticateSignUp(userName, email, password,userType);
-
-                try {
-                    Thread.sleep(2000); // Sleep for 2 seconds to allow the response to come in
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                ClientSocket clientSocket = ClientSocket.getInstance();
+                clientSocket.connectClient();
+                JSONObject jsonObject = types.createsignup(userName,password,email);
+                String jsonText = jsonObject.toString();
+                ClientSocket.sendToServer(jsonText,ClientSocket.SIGNUP);
+                try{
+                    Thread.sleep(200);
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+                if(clientSocket.isSuccess()){
+                    //show to user
+                    Parent root = new LoginScreenBase(stage) {};
+                    stage.setScene(new Scene(root,800, 800));
+                    stage.show();
+                    stage.setMinHeight(800);
+                    stage.setMinWidth(800);
+                    stage.setFullScreen(true);
+                } else {
+                    //show error to user
+                    clientSocket.getError();
                 }
 
-                // Now check the userCase
-                String userCase = authenticate.getUserCase();
-                switch (userCase) {
-                    case "1":
-                        // Handle success case if needed
-                        Parent root = new GoOnlineBase(stage) {};
-                        Scene scene = new Scene(root, 900.0, 700);
-                        stage.setScene(scene);
-                        stage.show();
-                        stage.setMinHeight(800);
-                        stage.setMinWidth(800);
-                        stage.setFullScreen(true);
-                        break;
-                    case "2":  // Means userName exists
-                        showEmailExistsAlert("UserName is Already Exists");
-                        break;
-                    case "3":  // Means email exists
-                        showEmailExistsAlert("Email is Already Exists");
-                        break;
-                    default:
-                        // Handle unknown case if needed
-                        break;
-                }
             } else {
                 showEmailExistsAlert("Please fill in all fields.");
             }
