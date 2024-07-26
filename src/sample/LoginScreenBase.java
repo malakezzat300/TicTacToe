@@ -29,6 +29,8 @@ public abstract class LoginScreenBase extends AnchorPane {
     protected Label label1;
     protected Button button;
     protected ImageView imageView;
+    protected static String userName;
+    protected static String password;
 
     public LoginScreenBase(Stage stage) {
 
@@ -129,6 +131,8 @@ public abstract class LoginScreenBase extends AnchorPane {
                     }
                     if(clientSocket.isSuccess()){
                         //show to user
+                        userName = usernameField.getText();
+                        password = passwordField.getText();
                         Parent root = new OkScreenBase(stage,"You have Logged In",OkScreenBase.LOGIN) {};
                         stage.setScene(new Scene(root,800, 800));
                         stage.show();
@@ -170,6 +174,12 @@ public abstract class LoginScreenBase extends AnchorPane {
 
     }
 
+    public static String getUserName(){
+        return userName;
+    }
 
+    public static String getPassword(){
+        return password;
+    }
 
 }
