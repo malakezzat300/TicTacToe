@@ -113,6 +113,10 @@ public class ClientSocket  extends  Thread{
 
     }
 
+    public String getMesage(){
+        return myMesage;
+    }
+
 
     private void handleMessage(String message) {
         JSONParser parser = new JSONParser();

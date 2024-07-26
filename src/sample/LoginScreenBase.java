@@ -29,6 +29,8 @@ public abstract class LoginScreenBase extends AnchorPane {
     protected Label label1;
     protected Button button;
     protected ImageView imageView;
+    protected static String userName;
+    protected static String password;
 
     public LoginScreenBase(Stage stage) {
 
@@ -129,15 +131,24 @@ public abstract class LoginScreenBase extends AnchorPane {
                     }
                     if(clientSocket.isSuccess()){
                         //show to user
-//                        Parent root = new LoginScreenBase(stage) {};
-//                        stage.setScene(new Scene(root,800, 800));
-//                        stage.show();
-//                        stage.setMinHeight(800);
-//                        stage.setMinWidth(800);
-//                        stage.setFullScreen(true);
+                        userName = usernameField.getText();
+                        password = passwordField.getText();
+                        Parent root = new OkScreenBase(stage,"You have Logged In",OkScreenBase.LOGIN) {};
+                        stage.setScene(new Scene(root,800, 800));
+                        stage.show();
+                        stage.setMinHeight(800);
+                        stage.setMinWidth(800);
+                        stage.setFullScreen(true);
                         System.out.println("working");
                     } else {
                         //show error to user
+                        Parent root = new OkScreenBase(stage,clientSocket.getError(),OkScreenBase.LOGIN_ERROR) {};
+                        stage.setScene(new Scene(root,800, 800));
+                        stage.show();
+                        stage.setMinHeight(800);
+                        stage.setMinWidth(800);
+                        stage.setFullScreen(true);
+                        System.out.println("working");
                         clientSocket.getError();
                     }
                 }
@@ -163,6 +174,12 @@ public abstract class LoginScreenBase extends AnchorPane {
 
     }
 
+    public static String getUserName(){
+        return userName;
+    }
 
+    public static String getPassword(){
+        return password;
+    }
 
 }
