@@ -66,6 +66,11 @@
                   <Font size="18.0" />
                </font>
             </TextField>
+            <ImageView fx:id="backButton" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets left="250.0" />
+               </GridPane.margin>
+            </ImageView>
          </children>
       </GridPane>
    </children>

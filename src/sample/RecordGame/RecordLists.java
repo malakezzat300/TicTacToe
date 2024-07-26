@@ -10,12 +10,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import sample.GameScreenBase;
-import sample.OfflineNamesBase;
-import sample.RecordUnit;
+import sample.*;
 
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
@@ -28,10 +27,14 @@ public class RecordLists extends AnchorPane {
     List<String> recordsT;
     String recordsPath = "C:\\TicTacToe\\Records\\";
     protected final static int RECORD_SHOW = 7;
+    protected final ImageView backButton;
+    protected final Label recordsLabel;
 
     public RecordLists(Stage stage,List<String> records) { // take a list Here
         recordsT = records;
         playersListView = new ListView<>();
+        backButton = new BackButton();
+        recordsLabel = new CustomLabelController();
 
    /*     // make list viewe in the middlee
         AnchorPane.setTopAnchor(playersListView, 20.0);
@@ -119,6 +122,27 @@ public class RecordLists extends AnchorPane {
 
         }
 
+        recordsLabel.setLayoutX(150);
+        recordsLabel.setLayoutY(60);
+        recordsLabel.setText("Records");
+
+
+        backButton.setLayoutX(1600);
+        backButton.setLayoutY(60);
+        backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Parent root = new StartScreenBase(stage) {};
+                stage.setScene(new Scene(root,800, 800));
+                stage.show();
+                stage.setMinHeight(800);
+                stage.setMinWidth(800);
+                stage.setFullScreen(true);
+            }
+        });
+
         getChildren().add(playersListView);
+        getChildren().add(backButton);
+        getChildren().add(recordsLabel);
     }
 }
