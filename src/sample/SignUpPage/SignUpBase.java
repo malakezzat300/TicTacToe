@@ -1,5 +1,6 @@
 package sample.SignUpPage;
 
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -8,14 +9,17 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import sample.BackButton;
 import sample.CustomButtonController;
 import javafx.scene.layout.*;
 import sample.GoOnlineBase;
+import sample.StartScreenBase;
 
 import java.io.InputStream;
 import java.util.Objects;
@@ -36,9 +40,12 @@ public class SignUpBase extends AnchorPane {
 
     private final ImageView eyeIcon;
     private boolean isPasswordVisible = false;
+    protected final ImageView backButton;
 
     public SignUpBase(Stage stage) {
 
+
+        backButton = new BackButton();
         // backGround image
 
         // Background image (Stretch to fit)
@@ -149,11 +156,26 @@ public class SignUpBase extends AnchorPane {
         // email validation fun
         setupEmailValidation();
 
+        backButton.setLayoutX(1600);
+        backButton.setLayoutY(60);
+        backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Parent root = new GoOnlineBase(stage) {};
+                stage.setScene(new Scene(root,800, 800));
+                stage.show();
+                stage.setMinHeight(800);
+                stage.setMinWidth(800);
+                stage.setFullScreen(true);
+            }
+        });
+
+
         // adding elements to Anchor pane node
         getChildren().addAll(signUpText, userNameText, userNameField,
                 emailText, emailField, passwordText,
                 showPasswordField, passwordField, registerButton,
-                eyeIcon,passwordValidationLabel,emailValidationLabel);
+                eyeIcon,passwordValidationLabel,emailValidationLabel,backButton);
         //______________________________________________
         // working on button register
 
