@@ -197,7 +197,7 @@ public class SignUpBase extends AnchorPane {
                 }
                 if(clientSocket.isSuccess()){
                     //show to user
-                    Parent root = new LoginScreenBase(stage) {};
+                    Parent root = new OkScreenBase(stage,"you have Signned up Successfully",OkScreenBase.SIGNUP) {};
                     stage.setScene(new Scene(root,800, 800));
                     stage.show();
                     stage.setMinHeight(800);
@@ -205,7 +205,12 @@ public class SignUpBase extends AnchorPane {
                     stage.setFullScreen(true);
                 } else {
                     //show error to user
-                    clientSocket.getError();
+                    Parent root = new OkScreenBase(stage,clientSocket.getError(),OkScreenBase.SIGNUP_ERROR) {};
+                    stage.setScene(new Scene(root,800, 800));
+                    stage.show();
+                    stage.setMinHeight(800);
+                    stage.setMinWidth(800);
+                    stage.setFullScreen(true);
                 }
 
             } else {

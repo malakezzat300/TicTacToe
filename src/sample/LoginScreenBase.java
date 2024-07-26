@@ -129,15 +129,22 @@ public abstract class LoginScreenBase extends AnchorPane {
                     }
                     if(clientSocket.isSuccess()){
                         //show to user
-//                        Parent root = new LoginScreenBase(stage) {};
-//                        stage.setScene(new Scene(root,800, 800));
-//                        stage.show();
-//                        stage.setMinHeight(800);
-//                        stage.setMinWidth(800);
-//                        stage.setFullScreen(true);
+                        Parent root = new OkScreenBase(stage,"You have Logged In",OkScreenBase.LOGIN) {};
+                        stage.setScene(new Scene(root,800, 800));
+                        stage.show();
+                        stage.setMinHeight(800);
+                        stage.setMinWidth(800);
+                        stage.setFullScreen(true);
                         System.out.println("working");
                     } else {
                         //show error to user
+                        Parent root = new OkScreenBase(stage,clientSocket.getError(),OkScreenBase.LOGIN_ERROR) {};
+                        stage.setScene(new Scene(root,800, 800));
+                        stage.show();
+                        stage.setMinHeight(800);
+                        stage.setMinWidth(800);
+                        stage.setFullScreen(true);
+                        System.out.println("working");
                         clientSocket.getError();
                     }
                 }
