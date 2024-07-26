@@ -9,7 +9,8 @@ import sample.SignUpPage.Types;
 
 import static sample.database.MainServer.servers;
 import static sample.database.MainServer.size;
-
+import static sample.database.View.*;
+import sample.types;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -70,9 +71,8 @@ public class NetWork {
             server.dataOutputStream.writeUTF(object1.toString());
             System.out.println(servers.size());
             NetWork.sendlistplayer();
-            View.addonline(1);
-            View.addoffline(-1);
-
+           onlineCount+=1;
+           offlineCount-=1;
 
         }catch (Exception e){
             ErrorRespose(e);
@@ -84,6 +84,7 @@ public class NetWork {
             String Email=(String) object.get(Types.Email);
             String PassWord=(String) object.get(Types.Password);
             dao.signup(Name,PassWord,Email);
+            offlineCount+=1;
         }catch (Exception e){
             ErrorRespose(e);
         }
@@ -218,67 +219,5 @@ public class NetWork {
     public void RequestToMove(JSONObject object){
         String point =(String) object.get(Types.point);
 
-    }
-}
-class types {
-    public static String Offline="Offline";
-    public static String type = "type";
-    public static String move = "move";
-    public static String RequestToPlay = "RequestToPlay";
-    public static String RequestToPlayResponse = "RequestToPlayResponse";
-    public  static String UpdateList="UpdateList";
-    public static String Error = "Error";
-    public static String Message = "Message";
-    public static String YouWin = "YouWin";
-    public static String EndGame = "EndGame";
-    public static String Currentbusy = "Currentbusy";
-    public static String CurrentInGame = "CurrentInGame";
-    public static String List = "List";
-
-    public static String YouLose = "YouLose";
-    public static String SignIn = "SignIn";
-    public static String SignUp = "SignUp";
-    public static String Email = "Email";
-    public static String Password = "Password";
-    public static String Username = "Username";
-    public static String Opponent = "Opponent";
-    public static String Success = "Success";
-    public static String Accept = "Accept";
-    public static String Refuse = "Refuse";
-    public static String point = "point";
-    public static String State = "State";
-
-    public static JSONObject createSingin(String username, String password){
-        JSONObject object = new JSONObject();
-        object.put(types.type,types.SignIn);
-        object.put(types.Username,username);
-        object.put(types.Password,password);
-        return object;
-    }
-
-    public static JSONObject createRequestToPlay(String opponent){
-        JSONObject object = new JSONObject();
-        object.put(types.type,types.RequestToPlay);
-        object.put(types.Opponent,opponent);
-        return object;
-    }
-    public static ArrayList<User> updateList(String message){
-        JSONObject object = (JSONObject) JSONValue.parse(message);
-        JSONArray jsonArray=(JSONArray) JSONValue.parse(object.get(types.List).toString());
-        ArrayList<User> users= new ArrayList<>();
-        for (int i = 0; i < jsonArray.size(); i++) {
-            User user = new User();
-            user.name=(String) ((JSONObject)jsonArray.get(i)).get(types.Username);
-            Long xe=(Long) ((JSONObject)jsonArray.get(i)).get(types.State);
-            user.Status= Math.toIntExact(xe);
-            users.add(user);
-        }
-        System.out.println(users.size());
-return users;
-    }
-    public static JSONObject createsignup(String name , String password , String email){
-        JSONObject object = new JSONObject();
-        object.put(types.type,types.SignUp);
-return null;
     }
 }

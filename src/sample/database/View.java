@@ -1,6 +1,8 @@
 package sample.database;
 
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,20 +20,18 @@ import javafx.scene.text.Font;
 import java.io.IOException;
 
   class View extends AnchorPane {
-      public synchronized static void   addoffline(int x){
-        offlines+=x;
-      }
-      public synchronized static void   addonline(int x){
-          online+=x;
-      }
-      public synchronized static void   addingame(int x){
-          ingame+=x;
-      }
-      public static Integer offlines=0;
-      public static Integer online=0;
-      public static Integer ingame=0;
+      boolean ee=false;
+      MyTask2 task2= new MyTask2();
+      Thread t2= new Thread(task2);
+      MyTask task= new MyTask();
+      Thread t= new Thread(task);
+      public static int offlineCount = 0;
+      public static int onlineCount =0;
+      public static int inGameCount = 0;
+      public static IntegerProperty property= new SimpleIntegerProperty();
 
-      public static ObservableList<User> stringProperty2= FXCollections.observableArrayList();
+
+      public static ObservableList<User> userList = FXCollections.observableArrayList();
 
     protected final Button SServerButton;
     protected final Button StoServerButton;
@@ -77,19 +77,6 @@ import java.io.IOException;
         categoryAxis.setLabel("Player status");
         numberAxis.setLabel("Conuter");
 
-        XYChart.Series series1 = new XYChart.Series();
-        series1.setName("Offline");
-        series1.getData().add(new XYChart.Data("", 8));
-
-        XYChart.Series series2 = new XYChart.Series();
-        series2.setName("In Game");
-        series2.getData().add(new XYChart.Data("", 12));
-
-        XYChart.Series series3 = new XYChart.Series();
-        series3.setName("Online");
-        series3.getData().add(new XYChart.Data("", 5));
-
-        barChart.getData().addAll(series1,series2,series3);
 
         users.setStyle("  -fx-background-color: transparent;\n" +
                 "    -fx-border-color: transparent; ");
@@ -198,9 +185,11 @@ import java.io.IOException;
         barChart.setCategoryGap(20);
         barChart.setLayoutX(42.0);
         barChart.setLayoutY(200);
+        XYChart.Series series3 = new XYChart.Series();
 
 
-
+        XYChart.Series series2 = new XYChart.Series();
+        XYChart.Series series1 = new XYChart.Series();
 
         AnchorPane.setBottomAnchor(users, 1.0);
         AnchorPane.setLeftAnchor(users, 11.0);
@@ -225,55 +214,68 @@ import java.io.IOException;
         getChildren().add(button);
         getChildren().add(barChart);
         SServerButton.setOnAction(e->{
-            MyOtherTask myTask= new MyOtherTask();
-            Thread t2= new Thread(myTask);
-            MyTask task= new MyTask();
-            Thread t= new Thread(task);
-            offlines=dao.numberofpalyers();
-            task.valueProperty().addListener((observable, oldValue, newValue) -> sample.database.Main.s =newValue);
+            System.out.println("xxxxxxxxxxxxxxxxxx");
+            task2= new MyTask2();
+            task= new MyTask();
+            t= new Thread(task);
+            t2= new Thread(task2);
             t.setDaemon(true);
             t.start();
-
-            myTask.messageProperty().addListener((observable, oldValue, newValue) -> {
-                System.out.println(newValue);
-               String[] s = newValue.split(" ");
-                Platform.runLater(()->{
-                    offlinelabe.setText(s[0]);
-                    onlinelabe.setText(s[1]);
-                    ingamelabel.setText(s[2]);
-                });
-            });
             t2.setDaemon(true);
             t2.start();
+            task2.messageProperty().addListener((observable, oldValue, newValue) -> {
+
+                Platform.runLater(()-> {
+                    series1.setName("Offline");
+                    series2.setName("InGame");
+                    series3.setName("Online");
+
+                           series1.getData().add(new XYChart.Data("", offlineCount));
+                           offlinelabe.setText(offlineCount + "");
+                           series2.getData().add(new XYChart.Data("", inGameCount));
+                           ingamelabel.setText(inGameCount + "");
+                           series3.getData().add(new XYChart.Data("", onlineCount));
+                           onlinelabe.setText(onlineCount + "");
+
+                });
+
+
+            });
+            task.valueProperty().addListener((observable, oldValue, newValue) -> sample.database.Main.s =newValue);
+            offlineCount=dao.numberofpalyers();
+
             StoServerButton.setDisable(false);
             SServerButton.setDisable(true);
             try {
                 dao.getallsuers();
-                users.setItems(stringProperty2);
+                users.setItems(userList);
                 users.setCellFactory(ez->new ListItem());
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
 
-
         });
         StoServerButton.setOnAction(e->{
             try {
+                offlineCount=0;
+                onlineCount=0;
+                inGameCount=0;
 
                 Main.s.serverSocket.close();
-
-
+                t.stop();
+                t2.stop();
 
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-            offlines=0;
-            stringProperty2.clear();
-            users.setItems(stringProperty2);
+
+            userList.clear();
+            users.setItems(userList);
             StoServerButton.setDisable(true);
             SServerButton.setDisable(false);
-
         });
+
+        barChart.getData().addAll(series1,series2,series3);
 
     }
 }

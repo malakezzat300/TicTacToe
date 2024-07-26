@@ -6,10 +6,10 @@ import com.mysql.cj.jdbc.Driver;
 
 import java.sql.*;
 
-import static  sample.database.View.stringProperty2;
+import static sample.database.View.userList;
 
 
- class DAO {
+class DAO {
  public     Connection con;
     public DAO() throws SQLException {
         try {
@@ -138,7 +138,7 @@ import static  sample.database.View.stringProperty2;
             User n= new User();
             n.name=resultSet.getString(1);
             n.email=resultSet.getString(3);
-            stringProperty2.add(n);
+            userList.add(n);
         }
     }
     public synchronized Integer numberofpalyers() {

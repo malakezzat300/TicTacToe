@@ -12,6 +12,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = new StartScreenBase(primaryStage) {};
         primaryStage.setTitle("Tic Tac Toe");
+
         primaryStage.setScene(new Scene(root,800, 800));
         primaryStage.show();
         primaryStage.setMinHeight(800);

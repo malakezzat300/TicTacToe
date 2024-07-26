@@ -46,9 +46,9 @@ class Server extends Thread {
                 Platform.runLater(() -> updateUIForUser(user.name, 0));
                 MainServer.servers.remove(this);
 
-                addoffline(1);
+                offlineCount+=1;
 
-                addonline(-1);
+                onlineCount-=1;
                 if (user.Status==2)
                 {
                     try {
@@ -56,7 +56,7 @@ class Server extends Thread {
                     } catch (IOException ioException) {
                         System.out.println(ioException.getMessage());
                     }
-                    View.addingame(-2);
+                   inGameCount-=2;
                 }
                 System.out.println("logout "+user.name);
                 try {
@@ -75,10 +75,10 @@ class Server extends Thread {
 
     private void updateUIForUser(String username, int status) {
         Platform.runLater(() -> {
-            for (User user : stringProperty2) {
+            for (User user : userList) {
                 if (user.name.equals(username)) {
                     user.Status = status;
-                    stringProperty2.set(stringProperty2.indexOf(user), user); // Trigger ListView update
+                    userList.set(userList.indexOf(user), user); // Trigger ListView update
                     break;
                 }
             }

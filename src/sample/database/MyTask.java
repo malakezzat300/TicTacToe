@@ -2,6 +2,7 @@ package sample.database;
 
 import javafx.concurrent.Task;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static sample.database.View.*;
@@ -12,14 +13,13 @@ class MyTask extends Task<MainServer> {
         return new MainServer();
     }
 }
-
-class MyOtherTask extends Task<String> {
+class MyTask2 extends Task<MainServer> {
     @Override
-    protected String call() throws Exception {
+    protected MainServer call()  {
         while (true){
-
-            updateMessage(offlines+" "+online+" "+ingame);
-        }
-    }
+            updateMessage(offlineCount+" "+onlineCount+" "+inGameCount);
+    }}
 }
+
+
 
