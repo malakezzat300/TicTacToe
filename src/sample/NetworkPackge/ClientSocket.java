@@ -23,7 +23,6 @@ public class ClientSocket  extends  Thread{
     private final int portNumber = 8000;
     public static final int LOGIN = 1;
     public static final int SIGNUP = 2;
-    private static int mode;
     private boolean success;
     private String errorMessage;
 
@@ -87,8 +86,7 @@ public class ClientSocket  extends  Thread{
 
     // **********************************************
     // send To Server
-    public static void sendToServer(String messageType,int mode){
-        ClientSocket.mode = mode;
+    public static void sendToServer(String messageType){
         String message = messageType;
         try {
             dataout.writeUTF(message);
