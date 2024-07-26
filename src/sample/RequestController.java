@@ -39,4 +39,21 @@ public class RequestController {
             throw new RuntimeException(e);
         }
     }
+
+    @FXML
+    void onRejected(ActionEvent event) {
+        try {
+            /*
+            try {
+                this.Switch.switchToRecordPrompt(event);
+            } catch (IOException var3) {
+                IOException e1 = var3;
+                e1.printStackTrace();
+            }
+            */
+        } catch (Exception var4) {
+            Exception e = var4;
+            throw new RuntimeException(e);
+        }
+    }
 }

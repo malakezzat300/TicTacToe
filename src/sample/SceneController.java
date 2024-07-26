@@ -16,7 +16,7 @@ public class SceneController {
     }
 
     public void switchToLogin(ActionEvent event) throws IOException {
-        Parent root = (Parent) FXMLLoader.load(this.getClass().getResource("hello-view.fxml"));
+        Parent root = (Parent) FXMLLoader.load(this.getClass().getResource("login_screen.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);

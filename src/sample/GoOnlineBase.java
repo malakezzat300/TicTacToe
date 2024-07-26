@@ -3,12 +3,12 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -33,6 +33,7 @@ public abstract class GoOnlineBase extends GridPane {
     protected final CustomButtonController signupButton;
     protected final CustomButtonController loginButton;
     protected final ImageView imageView;
+    protected final ImageView backButton;
 
     public GoOnlineBase(Stage stage) {
 
@@ -48,6 +49,7 @@ public abstract class GoOnlineBase extends GridPane {
         signupButton = new CustomButtonController();
         loginButton = new CustomButtonController();
         imageView = new ImageView();
+        backButton = new BackButton();
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -125,9 +127,7 @@ public abstract class GoOnlineBase extends GridPane {
             @Override
             public void handle(ActionEvent event) {
                 Parent root = new SignUpBase(stage);
-                Scene scene = null;
-                scene = new Scene(root, 900.0, 700);
-                stage.setScene(scene);
+                stage.setScene(new Scene(root, 900.0, 700));
                 stage.show();
                 stage.setMinHeight(800);
                 stage.setMinWidth(800);
@@ -145,23 +145,32 @@ public abstract class GoOnlineBase extends GridPane {
         loginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
-                Scene scene = null;
-                try {
-                    scene = new Scene(fxmlLoader.load(), 900.0, 700);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                stage.setResizable(true);
-
-                stage.setScene(scene);
+                Parent root = new LoginScreenBase(stage) {};
+                stage.setScene(new Scene(root, 900.0, 700));
                 stage.show();
-                stage.setMinHeight(600);
-                stage.setMinWidth(600);
+                stage.setMinHeight(800);
+                stage.setMinWidth(800);
                 stage.setFullScreen(true);
 
             }
         });
+
+        GridPane.setColumnIndex(backButton, 3);
+        GridPane.setHalignment(backButton, javafx.geometry.HPos.CENTER);
+        GridPane.setValignment(backButton, javafx.geometry.VPos.CENTER);
+        GridPane.setMargin(backButton, new Insets(0.0, 0.0, 0.0, 0));
+        backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Parent root = new StartScreenBase(stage) {};
+                stage.setScene(new Scene(root,800, 800));
+                stage.show();
+                stage.setMinHeight(800);
+                stage.setMinWidth(800);
+                stage.setFullScreen(true);
+            }
+        });
+
 
         getColumnConstraints().add(columnConstraints);
         getColumnConstraints().add(columnConstraints0);
@@ -175,6 +184,7 @@ public abstract class GoOnlineBase extends GridPane {
         getChildren().add(goOnlineText);
         getChildren().add(signupButton);
         getChildren().add(loginButton);
+        getChildren().add(backButton);
 
     }
 }

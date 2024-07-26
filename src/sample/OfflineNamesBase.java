@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -50,6 +51,7 @@ public abstract class OfflineNamesBase extends StackPane {
     protected final static int OFFLINE_MODE = 2;
     protected final static int SINGLE_MODE_RECORDING = 3;
     protected final static int OFFLINE_MODE_RECORDING = 4;
+    protected final ImageView backButton;
 
     public OfflineNamesBase(Stage stage,int mode) {
 
@@ -72,6 +74,7 @@ public abstract class OfflineNamesBase extends StackPane {
         startButton = new CustomButtonController();
         firstPlayerTextField = new TextField();
         secondPlayerTextField = new TextField();
+        backButton = new BackButton();
 
         gridPane.setMaxHeight(USE_PREF_SIZE);
         gridPane.setMaxWidth(USE_PREF_SIZE);
@@ -140,12 +143,12 @@ public abstract class OfflineNamesBase extends StackPane {
         rectangle.setArcHeight(5.0);
         rectangle.setArcWidth(5.0);
         rectangle.setFill(javafx.scene.paint.Color.WHITE);
-        rectangle.setHeight(1000.0);
+        rectangle.setHeight(800);
         rectangle.setOpacity(0.5);
         rectangle.setStroke(javafx.scene.paint.Color.WHITE);
         rectangle.setStrokeType(javafx.scene.shape.StrokeType.INSIDE);
-        rectangle.setWidth(1000.0);
-        GridPane.setMargin(rectangle, new Insets(0.0, 0.0, 0.0, 450.0));
+        rectangle.setWidth(800);
+        GridPane.setMargin(rectangle, new Insets(0.0, 0.0, 0.0, 580));
 
 
         GridPane.setColumnIndex(label, 1);
@@ -242,6 +245,22 @@ public abstract class OfflineNamesBase extends StackPane {
         GridPane.setValignment(secondPlayerTextField, javafx.geometry.VPos.TOP);
         secondPlayerTextField.setFont(new Font(18.0));
 
+        GridPane.setColumnIndex(backButton, 2);
+        GridPane.setHalignment(backButton, javafx.geometry.HPos.CENTER);
+        GridPane.setValignment(backButton, javafx.geometry.VPos.CENTER);
+        GridPane.setMargin(backButton, new Insets(0.0, 0.0, 50, 250));
+        backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Parent root = new StartScreenBase(stage) {};
+                stage.setScene(new Scene(root,800, 800));
+                stage.show();
+                stage.setMinHeight(800);
+                stage.setMinWidth(800);
+                stage.setFullScreen(true);
+            }
+        });
+
         if(mode == 1){
             label1.setVisible(false);
             secondPlayerTextField.setVisible(false);
@@ -266,6 +285,7 @@ public abstract class OfflineNamesBase extends StackPane {
         gridPane.getChildren().add(startButton);
         gridPane.getChildren().add(firstPlayerTextField);
         gridPane.getChildren().add(secondPlayerTextField);
+        gridPane.getChildren().add(backButton);
         getChildren().add(gridPane);
 
     }
