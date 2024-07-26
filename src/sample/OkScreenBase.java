@@ -146,7 +146,7 @@ public class OkScreenBase extends AnchorPane {
         imageView.setLayoutY(63.0);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
-        imageView.setImage(new Image(getClass().getResource("wp8984753.jpg").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/assets/tictactoebackground.jpg").toExternalForm()));
 
 
         getChildren().add(backButton);

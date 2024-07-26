@@ -99,7 +99,7 @@ public class PlayersList extends AnchorPane {
         // ListView Setup
         playersListView.setLayoutX(650);  // Adjusted position to align with header
         playersListView.setLayoutY(150); // Adjusted position to align with header
-        playersListView.setPrefHeight(400);
+        playersListView.setPrefHeight(800);
         playersListView.setPrefWidth(700);
         playersListView.setMinHeight(300);
         playersListView.setMinWidth(300);
