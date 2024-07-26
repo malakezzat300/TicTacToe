@@ -4,10 +4,11 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import sample.database.User;
-
 import java.util.ArrayList;
 public class types {
-
+    public static String teardown="teardown";
+    public  static  String draw="draw";
+    public  static  String withdraw="withdraw";
     public static String opscore="oscore";
     public static String pscore="pscore";
     public static String data = "data";
@@ -17,7 +18,7 @@ public class types {
     public static String move = "move";
     public static String RequestToPlay = "RequestToPlay";
     public static String RequestToPlayResponse = "RequestToPlayResponse";
-    public static String UpdateList="UpdateList";
+    public  static String UpdateList="UpdateList";
     public static String Error = "Error";
     public static String Message = "Message";
     public static String YouWin = "YouWin";
@@ -100,6 +101,16 @@ public class types {
         JSONObject object =new JSONObject();
         object.put(types.type,types.move);
         object.put(types.Message,types.move);
+        return object;
+    }
+    public static  JSONObject withdarw(){
+        JSONObject object = new JSONObject();
+        object.put(types.type,types.withdraw);
+        return object;
+    }
+    public static  JSONObject draw(){
+        JSONObject object = new JSONObject();
+        object.put(types.type,types.draw);
         return object;
     }
 //    public static  void parseMessage(String message)
