@@ -2,6 +2,8 @@ package sample.SignUpPage;
 
 
 import org.json.simple.JSONObject;
+import sample.types;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -24,11 +26,13 @@ public class AuthenticateSignUp implements Runnable {
         if (userName == null || email == null || password == null || userType == null) {
             throw new IllegalArgumentException("Arguments must not be null");
         }
-        signUpObject= new JSONObject();
-        signUpObject.put("UserName", userName);
-        signUpObject.put("Email", email);
-        signUpObject.put("Password", password);
-        signUpObject.put("UserType", userType);
+
+
+        signUpObject= types.createsignup(userName,password,email);
+//        signUpObject.put("UserName", userName);
+//        signUpObject.put("Email", email);
+//        signUpObject.put("Password", password);
+//        signUpObject.put("UserType", userType);
 
 
         // Convert JSON to string
@@ -36,7 +40,7 @@ public class AuthenticateSignUp implements Runnable {
 
         // Initialize socket connection and start the thread
         try {
-            client = new Socket("127.0.0.1", 8000);
+            client = new Socket("10.241.12.166", 8000);
             outMsg = new DataOutputStream(client.getOutputStream()); // Auto-flush enabled
             inMsg = new DataInputStream(client.getInputStream());
 

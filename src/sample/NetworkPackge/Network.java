@@ -1,4 +1,4 @@
-package sample.ClientNetwork;
+package sample.NetworkPackge;
 
 import org.json.simple.JSONObject;
 import sample.NetworkPackge.ClientSocket;
@@ -7,7 +7,7 @@ import sample.SignUpPage.Types;
 public class Network {
 
     String ConvertedJson;
-    ClientSocket client = new ClientSocket();
+    ClientSocket client = ClientSocket.getInstance();
 
     // sign Up
     public void signUp(String userName, String email, String password) {
@@ -21,7 +21,7 @@ public class Network {
         jsonToSendData.put(Types.Email,email);
         jsonToSendData.put(Types.Password,password);
         ConvertedJson = jsonToSendData.toString(); // convert json to String
-        client.sendToServer(ConvertedJson);         // send json after convert
+        client.sendToServer(ConvertedJson,ClientSocket.SIGNUP);         // send json after convert
 
     }
     //***************************************************
@@ -35,7 +35,7 @@ public class Network {
         jsonToSendData.put(Types.Email,email);
         jsonToSendData.put(Types.Password,password);
         ConvertedJson = jsonToSendData.toString(); // convert json to String
-        client.sendToServer(ConvertedJson);         // send json after convert
+        client.sendToServer(ConvertedJson,ClientSocket.LOGIN);         // send json after convert
 
     }
     //**************************************************
@@ -44,7 +44,7 @@ public class Network {
         JSONObject jsonToSendData = new JSONObject();
         jsonToSendData.put(Types.type,Types.RequestToPlay);
         ConvertedJson = jsonToSendData.toString(); // convert json to String
-        client.sendToServer(ConvertedJson);         // send json after convert
+        client.sendToServer(ConvertedJson,0);         // send json after convert
 
     }
     //*******************************************
