@@ -30,19 +30,20 @@ public class PlayersList extends AnchorPane {
 
     protected final ListView<HBox> playersListView;
     protected final List<String> players;
-    protected final ImageView backButton;  // Changed to Button for consistency
+    protected final ImageView backButton;
     protected final Label ListPlayersLabel;
     protected final static String OFFLINE = "offline";
     protected final static String ONLINE = "online";
     protected final static String REQUEST = "request";
     protected final static String INGAME = "inGame";
+    protected final ImageView refreshButton;
 
     public PlayersList(Stage stage) {
 
         ClientSocket clientSocket = ClientSocket.getInstance();
         clientSocket.connectClient();
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put(types.type,types.SignIn);
+        jsonObject.put(types.type,types.List);
         jsonObject.put(types.Username,LoginScreenBase.getUserName());
         jsonObject.put(types.Password,LoginScreenBase.getPassword());
         ClientSocket.sendToServer(jsonObject.toString(),0);
@@ -54,7 +55,7 @@ public class PlayersList extends AnchorPane {
         players = new ArrayList<>();
         backButton = new BackButton();  // Changed to Button for consistency
         ListPlayersLabel = new CustomLabelController();
-
+        refreshButton = new ImageView();
 
 
         setMaxHeight(USE_PREF_SIZE);
@@ -184,9 +185,86 @@ public class PlayersList extends AnchorPane {
             }
         });
 
+        /*
+        refreshButton.setFitHeight(120);
+        refreshButton.setFitWidth(120.0);
+        refreshButton.setLayoutX(1400);
+        refreshButton.setLayoutY(60);
+        refreshButton.setImage(new Image(getClass().getResource("/assets/refresh.png").toExternalForm()));
+        refreshButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                getChildren().remove(playersListView);
+                ClientSocket clientSocket = ClientSocket.getInstance();
+                clientSocket.connectClient();
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put(types.type,types.UpdateList);
+                jsonObject.put(types.Username,LoginScreenBase.getUserName());
+                jsonObject.put(types.Password,LoginScreenBase.getPassword());
+                ClientSocket.sendToServer(jsonObject.toString(),0);
+                System.out.println(clientSocket.getMesage());
+                ArrayList<UserRecord> userArrayList = getUsers(clientSocket.getMesage());
+
+                for (UserRecord player : userArrayList) {
+                    HBox hBox = new HBox();
+                    hBox.setPrefHeight(50.0);
+                    hBox.setPrefWidth(700.0);  // Adjusted to match ListView width
+                    hBox.setSpacing(40);
+                    hBox.setPadding(new Insets(10.0, 0.0, 0.0, 10.0));
+
+                    Label playerName = new Label(player.getUsername());
+                    playerName.setPrefHeight(31.0);
+                    playerName.setPrefWidth(150.0);
+                    playerName.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
+
+
+                    Label playerScore = new Label(String.valueOf(player.getPscore()));  // Default score, adjust as needed
+                    playerScore.setPrefHeight(21.0);
+                    playerScore.setPrefWidth(100.0);
+                    playerScore.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
+
+
+                    Label playerStatus = new Label(player.getState());
+                    playerStatus.setPrefHeight(21.0);
+                    playerStatus.setPrefWidth(100.0);
+                    playerStatus.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
+
+                    ImageView statusImageView = new ImageView();
+                    if(player.getState().equals(ONLINE)){
+                        statusImageView.setImage(new Image(getClass().getResource("/assets/Online.png").toExternalForm()));
+                    } else if(player.getState().equals(OFFLINE)){
+                        statusImageView.setImage(new Image(getClass().getResource("/assets/offline.png").toExternalForm()));
+                    } else if(player.getState().equals(REQUEST)){
+                        statusImageView.setImage(new Image(getClass().getResource("/assets/request.png").toExternalForm()));
+                    } else if(player.getState().equals(INGAME)){
+                        statusImageView.setImage(new Image(getClass().getResource("/assets/InGame.png").toExternalForm()));
+                    }
+
+
+                    Button askForGameButton = new Button("Ask For Game");
+                    askForGameButton.setMnemonicParsing(false);
+                    askForGameButton.setPrefHeight(25.0);
+                    askForGameButton.setPrefWidth(120.0);
+                    askForGameButton.setFont(Font.font("Arial", FontPosture.ITALIC, 12));
+                    askForGameButton.setStyle("-fx-text-fill: white; -fx-background-color: #0073e6;");
+                    askForGameButton.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            System.out.println("Asked " + player + " for a game!");
+                        }
+                    });
+
+                    hBox.getChildren().addAll(playerName, playerScore, playerStatus, statusImageView, askForGameButton);
+                    playersListView.getItems().add(hBox);
+                }
+                getChildren().add(playersListView);
+            }
+        });
+        */
 
         getChildren().add(backButton);
         getChildren().add(ListPlayersLabel);
+        //getChildren().add(refreshButton);
     }
 
 
