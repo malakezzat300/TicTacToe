@@ -1697,9 +1697,7 @@ public abstract class GameScreenBase extends GridPane {
         t.setDaemon(true);
         t.start();
 
-        if(firstMove){
-            disableAllButtonsOnline();
-        }
+
 
         myUpdateTask.messageProperty().addListener((v,c,d) -> {
             Platform.runLater(new Runnable() {
@@ -1773,6 +1771,11 @@ public abstract class GameScreenBase extends GridPane {
         matchRecord = new MatchRecord();
         listOfMoves = new ArrayList<>();
         matrix = new char[3][3];
+
+
+        if(firstMove){
+            disableAllButtonsOnline();
+        }
 
 
         boardButtons.add(zeroXzeroButton);
