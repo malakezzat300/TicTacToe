@@ -219,9 +219,7 @@ public class SignUpBase extends AnchorPane {
                     }
                 };
 
-                Thread thread = new Thread(task);
-                thread.setDaemon(true);
-                thread.start();
+
 
 
             } else {

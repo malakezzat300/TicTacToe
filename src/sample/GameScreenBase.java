@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -110,6 +111,7 @@ public abstract class GameScreenBase extends GridPane {
     protected static int orderOfMoves = 0;
     protected static int indexOfMove = 0;
     String recordsPath = "C:\\TicTacToe\\Records\\";
+    protected static String opponentMove;
 
     public GameScreenBase(Stage stage, String playerOne, String playerTwo,int mode) {
 
@@ -1685,7 +1687,7 @@ public abstract class GameScreenBase extends GridPane {
 
     }
 
-    public GameScreenBase(Stage stage, String playerOne, String playerTwo,int mode,int online) {
+    public GameScreenBase(Stage stage, String playerOne, String playerTwo,int mode,boolean firstMove) {
 
         ClientSocket clientSocket = ClientSocket.getInstance();
         clientSocket.connectClient();
@@ -1695,13 +1697,25 @@ public abstract class GameScreenBase extends GridPane {
         t.setDaemon(true);
         t.start();
 
-        myUpdateTask.messageProperty().addListener((v,c,d) -> {
-            String message = clientSocket.getMesage();
-            JSONObject jsonObject = (JSONObject) JSONValue.parse(message);
+        if(firstMove){
+            disableAllButtonsOnline();
+        }
 
-            if(jsonObject.get(types.type).equals(types.move)){
-                System.out.println("the move : " + jsonObject.get(types.move));
-            }
+        myUpdateTask.messageProperty().addListener((v,c,d) -> {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    String message = clientSocket.getMesage();
+                    JSONObject jsonObject = (JSONObject) JSONValue.parse(message);
+                    System.out.println("the message : " + message);
+                    if (jsonObject.get(types.type).equals(types.move)) {
+                        System.out.println("the move from opponent : " + jsonObject.get(types.Message));
+                        opponentMove = (String) jsonObject.get(types.Message);
+                    } else if (jsonObject.get(types.type).equals(types.EndGame)) {
+                        System.out.println("Who Win : " + jsonObject.get(types.EndGame));
+                    }
+                }
+            });
         });
 
         this.stage = stage;
@@ -2624,6 +2638,30 @@ public abstract class GameScreenBase extends GridPane {
         twoXtwoButton.setDisable(false);
         withdrawButton.setDisable(false);
         recordButton.setDisable(false);
+    }
+
+    public void disableAllButtonsOnline(){
+        zeroXzeroButton.setDisable(true);
+        zeroXoneButton.setDisable(true);
+        zeroXtwoButton.setDisable(true);
+        oneXzeroButton.setDisable(true);
+        oneXoneButton.setDisable(true);
+        oneXtwoButton.setDisable(true);
+        twoXzeroButton.setDisable(true);
+        twoXoneButton.setDisable(true);
+        twoXtwoButton.setDisable(true);
+    }
+
+    public void enableAllButtonsOnline(){
+        zeroXzeroButton.setDisable(false);
+        zeroXoneButton.setDisable(false);
+        zeroXtwoButton.setDisable(false);
+        oneXzeroButton.setDisable(false);
+        oneXoneButton.setDisable(false);
+        oneXtwoButton.setDisable(false);
+        twoXzeroButton.setDisable(false);
+        twoXoneButton.setDisable(false);
+        twoXtwoButton.setDisable(false);
     }
 
     public boolean isDrawState(){

@@ -131,16 +131,17 @@ public class PlayersList extends AnchorPane {
                               // navigate
 
                           }
-                          System.out.println("--------------->"+ClientSocket.myMesage);
+                          //System.out.println("--------------->"+ClientSocket.myMesage);
                             if (object.get(types.type).equals(types.RequestToPlayResponse))
                             {
                                 if("Accept".equals(object.get(types.Message))) {
-                                    Parent root = new GameScreenBase(stage,LoginScreenBase.getUserName(),getOpponent(),GameScreenBase.ONLINE_MODE,0) {};
+                                    Parent root = new GameScreenBase(stage,LoginScreenBase.getUserName(),getOpponent(),GameScreenBase.ONLINE_MODE,true) {};
                                     stage.setScene(new Scene(root, 800, 800));
                                     stage.show();
                                     stage.setMinHeight(800);
                                     stage.setMinWidth(800);
                                     stage.setFullScreen(true);
+                                    myUpdateTask.cancel();
                                 }
                             }
                           if (object.get(types.type).equals(types.RequestToPlay)) {
@@ -151,6 +152,7 @@ public class PlayersList extends AnchorPane {
                               stage.setMinHeight(600);
                               stage.setMinWidth(600);
                               stage.setFullScreen(true);
+                              myUpdateTask.cancel();
                           }
                           for (UserRecord player : userArrayList) {
                               HBox hBox = new HBox();
@@ -403,7 +405,7 @@ public class PlayersList extends AnchorPane {
         ArrayList<UserRecord> userRecords = new ArrayList<>();
 
         // Parse the JSON string
-        System.out.println("patttt  ---- >"+message);
+        //System.out.println("patttt  ---- >"+message);
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONArray jsonArray = jsonObject.getJSONArray("List");
 
