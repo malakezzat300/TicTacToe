@@ -114,7 +114,7 @@ public abstract class GameScreenBase extends GridPane {
     protected static String opponentMove;
     protected ArrayList<String> movesArrayList;
     protected boolean firstMoveOnce;
-    protected static String typeOfPlay = XPATH;
+    protected String typeOfPlay = XPATH;
 
     public GameScreenBase(Stage stage, String playerOne, String playerTwo,int mode) {
 
@@ -1775,11 +1775,10 @@ public abstract class GameScreenBase extends GridPane {
                         movesArrayList.add(opponentMove);
                         showOpponentMove(opponentMove);
 
-                        System.out.println("the x : " + Integer.parseInt(opponentMove.substring(0,1)));
-                        System.out.println("the y : " + Integer.parseInt(opponentMove.substring(1,2)));
+                        playerTurnText.setText(playerOne + " Turn ( X )");
 
-                        //recordUnit = new RecordUnit('o',++orderOfMoves,Integer.parseInt(message.substring(0,1)),Integer.parseInt(message.substring(1,2)));
-                        //listOfMoves.add(recordUnit);
+                        recordUnit = new RecordUnit('o',++orderOfMoves,Integer.parseInt(opponentMove.substring(0,1)),Integer.parseInt(opponentMove.substring(1,2)));
+                        listOfMoves.add(recordUnit);
                         enableAllButtonsOnline();
                         disableAllButtonsOnline(movesArrayList);
                     } else if (jsonObject.get(types.type).equals(types.EndGame)) {
@@ -1793,6 +1792,7 @@ public abstract class GameScreenBase extends GridPane {
             disableAllButtonsOnline();
             firstMoveOnce = false;
             typeOfPlay = OPATH;
+
         }
 
 
@@ -2076,6 +2076,7 @@ public abstract class GameScreenBase extends GridPane {
                         doDrawEvent();
                     }
                     disableAllButtonsOnline();
+                    playerTurnText.setText(playerTwo + " Turn ( O )");
                 }
             }
         });
@@ -2106,6 +2107,7 @@ public abstract class GameScreenBase extends GridPane {
                         doDrawEvent();
                     }
                     disableAllButtonsOnline();
+                    playerTurnText.setText(playerTwo + " Turn ( O )");
                 }
             }
         });
@@ -2136,6 +2138,7 @@ public abstract class GameScreenBase extends GridPane {
                         doDrawEvent();
                     }
                     disableAllButtonsOnline();
+                    playerTurnText.setText(playerTwo + " Turn ( O )");
                 }
             }
         });
@@ -2167,6 +2170,7 @@ public abstract class GameScreenBase extends GridPane {
                         doDrawEvent();
                     }
                     disableAllButtonsOnline();
+                    playerTurnText.setText(playerTwo + " Turn ( O )");
                 }
             }
         });
@@ -2198,6 +2202,7 @@ public abstract class GameScreenBase extends GridPane {
                         doDrawEvent();
                     }
                     disableAllButtonsOnline();
+                    playerTurnText.setText(playerTwo + " Turn ( O )");
                 }
             }
         });
@@ -2232,6 +2237,7 @@ public abstract class GameScreenBase extends GridPane {
                         }
                     }
                     disableAllButtonsOnline();
+                    playerTurnText.setText(playerTwo + " Turn ( O )");
                 }
             }
         });
@@ -2262,6 +2268,7 @@ public abstract class GameScreenBase extends GridPane {
                         doDrawEvent();
                     }
                     disableAllButtonsOnline();
+                    playerTurnText.setText(playerTwo + " Turn ( O )");
                 }
             }
         });
@@ -2293,6 +2300,7 @@ public abstract class GameScreenBase extends GridPane {
                         doDrawEvent();
                     }
                     disableAllButtonsOnline();
+                    playerTurnText.setText(playerTwo + " Turn ( O )");
                 }
             }
         });
@@ -2324,6 +2332,7 @@ public abstract class GameScreenBase extends GridPane {
                         doDrawEvent();
                     }
                     disableAllButtonsOnline();
+                    playerTurnText.setText(playerTwo + " Turn ( O )");
                 }
             }
         });
