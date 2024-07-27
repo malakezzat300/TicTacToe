@@ -23,9 +23,9 @@ public class ClientSocket  extends  Thread{
     private final int portNumber = 8000;
     public static final int LOGIN = 1;
     public static final int SIGNUP = 2;
-    private static int mode;
     private boolean success;
     private String errorMessage;
+    public static int mode;
 
     private ClientSocket() {
         // Private constructor to prevent instantiation
