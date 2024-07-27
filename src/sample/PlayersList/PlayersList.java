@@ -48,7 +48,7 @@ public class PlayersList extends AnchorPane {
         jsonObject.put(types.type,types.List);
         jsonObject.put(types.Username,LoginScreenBase.getUserName());
         jsonObject.put(types.Password,LoginScreenBase.getPassword());
-        ClientSocket.sendToServer(jsonObject.toString());
+        ClientSocket.sendToServer(jsonObject.toString(),0);
         System.out.println(clientSocket.getMesage());
         ArrayList<UserRecord> userArrayList = getUsers(clientSocket.getMesage());
 
@@ -159,12 +159,12 @@ public class PlayersList extends AnchorPane {
                 @Override
                 public void handle(ActionEvent event) {
                     ClientSocket clientSocket2 = ClientSocket.getInstance();
-                    System.out.println("Asked " + player.getUsername() + " for a game!");
                     clientSocket2.connectClient();
                     org.json.simple.JSONObject jsonObject2 = new org.json.simple.JSONObject();
                     jsonObject2.put(types.type,types.RequestToPlay);
                     jsonObject2.put(types.Opponent,player.getUsername());
-                    ClientSocket.sendToServer(jsonObject2.toString());
+                    ClientSocket.sendToServer(jsonObject2.toString(),0);
+                    System.out.println(clientSocket2.getMesage());
                     System.out.println("Asked " + player.getUsername() + " for a game!");
                 }
             });
@@ -279,7 +279,7 @@ public class PlayersList extends AnchorPane {
         jsonObject.put(types.type, types.UpdateList);
         jsonObject.put(types.Username, LoginScreenBase.getUserName());
         jsonObject.put(types.Password, LoginScreenBase.getPassword());
-        ClientSocket.sendToServer(jsonObject.toString());
+        ClientSocket.sendToServer(jsonObject.toString(),0);
         System.out.println(clientSocket.getMesage());
         ArrayList<UserRecord> userArrayList = getUsers(clientSocket.getMesage());
         populateList(userArrayList);

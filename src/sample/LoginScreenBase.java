@@ -123,7 +123,7 @@ public abstract class LoginScreenBase extends AnchorPane {
                 if (!usernameField.getText().isEmpty() && !passwordField.getText().isEmpty()){
                     JSONObject jsonObject = types.createSingin(usernameField.getText(), passwordField.getText());
                     String jsonText = jsonObject.toString();
-                    ClientSocket.sendToServer(jsonText);
+                    ClientSocket.sendToServer(jsonText,ClientSocket.LOGIN);
                     try{
                         Thread.sleep(200);
                     }catch (Exception ex){

@@ -189,7 +189,7 @@ public class SignUpBase extends AnchorPane {
                 clientSocket.connectClient();
                 JSONObject jsonObject = types.createsignup(userName,password,email);
                 String jsonText = jsonObject.toString();
-                ClientSocket.sendToServer(jsonText);
+                ClientSocket.sendToServer(jsonText,ClientSocket.SIGNUP);
                 try{
                     Thread.sleep(200);
                 }catch (Exception ex){

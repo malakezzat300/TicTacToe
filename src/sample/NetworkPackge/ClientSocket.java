@@ -25,6 +25,7 @@ public class ClientSocket  extends  Thread{
     public static final int SIGNUP = 2;
     private boolean success;
     private String errorMessage;
+    public static int mode;
 
     private ClientSocket() {
         // Private constructor to prevent instantiation
@@ -86,7 +87,8 @@ public class ClientSocket  extends  Thread{
 
     // **********************************************
     // send To Server
-    public static void sendToServer(String messageType){
+    public static void sendToServer(String messageType,int mode){
+        ClientSocket.mode = mode;
         String message = messageType;
         try {
             dataout.writeUTF(message);
