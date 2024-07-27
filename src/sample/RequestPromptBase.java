@@ -13,6 +13,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.json.simple.JSONObject;
+import sample.NetworkPackge.ClientSocket;
 import sample.PlayersList.PlayersList;
 
 public class RequestPromptBase extends AnchorPane {
@@ -78,7 +80,17 @@ public class RequestPromptBase extends AnchorPane {
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                // malak handle
+                ClientSocket clientSocket = ClientSocket.getInstance();
+                clientSocket.connectClient();
+                JSONObject jsonObject = types.responseAccept();
+                String jsonText = jsonObject.toString();
+                ClientSocket.sendToServer(jsonText,0);
+                Parent root = new GameScreenBase(stage,LoginScreenBase.getUserName(),PlayersList.getOpponent(),GameScreenBase.ONLINE_MODE,0) {};
+                stage.setScene(new Scene(root, 800, 800));
+                stage.show();
+                stage.setMinHeight(800);
+                stage.setMinWidth(800);
+                stage.setFullScreen(true);
             }
         });
 //
@@ -94,6 +106,11 @@ public class RequestPromptBase extends AnchorPane {
         button0.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                ClientSocket clientSocket = ClientSocket.getInstance();
+                clientSocket.connectClient();
+                JSONObject jsonObject = types.responseRefuse();
+                String jsonText = jsonObject.toString();
+                ClientSocket.sendToServer(jsonText,0);
                 Parent root = new PlayersList(stage){
                 };
                 stage.setScene(new Scene(root, 800, 800));
@@ -110,7 +127,7 @@ public class RequestPromptBase extends AnchorPane {
         getChildren().add(label);
         getChildren().add(button);
         getChildren().add(button0);
-        getChildren().add(backButton);
+
 
     }
 }

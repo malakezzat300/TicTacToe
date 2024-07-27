@@ -134,10 +134,14 @@ public class PlayersList extends AnchorPane {
                           System.out.println("--------------->"+ClientSocket.myMesage);
                             if (object.get(types.type).equals(types.RequestToPlayResponse))
                             {
-                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                alert.setContentText((String) object.get(types.Message));
-                                alert.showAndWait();
-
+                                if("Accept".equals(object.get(types.Message))) {
+                                    Parent root = new GameScreenBase(stage,LoginScreenBase.getUserName(),PlayersList.getOpponent(),GameScreenBase.ONLINE_MODE,0) {};
+                                    stage.setScene(new Scene(root, 800, 800));
+                                    stage.show();
+                                    stage.setMinHeight(800);
+                                    stage.setMinWidth(800);
+                                    stage.setFullScreen(true);
+                                }
                             }
                           if (object.get(types.type).equals(types.RequestToPlay)) {
                               opponent = (String) object.get(types.Opponent);
