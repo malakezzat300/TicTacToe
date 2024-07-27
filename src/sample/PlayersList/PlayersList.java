@@ -401,7 +401,7 @@ public class PlayersList extends AnchorPane {
         populateList(userArrayList);
     }
 
-    public ArrayList<UserRecord> getUsers(String message) throws  Exception{
+    public ArrayList<UserRecord> getUsers(String message){
 
         String jsonString = message;
         ArrayList<UserRecord> userRecords = new ArrayList<>();
