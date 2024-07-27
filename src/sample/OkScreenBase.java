@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.AccessibleRole;
@@ -18,6 +19,8 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
+import sample.PlayersList.PlayersList;
+import sample.SignUpPage.SignUpBase;
 
 
 import java.awt.*;
@@ -33,7 +36,13 @@ public class OkScreenBase extends AnchorPane {
     protected ImageView imageView;
     protected Label label2;
     protected Rectangle rect;
-    public OkScreenBase(Stage stage) {
+    public static final int LOGIN = 1;
+    public static final int SIGNUP = 2;
+    public static final int LOGIN_ERROR = 3;
+    public static final int SIGNUP_ERROR = 4;
+    protected int mode;
+
+    public OkScreenBase(Stage stage,String message,int mode) {
 
         backButton = new ImageView();
         label = new Label();
@@ -57,26 +66,9 @@ public class OkScreenBase extends AnchorPane {
         setPrefHeight(900.0);
         setPrefWidth(1500.0);
 
-        backButton.setFitHeight(120);
-        backButton.setFitWidth(120);
-        backButton.setLayoutX(1650);
-        backButton.setLayoutY(80);
-        backButton.setPickOnBounds(true);
-        backButton.setPreserveRatio(true);
-        backButton.setImage(new Image(getClass().getResource("/assets/arrow.png").toExternalForm()));
-        backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Parent root = new GoOnlineBase(stage) {};
-                stage.setScene(new Scene(root,800, 800));
-                stage.show();
-                stage.setMinHeight(800);
-                stage.setMinWidth(800);
-                stage.setFullScreen(true);
-            }
-        });
 
-        Image image = new Image("/assets/R.jpg");
+
+        Image image = new Image(getClass().getResource("").toExternalForm());
 
         // Create a BackgroundImage
         BackgroundImage backgroundImage = new BackgroundImage(
@@ -103,7 +95,7 @@ public class OkScreenBase extends AnchorPane {
         label2.setTextFill(Color.BLACK);
         label2.setAlignment(Pos.CENTER);
         label2.setOpacity(0.8);
-        label2.setText("Sucess");
+        label2.setText(message);
         label2.setFont(new Font("Jura SemiBold", 30));
         label2.setPrefSize(500, 300);
 
@@ -118,8 +110,35 @@ public class OkScreenBase extends AnchorPane {
         button.setPrefWidth(250.0);
         button.setStyle("-fx-background-color: #2c2c3c; -fx-background-radius: 8; -fx-opacity: 0.9;");
         button.setText("OK");
-        button.setTextFill(javafx.scene.paint.Color.WHITE);
+        button.setTextFill(Color.WHITE);
         button.setFont(new Font("Jura SemiBold", 18.0));
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(mode == LOGIN){
+                    Parent root = new PlayersList(stage) {};
+                    stage.setScene(new Scene(root,800, 800));
+                    stage.show();
+                    stage.setMinHeight(800);
+                    stage.setMinWidth(800);
+                    stage.setFullScreen(true);
+                } else if (mode == SIGNUP || mode == LOGIN_ERROR){
+                    Parent root = new LoginScreenBase(stage) {};
+                    stage.setScene(new Scene(root,800, 800));
+                    stage.show();
+                    stage.setMinHeight(800);
+                    stage.setMinWidth(800);
+                    stage.setFullScreen(true);
+                } else if (mode == SIGNUP_ERROR){
+                    Parent root = new SignUpBase(stage) {};
+                    stage.setScene(new Scene(root,800, 800));
+                    stage.show();
+                    stage.setMinHeight(800);
+                    stage.setMinWidth(800);
+                    stage.setFullScreen(true);
+                }
+            }
+        });
 
         imageView.setFitHeight(150.0);
         imageView.setFitWidth(150.0);
@@ -127,7 +146,7 @@ public class OkScreenBase extends AnchorPane {
         imageView.setLayoutY(63.0);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
-        imageView.setImage(new Image(getClass().getResource("wp8984753.jpg").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/assets/tictactoebackground.jpg").toExternalForm()));
 
 
         getChildren().add(backButton);

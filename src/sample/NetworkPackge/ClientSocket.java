@@ -1,5 +1,6 @@
 package sample.NetworkPackge;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import org.json.simple.JSONObject;
@@ -23,9 +24,9 @@ public class ClientSocket  extends  Thread{
     private final int portNumber = 8000;
     public static final int LOGIN = 1;
     public static final int SIGNUP = 2;
-    private static int mode;
     private boolean success;
     private String errorMessage;
+    public static int mode;
 
     private ClientSocket() {
         // Private constructor to prevent instantiation
@@ -51,7 +52,7 @@ public class ClientSocket  extends  Thread{
     }
 
     //**************************************
-
+    public static SimpleStringProperty simpleStringProperty = new SimpleStringProperty();
     public void connectClient(){
 
         if (!isConnected){
@@ -89,14 +90,15 @@ public class ClientSocket  extends  Thread{
     // send To Server
     public static void sendToServer(String messageType,int mode){
         ClientSocket.mode = mode;
+        System.out.println(messageType);
         String message = messageType;
         try {
             dataout.writeUTF(message);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
     }
-
+    public static SimpleStringProperty property = new SimpleStringProperty();
 
     // ***************************;
     @Override
@@ -105,12 +107,19 @@ public class ClientSocket  extends  Thread{
 
             try {
                 myMesage = dataIn.readUTF();
+                System.out.println("--->>>"+myMesage);
+                property.set(myMesage);
                 handleMessage(myMesage);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.out.println(e.getMessage());
+               break;
             }
         }
 
+    }
+
+    public String getMesage(){
+        return myMesage;
     }
 
 
@@ -133,7 +142,6 @@ public class ClientSocket  extends  Thread{
             e.printStackTrace();
         }
     }
-
     private void handleSuccessMessage(JSONObject jsonObject) {
         System.out.println("Success: " + jsonObject);
     }
