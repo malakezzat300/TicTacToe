@@ -142,7 +142,7 @@ public abstract class LoginScreenBase extends AnchorPane {
                         System.out.println("working");
                     } else {
                         //show error to user
-                        Parent root = new OkScreenBase(stage,clientSocket.getError(),OkScreenBase.LOGIN_ERROR) {};
+                        Parent root = new OkScreenBase(stage,"Error : " + clientSocket.getError(),OkScreenBase.LOGIN_ERROR) {};
                         stage.setScene(new Scene(root,800, 800));
                         stage.show();
                         stage.setMinHeight(800);
