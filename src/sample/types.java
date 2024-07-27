@@ -100,7 +100,7 @@ public class types {
     public static JSONObject sendMove( String move){
         JSONObject object =new JSONObject();
         object.put(types.type,types.move);
-        object.put(types.Message,types.move);
+        object.put(types.Message,move);
         return object;
     }
     public static  JSONObject withdarw(){
