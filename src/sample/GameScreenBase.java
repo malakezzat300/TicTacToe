@@ -2952,7 +2952,7 @@ public abstract class GameScreenBase extends GridPane {
 
     public void showOpponentMove(String move){
         ImageView boardButton = getImageViewFromCoordinates(Integer.parseInt(move.substring(0,1)),Integer.parseInt(move.substring(1,2)));
-        boardButton.setImage(new Image(getClass().getResource("../assets/x.png").toExternalForm()));
+        boardButton.setImage(new Image(getClass().getResource("../assets/o.png").toExternalForm()));
     }
 
 }

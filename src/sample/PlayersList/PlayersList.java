@@ -135,6 +135,8 @@ public class PlayersList extends AnchorPane {
                             if (object.get(types.type).equals(types.RequestToPlayResponse))
                             {
                                 if("Accept".equals(object.get(types.Message))) {
+                                    System.out.println("player 1 for Accept : " +LoginScreenBase.getUserName());
+                                    System.out.println("player 2 for Accept : " +getOpponent());
                                     Parent root = new GameScreenBase(stage,LoginScreenBase.getUserName(),getOpponent(),GameScreenBase.ONLINE_MODE,false) {};
                                     stage.setScene(new Scene(root, 800, 800));
                                     stage.show();

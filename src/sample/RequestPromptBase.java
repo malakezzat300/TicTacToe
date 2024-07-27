@@ -85,6 +85,8 @@ public class RequestPromptBase extends AnchorPane {
                 JSONObject jsonObject = types.responseAccept();
                 String jsonText = jsonObject.toString();
                 ClientSocket.sendToServer(jsonText,0);
+                System.out.println("player 1 for request : " +LoginScreenBase.getUserName());
+                System.out.println("player 2 for request : " +PlayersList.getOpponent());
                 Parent root = new GameScreenBase(stage,LoginScreenBase.getUserName(),PlayersList.getOpponent(),GameScreenBase.ONLINE_MODE,true) {};
                 stage.setScene(new Scene(root, 800, 800));
                 stage.show();
