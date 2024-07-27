@@ -2050,7 +2050,8 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     zeroXoneButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[0][1] = putXorO.charAt(10);
-                    ClientSocket.sendToServer(types.sendMove("01"+putXorO.toUpperCase()).toString(),0);
+
+                    ClientSocket.sendToServer(types.sendMove("01"+String.valueOf(matrix[0][1]).toUpperCase()).toString(),0);
                     zeroXoneButton.setDisable(true);
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,0,1);
                     listOfMoves.add(recordUnit);
@@ -2079,7 +2080,7 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     zeroXtwoButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[0][2] = putXorO.charAt(10);
-                    ClientSocket.sendToServer(types.sendMove("02"+putXorO.toUpperCase()).toString(),0);
+                    ClientSocket.sendToServer(types.sendMove("02"+String.valueOf(matrix[0][2]).toUpperCase()).toString(),0);
                     zeroXtwoButton.setDisable(true);
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,0,2);
                     listOfMoves.add(recordUnit);
@@ -2109,7 +2110,7 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     oneXzeroButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[1][0] = putXorO.charAt(10);
-                    ClientSocket.sendToServer(types.sendMove("10"+putXorO.toUpperCase()).toString(),0);
+                    ClientSocket.sendToServer(types.sendMove("10"+String.valueOf(matrix[1][0]).toUpperCase()).toString(),0);
                     oneXzeroButton.setDisable(true);
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,1,0);
                     listOfMoves.add(recordUnit);
@@ -2139,7 +2140,7 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     oneXoneButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[1][1] = putXorO.charAt(10);
-                    ClientSocket.sendToServer(types.sendMove("11"+putXorO.toUpperCase()).toString(),0);
+                    ClientSocket.sendToServer(types.sendMove("11"+String.valueOf(matrix[1][1]).toUpperCase()).toString(),0);
                     oneXoneButton.setDisable(true);
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,1,1);
                     listOfMoves.add(recordUnit);
@@ -2168,7 +2169,7 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     oneXtwoButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[1][2] = putXorO.charAt(10);
-                    ClientSocket.sendToServer(types.sendMove("12"+putXorO.toUpperCase()).toString(),0);
+                    ClientSocket.sendToServer(types.sendMove("12"+String.valueOf(matrix[1][2]).toUpperCase()).toString(),0);
                     oneXtwoButton.setDisable(true);
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,1,2);
                     listOfMoves.add(recordUnit);
@@ -2201,7 +2202,7 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     twoXzeroButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[2][0] = putXorO.charAt(10);
-                    ClientSocket.sendToServer(types.sendMove("20"+putXorO.toUpperCase()).toString(),0);
+                    ClientSocket.sendToServer(types.sendMove("20"+String.valueOf(matrix[2][0]).toUpperCase()).toString(),0);
                     twoXzeroButton.setDisable(true);
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,2,0);
                     listOfMoves.add(recordUnit);
@@ -2231,7 +2232,7 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     twoXoneButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[2][1] = putXorO.charAt(10);
-                    ClientSocket.sendToServer(types.sendMove("21"+putXorO.toUpperCase()).toString(),0);
+                    ClientSocket.sendToServer(types.sendMove("21"+String.valueOf(matrix[2][1]).toUpperCase()).toString(),0);
                     twoXoneButton.setDisable(true);
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,2,1);
                     listOfMoves.add(recordUnit);
@@ -2261,7 +2262,7 @@ public abstract class GameScreenBase extends GridPane {
                     String putXorO = putXorO();
                     twoXtwoButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
                     matrix[2][2] = putXorO.charAt(10);
-                    ClientSocket.sendToServer(types.sendMove("22"+putXorO.toUpperCase()).toString(),0);
+                    ClientSocket.sendToServer(types.sendMove("22"+String.valueOf(matrix[2][2]).toUpperCase()).toString(),0);
                     twoXtwoButton.setDisable(true);
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,2,2);
                     listOfMoves.add(recordUnit);
