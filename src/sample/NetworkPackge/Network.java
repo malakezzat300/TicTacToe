@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 import sample.NetworkPackge.ClientSocket;
 import sample.SignUpPage.Types;
 
+
 public class Network {
 
     String ConvertedJson;
@@ -24,7 +25,7 @@ public class Network {
         client.sendToServer(ConvertedJson,ClientSocket.SIGNUP);         // send json after convert
 
     }
-    //***************************************************
+    //  ************************************************************************************************************************************
     // Sign in
     public void signIn(String email,String password){
         if (email == null || password == null){
@@ -38,7 +39,7 @@ public class Network {
         client.sendToServer(ConvertedJson,ClientSocket.LOGIN);         // send json after convert
 
     }
-    //**************************************************
+    // *************************************************************************************************************
     // request to RequestToPlay game
     public void RequestToPlay(String opponentID){
         JSONObject jsonToSendData = new JSONObject();
@@ -47,7 +48,7 @@ public class Network {
         client.sendToServer(ConvertedJson,0);         // send json after convert
 
     }
-    //*******************************************
+    // ***************************************************************************************************************************
 /*    // request to show player list
 
     public void sentToGetPlayerList(){
@@ -58,9 +59,7 @@ public class Network {
         client.sendToServer(ConvertedJson);         // send json after convert
     }*/
 
-
-
-    //*******************************************
+    // ***********************************************************************************************************************
 
 }
 
