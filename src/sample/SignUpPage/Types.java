@@ -17,6 +17,7 @@ public class Types {
         public static String EndGame = "EndGame";
         public static String Currentbusy = "Currentbusy";
         public static String CurrentInGame = "CurrentInGame";
+        public static String Withdraw = "Withdraw";
 
         public static String YouLose = "YouLose";
         public static String SignIn = "SignIn";

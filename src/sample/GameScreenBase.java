@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -724,6 +725,7 @@ public abstract class GameScreenBase extends GridPane {
                 playerTwoWins = 0;
             }
         });
+
         GridPane.setMargin(withdrawButton, new Insets(0.0));
 
         GridPane.setColumnIndex(playAgainButton, 6);
@@ -1482,6 +1484,7 @@ public abstract class GameScreenBase extends GridPane {
             public void handle(ActionEvent event) {
                 indexOfMove = 0;
                 ArrayList<String> arrayList = getFiles();
+                notifyOpponentOfWin();
                 Parent root = new RecordLists(stage,arrayList) {};
                 stage.setScene(new Scene(root,800, 800));
                 stage.show();
@@ -1960,7 +1963,16 @@ public abstract class GameScreenBase extends GridPane {
         }
 
     }
-
+    private void notifyOpponentOfWin() {
+        // Implement this method to notify the opponent
+        // For example, you might update a shared state or send a network message
+        Alert opponentAlert = new Alert(Alert.AlertType.INFORMATION);
+        opponentAlert.setTitle("Opponent Withdrawn");
+        opponentAlert.setHeaderText("Congratulations!");
+        opponentAlert.setContentText("Your opponent has withdrawn. You win the game!");
+        // Optionally, you might want to show this alert on the opponent's screen.
+        opponentAlert.showAndWait();
+    }
 
     public void makeOSound(){
         sound = new Media(Objects.requireNonNull(getClass().getResource("sounds/osound.mp3")).toExternalForm());

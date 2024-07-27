@@ -41,6 +41,7 @@ public class PlayersList extends AnchorPane {
     ArrayList<UserRecord> userArrayList = new ArrayList<>();
     protected HBox headerBox;
     protected HBox hBox;
+    protected static String opponent;
 
 
     public PlayersList(Stage stage) {
@@ -139,26 +140,13 @@ public class PlayersList extends AnchorPane {
 
                             }
                           if (object.get(types.type).equals(types.RequestToPlay)) {
-                              Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                              alert.setContentText((String) object.get(types.Opponent));
-                              alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
-                              Optional<ButtonType> result = alert.showAndWait();
-                              // Determine which button was clicked
-                              if (result.isPresent()) {
-                                  if (result.get() == ButtonType.YES) {
-                                      JSONObject jsonObject1 = new JSONObject();
-                                      jsonObject1.put(types.type,types.RequestToPlayResponse);
-                                      jsonObject1.put(types.Message,types.Accept);
-                                      ClientSocket.sendToServer(jsonObject1.toString(),2);
-                                  }
-                                   else if (result.get() == ButtonType.NO) {
-                                      JSONObject jsonObject1 = new JSONObject();
-                                      jsonObject1.put(types.type, types.RequestToPlayResponse);
-                                      jsonObject1.put(types.Message, types.Refuse);
-                                      ClientSocket.sendToServer(jsonObject1.toString(), 0);
-
-                                  }
-                              }
+                              opponent = (String) object.get(types.Opponent);
+                              Parent root = new RequestPromptBase(stage,getOpponent()) {};
+                              stage.setScene(new Scene(root,200, 200));
+                              stage.show();
+                              stage.setMinHeight(600);
+                              stage.setMinWidth(600);
+                              stage.setFullScreen(true);
                           }
                           for (UserRecord player : userArrayList) {
                               HBox hBox = new HBox();
@@ -293,7 +281,7 @@ public class PlayersList extends AnchorPane {
 
         ListPlayersLabel.setLayoutX(80);
         ListPlayersLabel.setLayoutY(60);
-        ListPlayersLabel.setText("Records");
+        ListPlayersLabel.setText("Player List");
 
         getChildren().add(headerBox);  // Add header to the layout
         getChildren().add(playersListView);
@@ -321,7 +309,11 @@ public class PlayersList extends AnchorPane {
         refreshButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                refreshPlayersList();
+                try {
+                    refreshPlayersList();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -379,7 +371,7 @@ public class PlayersList extends AnchorPane {
             askForGameButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    System.out.println("2Asked " + player + " for a game!");
+                    System.out.println("Asked " + player + " for a game!");
                 }
             });
 
@@ -388,7 +380,7 @@ public class PlayersList extends AnchorPane {
         }
     }
 
-    private void refreshPlayersList() {
+    private void refreshPlayersList() throws Exception {
         ClientSocket clientSocket = ClientSocket.getInstance();
         clientSocket.connectClient();
         JSONObject jsonObject = new JSONObject();
@@ -422,5 +414,8 @@ public class PlayersList extends AnchorPane {
         }
         System.out.println(userRecords.size());
         return userRecords;
+    }
+    public static String getOpponent(){
+        return opponent;
     }
 }
