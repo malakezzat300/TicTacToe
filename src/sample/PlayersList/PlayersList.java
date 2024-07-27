@@ -1,6 +1,8 @@
 package sample.PlayersList;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -41,7 +43,6 @@ public class PlayersList extends AnchorPane {
     ArrayList<UserRecord> userArrayList = new ArrayList<>();
     protected HBox headerBox;
     protected HBox hBox;
-
 
     public PlayersList(Stage stage) {
 
@@ -126,6 +127,7 @@ public class PlayersList extends AnchorPane {
                             userArrayList = getUsers(ClientSocket.myMesage);
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
+
                         }
                         if (object.get(types.type).equals(types.startGame)) {
                             // navigate
@@ -135,6 +137,7 @@ public class PlayersList extends AnchorPane {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.setContentText((String) object.get(types.Message));
                             alert.showAndWait();
+                            return;
                         }
                         System.out.println("entered  1" + ClientSocket.myMesage);
                         System.out.println("entered  1" + object.get(types.type).equals(types.RequestToPlay));
@@ -160,136 +163,74 @@ public class PlayersList extends AnchorPane {
 
                                 }
                             }
+                            return;
                         }
-                        for (UserRecord player : userArrayList) {
-                            HBox hBox = new HBox();
-                            hBox.setPrefHeight(50.0);
-                            hBox.setPrefWidth(700.0);  // Adjusted to match ListView width
-                            hBox.setSpacing(40);
-                            hBox.setPadding(new Insets(10.0, 0.0, 0.0, 10.0));
-                            Label playerName = new Label(player.getUsername());
-                            playerName.setPrefHeight(31.0);
-                            playerName.setPrefWidth(150.0);
-                            playerName.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
+
+                            for (UserRecord player : userArrayList) {
+                                HBox hBox = new HBox();
+                                hBox.setPrefHeight(50.0);
+                                hBox.setPrefWidth(700.0);  // Adjusted to match ListView width
+                                hBox.setSpacing(40);
+                                hBox.setPadding(new Insets(10.0, 0.0, 0.0, 10.0));
+                                Label playerName = new Label(player.getUsername());
+                                playerName.setPrefHeight(31.0);
+                                playerName.setPrefWidth(150.0);
+                                playerName.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
 
 
-                            Label playerScore = new Label(String.valueOf(player.getPscore()));  // Default score, adjust as needed
-                            playerScore.setPrefHeight(21.0);
-                            playerScore.setPrefWidth(100.0);
-                            playerScore.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
+                                Label playerScore = new Label(String.valueOf(player.getPscore()));  // Default score, adjust as needed
+                                playerScore.setPrefHeight(21.0);
+                                playerScore.setPrefWidth(100.0);
+                                playerScore.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
 
 
-                            Label playerStatus = new Label(player.getState());
-                            playerStatus.setPrefHeight(21.0);
-                            playerStatus.setPrefWidth(100.0);
-                            playerStatus.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
+                                Label playerStatus = new Label(player.getState());
+                                playerStatus.setPrefHeight(21.0);
+                                playerStatus.setPrefWidth(100.0);
+                                playerStatus.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
 
-                            ImageView statusImageView = new ImageView();
-                            statusImageView.setFitHeight(33.0);
-                            statusImageView.setFitWidth(27.0);
-                            statusImageView.setPickOnBounds(true);
-                            statusImageView.setPreserveRatio(true);
-                            if (player.getState().equals(ONLINE)) {
-                                statusImageView.setImage(new Image(getClass().getResource("/assets/Online.png").toExternalForm()));
-                            } else if (player.getState().equals(OFFLINE)) {
-                                statusImageView.setImage(new Image(getClass().getResource("/assets/offline.png").toExternalForm()));
-                            } else if (player.getState().equals(REQUEST)) {
-                                statusImageView.setImage(new Image(getClass().getResource("/assets/request.png").toExternalForm()));
-                            } else if (player.getState().equals(INGAME)) {
-                                statusImageView.setImage(new Image(getClass().getResource("/assets/InGame.png").toExternalForm()));
-                            }
-
-
-                            Button askForGameButton = new Button("Ask For Game");
-                            askForGameButton.setMnemonicParsing(false);
-                            askForGameButton.setPrefHeight(25.0);
-                            askForGameButton.setPrefWidth(120.0);
-                            askForGameButton.setFont(Font.font("Arial", FontPosture.ITALIC, 12));
-                            askForGameButton.setStyle("-fx-text-fill: white; -fx-background-color: #0073e6;");
-                            askForGameButton.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent event) {
-                                    System.out.println("Asked " + player + " for a game!");
-                                    org.json.simple.JSONObject object1 = new org.json.simple.JSONObject();
-                                    object1.put(types.Opponent, player.getUsername());
-                                    object1.put(types.type, types.RequestToPlay);
-                                    ClientSocket.sendToServer(object1.toString(), 1);
+                                ImageView statusImageView = new ImageView();
+                                statusImageView.setFitHeight(33.0);
+                                statusImageView.setFitWidth(27.0);
+                                statusImageView.setPickOnBounds(true);
+                                statusImageView.setPreserveRatio(true);
+                                if (player.getState().equals(ONLINE)) {
+                                    statusImageView.setImage(new Image(getClass().getResource("/assets/Online.png").toExternalForm()));
+                                } else if (player.getState().equals(OFFLINE)) {
+                                    statusImageView.setImage(new Image(getClass().getResource("/assets/offline.png").toExternalForm()));
+                                } else if (player.getState().equals(REQUEST)) {
+                                    statusImageView.setImage(new Image(getClass().getResource("/assets/request.png").toExternalForm()));
+                                } else if (player.getState().equals(INGAME)) {
+                                    statusImageView.setImage(new Image(getClass().getResource("/assets/InGame.png").toExternalForm()));
                                 }
-                            });
 
-                            hBox.getChildren().addAll(playerName, playerScore, playerStatus, statusImageView, askForGameButton);
-                            playersListView.getItems().add(hBox);
-                        }
+
+                                Button askForGameButton = new Button("Ask For Game");
+                                askForGameButton.setMnemonicParsing(false);
+                                askForGameButton.setPrefHeight(25.0);
+                                askForGameButton.setPrefWidth(120.0);
+                                askForGameButton.setFont(Font.font("Arial", FontPosture.ITALIC, 12));
+                                askForGameButton.setStyle("-fx-text-fill: white; -fx-background-color: #0073e6;");
+                                askForGameButton.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent event) {
+                                        System.out.println("Asked " + player + " for a game!");
+                                        org.json.simple.JSONObject object1 = new org.json.simple.JSONObject();
+                                        object1.put(types.Opponent, player.getUsername());
+                                        object1.put(types.type, types.RequestToPlay);
+                                        ClientSocket.sendToServer(object1.toString(), 1);
+                                    }
+                                });
+
+                                hBox.getChildren().addAll(playerName, playerScore, playerStatus, statusImageView, askForGameButton);
+                                playersListView.getItems().add(hBox);
+                            }
 
                     }
                 });
-
           });
 
 
-        for (UserRecord player : userArrayList) {
-            hBox = new HBox();
-            hBox.setPrefHeight(50.0);
-            hBox.setPrefWidth(700.0);  // Adjusted to match ListView width
-            hBox.setSpacing(40);
-            hBox.setPadding(new Insets(10.0, 0.0, 0.0, 10.0));
-
-            Label playerName = new Label(player.getUsername());
-            playerName.setPrefHeight(31.0);
-            playerName.setPrefWidth(150.0);
-            playerName.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
-
-
-            Label playerScore = new Label(String.valueOf(player.getPscore()));  // Default score, adjust as needed
-            playerScore.setPrefHeight(21.0);
-            playerScore.setPrefWidth(100.0);
-            playerScore.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
-
-
-            Label playerStatus = new Label(player.getState());
-            playerStatus.setPrefHeight(21.0);
-            playerStatus.setPrefWidth(100.0);
-            playerStatus.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
-
-            ImageView statusImageView = new ImageView();
-            statusImageView.setFitHeight(33.0);
-            statusImageView.setFitWidth(27.0);
-            statusImageView.setPickOnBounds(true);
-            statusImageView.setPreserveRatio(true);
-            if(player.getState().equals(ONLINE)){
-                statusImageView.setImage(new Image(getClass().getResource("/assets/Online.png").toExternalForm()));
-            } else if(player.getState().equals(OFFLINE)){
-                statusImageView.setImage(new Image(getClass().getResource("/assets/offline.png").toExternalForm()));
-            } else if(player.getState().equals(REQUEST)){
-                statusImageView.setImage(new Image(getClass().getResource("/assets/request.png").toExternalForm()));
-            } else if(player.getState().equals(INGAME)){
-                statusImageView.setImage(new Image(getClass().getResource("/assets/InGame.png").toExternalForm()));
-            }
-
-
-            Button askForGameButton = new Button("Ask For Game");
-            askForGameButton.setMnemonicParsing(false);
-            askForGameButton.setPrefHeight(25.0);
-            askForGameButton.setPrefWidth(120.0);
-            askForGameButton.setFont(Font.font("Arial", FontPosture.ITALIC, 12));
-            askForGameButton.setStyle("-fx-text-fill: white; -fx-background-color: #0073e6;");
-            askForGameButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    ClientSocket clientSocket2 = ClientSocket.getInstance();
-                    clientSocket2.connectClient();
-                    org.json.simple.JSONObject jsonObject2 = new org.json.simple.JSONObject();
-                    jsonObject2.put(types.type,types.RequestToPlay);
-                    jsonObject2.put(types.Opponent,player.getUsername());
-                    ClientSocket.sendToServer(jsonObject2.toString(),0);
-                    System.out.println(clientSocket2.getMesage());
-                    System.out.println("Asked " + player.getUsername() + " for a game!");
-                }
-            });
-
-            hBox.getChildren().addAll(playerName, playerScore, playerStatus, statusImageView, askForGameButton);
-            playersListView.getItems().add(hBox);
-        }
 
 
         ListPlayersLabel.setLayoutX(80);
