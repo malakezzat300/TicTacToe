@@ -116,8 +116,6 @@ public class PlayersList extends AnchorPane {
         playersListView.setMinWidth(300);
         playersListView.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
         myUpdateTask.messageProperty().addListener((x,y,z)-> {
-                  System.out.println("new message is " + z);
-                  System.out.println(ClientSocket.myMesage);
                   org.json.simple.JSONObject object = (org.json.simple.JSONObject) JSONValue.parse(ClientSocket.myMesage);
                   Platform.runLater(new Runnable() {
                       @Override
@@ -126,6 +124,11 @@ public class PlayersList extends AnchorPane {
                               userArrayList = getUsers(ClientSocket.myMesage);
                           } catch (Exception e) {
                               System.out.println(e.getMessage());
+                          }
+                          if (object.get(types.type).equals(types.startGame))
+                          {
+                              // navigate
+
                           }
                           System.out.println("--------------->"+ClientSocket.myMesage);
                             if (object.get(types.type).equals(types.RequestToPlayResponse))
