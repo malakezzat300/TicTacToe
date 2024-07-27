@@ -1692,40 +1692,7 @@ public abstract class GameScreenBase extends GridPane {
 
     public GameScreenBase(Stage stage, String playerOne, String playerTwo,int mode,boolean firstMove) {
 
-        firstMoveOnce = firstMove;
 
-        ClientSocket clientSocket = ClientSocket.getInstance();
-        clientSocket.connectClient();
-
-        MyUpdateTask myUpdateTask = new MyUpdateTask();
-        Thread  t =new Thread(myUpdateTask);
-        t.setDaemon(true);
-        t.start();
-
-        movesArrayList = new ArrayList<>();
-
-        myUpdateTask.messageProperty().addListener((v,c,d) -> {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    String message = clientSocket.getMesage();
-                    JSONObject jsonObject = (JSONObject) JSONValue.parse(message);
-                    System.out.println("the message : " + message);
-                    if (jsonObject.get(types.type).equals(types.move)) {
-                        System.out.println("the move from opponent : " + jsonObject.get(types.Message));
-                        opponentMove = (String) jsonObject.get(types.Message);
-                        movesArrayList.add(opponentMove);
-                        showOpponentMove(opponentMove);
-                        recordUnit = new RecordUnit('o',++orderOfMoves,Integer.parseInt(message.substring(0,1)),Integer.parseInt(message.substring(1,2)));
-                        listOfMoves.add(recordUnit);
-                        enableAllButtonsOnline();
-                        disableAllButtonsOnline(movesArrayList);
-                    } else if (jsonObject.get(types.type).equals(types.EndGame)) {
-                        System.out.println("Who Win : " + jsonObject.get(types.EndGame));
-                    }
-                }
-            });
-        });
 
         this.stage = stage;
         GameScreenBase.playerOne = playerOne;
@@ -1783,6 +1750,44 @@ public abstract class GameScreenBase extends GridPane {
         listOfMoves = new ArrayList<>();
         matrix = new char[3][3];
 
+        firstMoveOnce = firstMove;
+
+        ClientSocket clientSocket = ClientSocket.getInstance();
+        clientSocket.connectClient();
+
+        MyUpdateTask myUpdateTask = new MyUpdateTask();
+        Thread  t =new Thread(myUpdateTask);
+        t.setDaemon(true);
+        t.start();
+
+        movesArrayList = new ArrayList<>();
+
+        myUpdateTask.messageProperty().addListener((v,c,d) -> {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    String message = clientSocket.getMesage();
+                    JSONObject jsonObject = (JSONObject) JSONValue.parse(message);
+                    System.out.println("the message : " + message);
+                    if (jsonObject.get(types.type).equals(types.move)) {
+                        System.out.println("the move from opponent : " + jsonObject.get(types.Message));
+                        opponentMove = (String) jsonObject.get(types.Message);
+                        movesArrayList.add(opponentMove);
+                        showOpponentMove(opponentMove);
+
+                        System.out.println("the x : " + Integer.parseInt(opponentMove.substring(0,1)));
+                        System.out.println("the y : " + Integer.parseInt(opponentMove.substring(1,2)));
+
+                        //recordUnit = new RecordUnit('o',++orderOfMoves,Integer.parseInt(message.substring(0,1)),Integer.parseInt(message.substring(1,2)));
+                        //listOfMoves.add(recordUnit);
+                        enableAllButtonsOnline();
+                        disableAllButtonsOnline(movesArrayList);
+                    } else if (jsonObject.get(types.type).equals(types.EndGame)) {
+                        System.out.println("Who Win : " + jsonObject.get(types.Message));
+                    }
+                }
+            });
+        });
 
         if(firstMoveOnce){
             disableAllButtonsOnline();
