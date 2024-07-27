@@ -88,10 +88,13 @@ public class ClientSocket  extends  Thread{
 
     // **********************************************
     // send To Server
+    public static String sended="";
     public static void sendToServer(String messageType,int mode){
         ClientSocket.mode = mode;
         System.out.println(messageType);
+        sended=messageType;
         String message = messageType;
+        myMesage=message;
         try {
             dataout.writeUTF(message);
         } catch (IOException e) {
@@ -99,14 +102,14 @@ public class ClientSocket  extends  Thread{
         }
     }
     public static SimpleStringProperty property = new SimpleStringProperty();
-
+    public static int ss=0;
     // ***************************;
     @Override
     public void run(){
         while (true){
-
             try {
                 myMesage = dataIn.readUTF();
+                ss++;
                 System.out.println("--->>>"+myMesage);
                 property.set(myMesage);
                 handleMessage(myMesage);
