@@ -107,7 +107,7 @@ public class ClientSocket  extends  Thread{
                 myMesage = dataIn.readUTF();
                 handleMessage(myMesage);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+               break;
             }
         }
 
