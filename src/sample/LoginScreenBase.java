@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -18,6 +20,8 @@ import org.json.simple.JSONObject;
 import sample.NetworkPackge.ClientSocket;
 
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public abstract class LoginScreenBase extends AnchorPane {
 
@@ -124,33 +128,48 @@ public abstract class LoginScreenBase extends AnchorPane {
                     JSONObject jsonObject = types.createSingin(usernameField.getText(), passwordField.getText());
                     String jsonText = jsonObject.toString();
                     ClientSocket.sendToServer(jsonText,ClientSocket.LOGIN);
-                    try{
-                        Thread.sleep(200);
-                    }catch (Exception ex){
-                        ex.printStackTrace();
-                    }
-                    if(clientSocket.isSuccess()){
-                        //show to user
-                        userName = usernameField.getText();
-                        password = passwordField.getText();
-                        Parent root = new OkScreenBase(stage,"You have Logged In",OkScreenBase.LOGIN) {};
-                        stage.setScene(new Scene(root,800, 800));
-                        stage.show();
-                        stage.setMinHeight(800);
-                        stage.setMinWidth(800);
-                        stage.setFullScreen(true);
-                        System.out.println("working");
-                    } else {
-                        //show error to user
-                        Parent root = new OkScreenBase(stage,"Error : " + clientSocket.getError(),OkScreenBase.LOGIN_ERROR) {};
-                        stage.setScene(new Scene(root,800, 800));
-                        stage.show();
-                        stage.setMinHeight(800);
-                        stage.setMinWidth(800);
-                        stage.setFullScreen(true);
-                        System.out.println("working");
-                        clientSocket.getError();
-                    }
+                    System.out.println("is success 1 : " + clientSocket.isSuccess());
+                    Task<Void> task = new Task<Void>() {
+                        @Override
+                        protected Void call() throws Exception {
+                            Thread.sleep(1000); // Simulate background work
+                            Platform.runLater(() -> {
+                                System.out.println("is success 2 : " + clientSocket.isSuccess());
+                                if (clientSocket.isSuccess()) {
+                                    //show to user
+                                    userName = usernameField.getText();
+                                    password = passwordField.getText();
+                                    Parent root = new OkScreenBase(stage, "You have Logged In", OkScreenBase.LOGIN) {
+                                    };
+                                    stage.setScene(new Scene(root, 800, 800));
+                                    stage.show();
+                                    stage.setMinHeight(800);
+                                    stage.setMinWidth(800);
+                                    stage.setFullScreen(true);
+                                    System.out.println("working");
+                                } else {
+                                    //show error to user
+                                    Parent root = new OkScreenBase(stage, "Error : " + clientSocket.getError(), OkScreenBase.LOGIN_ERROR) {
+                                    };
+                                    stage.setScene(new Scene(root, 800, 800));
+                                    stage.show();
+                                    stage.setMinHeight(800);
+                                    stage.setMinWidth(800);
+                                    stage.setFullScreen(true);
+                                    System.out.println("working");
+                                    clientSocket.getError();
+                                }
+
+                            });
+                            return null;
+                        }
+                    };
+
+                    Thread thread = new Thread(task);
+                    thread.setDaemon(true);
+                    thread.start();
+
+
                 }
             }
         });

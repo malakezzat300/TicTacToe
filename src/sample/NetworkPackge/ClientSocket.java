@@ -4,8 +4,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import sample.SettingsScreenBase;
+import sample.types;
 
 import java.io.*;
 import java.net.Socket;
@@ -129,18 +131,14 @@ public class ClientSocket  extends  Thread{
     private void handleMessage(String message) {
         JSONParser parser = new JSONParser();
         try {
-            JSONObject jsonObject = (JSONObject) parser.parse(new StringReader(message));
-            String type = (String) jsonObject.get("type");
-
-            if ("Success".equals(type)) {
+            JSONObject jsonObject = (JSONObject) JSONValue.parse(message);
+            if (jsonObject.get(types.type).equals(types.Success)) {
                 success = true;
                 handleSuccessMessage(jsonObject);
-            } else if ("Error".equals(type)) {
+            } else if (jsonObject.get(types.type).equals(types.Error)) {
                 success = false;
                 handleErrorMessage(jsonObject);
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
