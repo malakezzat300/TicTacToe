@@ -1,5 +1,7 @@
 package sample.SignUpPage;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -190,28 +192,37 @@ public class SignUpBase extends AnchorPane {
                 JSONObject jsonObject = types.createsignup(userName,password,email);
                 String jsonText = jsonObject.toString();
                 ClientSocket.sendToServer(jsonText,ClientSocket.SIGNUP);
-                try{
-                    Thread.sleep(200);
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                }
-                if(clientSocket.isSuccess()){
-                    //show to user
-                    Parent root = new OkScreenBase(stage,"you have Signned up Successfully",OkScreenBase.SIGNUP) {};
-                    stage.setScene(new Scene(root,800, 800));
-                    stage.show();
-                    stage.setMinHeight(800);
-                    stage.setMinWidth(800);
-                    stage.setFullScreen(true);
-                } else {
-                    //show error to user
-                    Parent root = new OkScreenBase(stage,clientSocket.getError(),OkScreenBase.SIGNUP_ERROR) {};
-                    stage.setScene(new Scene(root,800, 800));
-                    stage.show();
-                    stage.setMinHeight(800);
-                    stage.setMinWidth(800);
-                    stage.setFullScreen(true);
-                }
+                Task<Void> task = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        Thread.sleep(1000);
+                        Platform.runLater(() -> {
+                            if(clientSocket.isSuccess()){
+                                //show to user
+                                Parent root = new OkScreenBase(stage,"you have Signned up Successfully",OkScreenBase.SIGNUP) {};
+                                stage.setScene(new Scene(root,800, 800));
+                                stage.show();
+                                stage.setMinHeight(800);
+                                stage.setMinWidth(800);
+                                stage.setFullScreen(true);
+                            } else {
+                                //show error to user
+                                Parent root = new OkScreenBase(stage,clientSocket.getError(),OkScreenBase.SIGNUP_ERROR) {};
+                                stage.setScene(new Scene(root,800, 800));
+                                stage.show();
+                                stage.setMinHeight(800);
+                                stage.setMinWidth(800);
+                                stage.setFullScreen(true);
+                            }
+                        });
+                        return null;
+                    }
+                };
+
+                Thread thread = new Thread(task);
+                thread.setDaemon(true);
+                thread.start();
+
 
             } else {
                 showEmailExistsAlert("Please fill in all fields.");
