@@ -1774,11 +1774,15 @@ public abstract class GameScreenBase extends GridPane {
                         opponentMove = (String) jsonObject.get(types.Message);
                         movesArrayList.add(opponentMove);
                         showOpponentMove(opponentMove);
-
                         playerTurnText.setText(playerOne + " Turn ( X )");
-
+                        matrix[Integer.parseInt(opponentMove.substring(0,1))][Integer.parseInt(opponentMove.substring(1,2))] = 'o';
                         recordUnit = new RecordUnit('o',++orderOfMoves,Integer.parseInt(opponentMove.substring(0,1)),Integer.parseInt(opponentMove.substring(1,2)));
                         listOfMoves.add(recordUnit);
+                        if(isWinState()){
+                            doWinEventOnline(playerTwo);
+                        } else if(isDrawState()){
+                            doDrawEventOnline();
+                        }
                         enableAllButtonsOnline();
                         disableAllButtonsOnline(movesArrayList);
                     } else if (jsonObject.get(types.type).equals(types.EndGame)) {
@@ -2072,9 +2076,9 @@ public abstract class GameScreenBase extends GridPane {
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,0,0);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
-                        doWinEvent();
+                        doWinEventOnline(playerOne);
                     } else if(isDrawState()){
-                        doDrawEvent();
+                        doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
                     playerTurnText.setText(playerTwo + " Turn ( O )");
@@ -2103,9 +2107,9 @@ public abstract class GameScreenBase extends GridPane {
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,0,1);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
-                        doWinEvent();
+                        doWinEventOnline(playerOne);
                     } else if(isDrawState()){
-                        doDrawEvent();
+                        doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
                     playerTurnText.setText(playerTwo + " Turn ( O )");
@@ -2134,9 +2138,9 @@ public abstract class GameScreenBase extends GridPane {
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,0,2);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
-                        doWinEvent();
+                        doWinEventOnline(playerOne);
                     } else if(isDrawState()){
-                        doDrawEvent();
+                        doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
                     playerTurnText.setText(playerTwo + " Turn ( O )");
@@ -2166,9 +2170,9 @@ public abstract class GameScreenBase extends GridPane {
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,1,0);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
-                        doWinEvent();
+                        doWinEventOnline(playerOne);
                     } else if(isDrawState()){
-                        doDrawEvent();
+                        doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
                     playerTurnText.setText(playerTwo + " Turn ( O )");
@@ -2198,9 +2202,9 @@ public abstract class GameScreenBase extends GridPane {
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,1,1);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
-                        doWinEvent();
+                        doWinEventOnline(playerOne);
                     } else if(isDrawState()){
-                        doDrawEvent();
+                        doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
                     playerTurnText.setText(playerTwo + " Turn ( O )");
@@ -2229,13 +2233,9 @@ public abstract class GameScreenBase extends GridPane {
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,1,2);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
-                        doWinEvent();
+                        doWinEventOnline(playerOne);
                     } else if(isDrawState()){
-                        doDrawEvent();
-                    } else {
-                        if ((mode == SINGLE_MODE || mode == SINGLE_MODE_RECORDING ) && isComputerTurn()) {
-                            makeComputerPlay();
-                        }
+                        doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
                     playerTurnText.setText(playerTwo + " Turn ( O )");
@@ -2264,9 +2264,9 @@ public abstract class GameScreenBase extends GridPane {
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,2,0);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
-                        doWinEvent();
+                        doWinEventOnline(playerOne);
                     } else if(isDrawState()){
-                        doDrawEvent();
+                        doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
                     playerTurnText.setText(playerTwo + " Turn ( O )");
@@ -2296,9 +2296,9 @@ public abstract class GameScreenBase extends GridPane {
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,2,1);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
-                        doWinEvent();
+                        doWinEventOnline(playerOne);
                     } else if(isDrawState()){
-                        doDrawEvent();
+                        doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
                     playerTurnText.setText(playerTwo + " Turn ( O )");
@@ -2328,9 +2328,9 @@ public abstract class GameScreenBase extends GridPane {
                     recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,2,2);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
-                        doWinEvent();
+                        doWinEventOnline(playerOne);
                     } else if(isDrawState()){
-                        doDrawEvent();
+                        doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
                     playerTurnText.setText(playerTwo + " Turn ( O )");
@@ -2380,7 +2380,7 @@ public abstract class GameScreenBase extends GridPane {
                  */
                 playAgainButton.setVisible(false);
                 backHomeButton.setVisible(false);
-                Parent root = new GameScreenBase(stage,GameScreenBase.getPlayerOne(),GameScreenBase.getPlayerTwo(),GameScreenBase.getMode()) {};
+                Parent root = new GameScreenBase(stage,playerOne,playerTwo,mode,firstMove) {};
                 stage.setScene(new Scene(root,800, 800));
                 stage.show();
                 stage.setMinHeight(800);
@@ -2650,6 +2650,34 @@ public abstract class GameScreenBase extends GridPane {
         orderOfMoves = 0;
     }
 
+    public void doWinEventOnline(String winner){
+        makeWinLine(getWinState());
+        disableAllButtons();
+        if(winner.equals(playerOne)){
+            playerTurnText.setText("You Have Win!");
+            ++playerOneWins;
+            ClientSocket clientSocket = ClientSocket.getInstance();
+            JSONObject jsonObject = new JSONObject();
+            clientSocket.connectClient();
+            jsonObject.put(types.type,types.IWin);
+            ClientSocket.sendToServer(jsonObject.toString(),0);
+            openWinnerScreenOnline();
+        }else{
+            playerTurnText.setText("You have Lost!");
+            ++playerTwoWins;
+        }
+        playerText.setText(playerOne + " : " + playerOneWins + "\n\n" + "VS" + "\n\n" + playerTwo + " : " + playerTwoWins); // fix
+        if(isRecordMode(mode)) {
+            matchRecord.setRecords(listOfMoves);
+            matchRecord.setMessage(playerTurnText.getText());
+            matchRecord.setPlayerOne(playerOne);
+            matchRecord.setPlayerTwo(playerTwo);
+            writeRecord(matchRecord);
+        }
+        listOfMoves.clear();
+        orderOfMoves = 0;
+    }
+
     public void disableAllButtons(){
         zeroXzeroButton.setDisable(true);
         zeroXoneButton.setDisable(true);
@@ -2725,7 +2753,7 @@ public abstract class GameScreenBase extends GridPane {
         twoXzeroButton.isDisabled() &&
         twoXoneButton.isDisabled() &&
         twoXtwoButton.isDisabled() &&
-        !isWinState()){
+                !isWinState()){
             return true;
         } else {
             return false;
@@ -2733,6 +2761,30 @@ public abstract class GameScreenBase extends GridPane {
     }
 
     public void doDrawEvent(){
+        withdrawButton.setDisable(true);
+        playerTurnText.setText("The Match is Draw!");
+        playAgainButton.setVisible(true);
+        backHomeButton.setVisible(true);
+        turnNumber = 0;
+        if(isRecordMode(mode)) {
+            matchRecord.setRecords(listOfMoves);
+            matchRecord.setMessage("The Match is Draw!");
+            matchRecord.setPlayerOne(playerOne);
+            matchRecord.setPlayerTwo(playerTwo);
+            writeRecord(matchRecord);
+        }
+        listOfMoves.clear();
+        orderOfMoves = 0;
+    }
+
+
+
+    public void doDrawEventOnline(){
+        ClientSocket clientSocket = ClientSocket.getInstance();
+        JSONObject jsonObject = new JSONObject();
+        clientSocket.connectClient();
+        jsonObject.put(types.type,types.draw);
+        ClientSocket.sendToServer(jsonObject.toString(),0);
         withdrawButton.setDisable(true);
         playerTurnText.setText("The Match is Draw!");
         playAgainButton.setVisible(true);
@@ -2843,6 +2895,15 @@ public abstract class GameScreenBase extends GridPane {
     }
 
     public void openWinnerScreen(){
+        Parent root = new WinningScreen(stage) {};
+        stage.setScene(new Scene(root,800, 800));
+        stage.setMinHeight(800);
+        stage.setMinWidth(1500);
+        stage.setFullScreen(true);
+        stage.show();
+    }
+
+    public void openWinnerScreenOnline(){
         Parent root = new WinningScreen(stage) {};
         stage.setScene(new Scene(root,800, 800));
         stage.setMinHeight(800);
