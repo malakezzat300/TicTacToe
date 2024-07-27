@@ -20,6 +20,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import sample.NetworkPackge.ClientSocket;
 import sample.RecordGame.MatchRecord;
 import sample.RecordGame.RecordLists;
@@ -100,7 +101,7 @@ public abstract class GameScreenBase extends GridPane {
     protected final static int OFFLINE_MODE = 2;
     protected final static int SINGLE_MODE_RECORDING = 3;
     protected final static int OFFLINE_MODE_RECORDING = 4;
-    protected final static int ONLINE_MODE = 5;
+    public final static int ONLINE_MODE = 5;
     protected final static int ONLINE_MODE_RECORDING = 6;
     protected final static int RECORD_SHOW = 7;
     protected MatchRecord matchRecord;
@@ -1688,12 +1689,20 @@ public abstract class GameScreenBase extends GridPane {
 
         ClientSocket clientSocket = ClientSocket.getInstance();
         clientSocket.connectClient();
-        final JSONObject[] jsonObject = {new JSONObject()};
 
         MyUpdateTask myUpdateTask = new MyUpdateTask();
         Thread  t =new Thread(myUpdateTask);
         t.setDaemon(true);
         t.start();
+
+        myUpdateTask.messageProperty().addListener((v,c,d) -> {
+            String message = clientSocket.getMesage();
+            JSONObject jsonObject = (JSONObject) JSONValue.parse(message);
+
+            if(jsonObject.get(types.type).equals(types.move)){
+                System.out.println("the move : " + jsonObject.get(types.move));
+            }
+        });
 
         this.stage = stage;
         GameScreenBase.playerOne = playerOne;
@@ -2733,15 +2742,15 @@ public abstract class GameScreenBase extends GridPane {
     }
 
     public void makeOSound(){
-        sound = new Media(Objects.requireNonNull(getClass().getResource("sounds/osound.mp3")).toExternalForm());
-        mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
+//        sound = new Media(Objects.requireNonNull(getClass().getResource("\\TicTacToe5\\src\\sample\\sounds\\osound.mp3")).toExternalForm());
+//        mediaPlayer = new MediaPlayer(sound);
+//        mediaPlayer.play();
     }
 
     public void makeXSound(){
-        sound = new Media(Objects.requireNonNull(getClass().getResource("sounds/xsound.mp3")).toExternalForm());
-        mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
+//        sound = new Media(Objects.requireNonNull(getClass().getResource("\\TicTacToe5\\src\\sample\\sounds\\xsound.mp3")).toExternalForm());
+//        mediaPlayer = new MediaPlayer(sound);
+//        mediaPlayer.play();
     }
 
     public void openWinnerScreen(){

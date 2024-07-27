@@ -135,7 +135,7 @@ public class PlayersList extends AnchorPane {
                             if (object.get(types.type).equals(types.RequestToPlayResponse))
                             {
                                 if("Accept".equals(object.get(types.Message))) {
-                                    Parent root = new GameScreenBase(stage,LoginScreenBase.getUserName(),PlayersList.getOpponent(),GameScreenBase.ONLINE_MODE,0) {};
+                                    Parent root = new GameScreenBase(stage,LoginScreenBase.getUserName(),getOpponent(),GameScreenBase.ONLINE_MODE,0) {};
                                     stage.setScene(new Scene(root, 800, 800));
                                     stage.show();
                                     stage.setMinHeight(800);
