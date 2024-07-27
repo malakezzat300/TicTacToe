@@ -43,6 +43,7 @@ public class PlayersList extends AnchorPane {
     ArrayList<UserRecord> userArrayList = new ArrayList<>();
     protected HBox headerBox;
     protected HBox hBox;
+    protected static String opponent;
 
     public PlayersList(Stage stage) {
 
@@ -226,6 +227,78 @@ public class PlayersList extends AnchorPane {
                                 playersListView.getItems().add(hBox);
                             }
 
+                          if (object.get(types.type).equals(types.RequestToPlay)) {
+                              opponent = (String) object.get(types.Opponent);
+                              Parent root = new RequestPromptBase(stage,getOpponent()) {};
+                              stage.setScene(new Scene(root,200, 200));
+                              stage.show();
+                              stage.setMinHeight(600);
+                              stage.setMinWidth(600);
+                              stage.setFullScreen(true);
+                          }
+                          for (UserRecord player : userArrayList) {
+                              HBox hBox = new HBox();
+                              hBox.setPrefHeight(50.0);
+                              hBox.setPrefWidth(700.0);  // Adjusted to match ListView width
+                              hBox.setSpacing(40);
+                              hBox.setPadding(new Insets(10.0, 0.0, 0.0, 10.0));
+                              Label playerName = new Label(player.getUsername());
+                              playerName.setPrefHeight(31.0);
+                              playerName.setPrefWidth(150.0);
+                              playerName.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
+
+
+                              Label playerScore = new Label(String.valueOf(player.getPscore()));  // Default score, adjust as needed
+                              playerScore.setPrefHeight(21.0);
+                              playerScore.setPrefWidth(100.0);
+                              playerScore.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
+
+
+                              Label playerStatus = new Label(player.getState());
+                              playerStatus.setPrefHeight(21.0);
+                              playerStatus.setPrefWidth(100.0);
+                              playerStatus.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
+
+                              ImageView statusImageView = new ImageView();
+                              statusImageView.setFitHeight(33.0);
+                              statusImageView.setFitWidth(27.0);
+                              statusImageView.setPickOnBounds(true);
+                              statusImageView.setPreserveRatio(true);
+                              if (player.getState().equals(ONLINE)) {
+                                  statusImageView.setImage(new Image(getClass().getResource("/assets/Online.png").toExternalForm()));
+                              } else if (player.getState().equals(OFFLINE)) {
+                                  statusImageView.setImage(new Image(getClass().getResource("/assets/offline.png").toExternalForm()));
+                              } else if (player.getState().equals(REQUEST)) {
+                                  statusImageView.setImage(new Image(getClass().getResource("/assets/request.png").toExternalForm()));
+                              } else if (player.getState().equals(INGAME)) {
+                                  statusImageView.setImage(new Image(getClass().getResource("/assets/InGame.png").toExternalForm()));
+                              }
+
+
+                              Button askForGameButton = new Button("Ask For Game");
+                              askForGameButton.setMnemonicParsing(false);
+                              askForGameButton.setPrefHeight(25.0);
+                              askForGameButton.setPrefWidth(120.0);
+                              askForGameButton.setFont(Font.font("Arial", FontPosture.ITALIC, 12));
+                              askForGameButton.setStyle("-fx-text-fill: white; -fx-background-color: #0073e6;");
+                              askForGameButton.setOnAction(new EventHandler<ActionEvent>() {
+                                  @Override
+                                  public void handle(ActionEvent event) {
+                                      System.out.println("Asked " + player + " for a game!");
+                                      org.json.simple. JSONObject object1  =new org.json.simple.JSONObject();
+                                      object1.put(types.Opponent,player.getUsername());
+                                      object1.put(types.type,types.RequestToPlay);
+                                      ClientSocket.sendToServer(object1.toString(),1);
+                                  }
+                              });
+
+                              hBox.getChildren().addAll(playerName, playerScore, playerStatus, statusImageView, askForGameButton);
+                              playersListView.getItems().add(hBox);
+                          }
+
+                      }
+                  });
+
                     }
                 });
           });
@@ -235,7 +308,7 @@ public class PlayersList extends AnchorPane {
 
         ListPlayersLabel.setLayoutX(80);
         ListPlayersLabel.setLayoutY(60);
-        ListPlayersLabel.setText("Records");
+        ListPlayersLabel.setText("Player List");
 
         getChildren().add(headerBox);  // Add header to the layout
         getChildren().add(playersListView);
@@ -265,8 +338,9 @@ public class PlayersList extends AnchorPane {
             public void handle(MouseEvent event) {
                 try {
                     refreshPlayersList();
-                }catch (Exception e){
 
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
 
             }
@@ -326,7 +400,7 @@ public class PlayersList extends AnchorPane {
             askForGameButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    System.out.println("2Asked " + player + " for a game!");
+                    System.out.println("Asked " + player + " for a game!");
                 }
             });
 
@@ -369,5 +443,8 @@ public class PlayersList extends AnchorPane {
         }
         System.out.println(userRecords.size());
         return userRecords;
+    }
+    public static String getOpponent(){
+        return opponent;
     }
 }

@@ -26,6 +26,8 @@ import sample.SignUpPage.SignUpBase;
 import java.awt.*;
 import java.util.Objects;
 
+import static sample.PlayersList.PlayersList.getOpponent;
+
 public class OkScreenBase extends AnchorPane {
 
     protected ImageView backButton;
@@ -40,6 +42,7 @@ public class OkScreenBase extends AnchorPane {
     public static final int SIGNUP = 2;
     public static final int LOGIN_ERROR = 3;
     public static final int SIGNUP_ERROR = 4;
+    public static final int RequestPrompt = 5;
     protected int mode;
 
     public OkScreenBase(Stage stage,String message,int mode) {
@@ -131,6 +134,14 @@ public class OkScreenBase extends AnchorPane {
                     stage.setFullScreen(true);
                 } else if (mode == SIGNUP_ERROR){
                     Parent root = new SignUpBase(stage) {};
+                    stage.setScene(new Scene(root,800, 800));
+                    stage.show();
+                    stage.setMinHeight(800);
+                    stage.setMinWidth(800);
+                    stage.setFullScreen(true);
+                } else if (mode == RequestPrompt){
+                    Parent root = new RequestPromptBase(stage,getOpponent()) {
+                    };
                     stage.setScene(new Scene(root,800, 800));
                     stage.show();
                     stage.setMinHeight(800);

@@ -10,6 +10,8 @@ import sample.SignUpPage.Types;
 import static sample.database.MainServer.servers;
 import static sample.database.MainServer.size;
 import static sample.database.View.*;
+import static sample.types.withdraw;
+
 import sample.types;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -39,6 +41,7 @@ import java.util.ArrayList;
         else if(Types.SignUp.equals(object1.get(Types.type))){
             RequesSignUp(object1);
         }
+
     }
     public void RequesSignUp(JSONObject object) throws IOException {
         try {
@@ -58,7 +61,7 @@ import java.util.ArrayList;
             String Name=(String) object.get(Types.Username);
             String PassWord=(String) object.get(Types.Password);
             dao.signin(Name,PassWord);
-            for (int i = 0; i < servers.size(); i++) {
+           for (int i = 0; i < servers.size(); i++) {
                 if (servers.get(i).user.name.equals(Name)){
                     throw  new Exception("user already exists");
                 }
