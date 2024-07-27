@@ -206,6 +206,7 @@ public class PlayersList extends AnchorPane {
                                   public void handle(ActionEvent event) {
                                       System.out.println("Asked " + player + " for a game!");
                                       org.json.simple. JSONObject object1  =new org.json.simple.JSONObject();
+                                      opponent = player.getUsername();
                                       object1.put(types.Opponent,player.getUsername());
                                       object1.put(types.type,types.RequestToPlay);
                                       ClientSocket.sendToServer(object1.toString(),1);

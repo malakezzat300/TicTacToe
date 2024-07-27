@@ -1791,8 +1791,9 @@ public abstract class GameScreenBase extends GridPane {
         if(firstMoveOnce){
             disableAllButtonsOnline();
             firstMoveOnce = false;
-            typeOfPlay = OPATH;
-
+            playerTurnText.setText(playerTwo + " Turn ( O )");
+        } else {
+            playerTurnText.setText(playerOne + " Turn ( X )");
         }
 
 
@@ -2436,7 +2437,6 @@ public abstract class GameScreenBase extends GridPane {
         GridPane.setHalignment(playerTurnText, javafx.geometry.HPos.CENTER);
         GridPane.setRowIndex(playerTurnText, 0);
         GridPane.setValignment(playerTurnText, javafx.geometry.VPos.CENTER);
-        playerTurnText.setText(playerOne + " Turn ( X )");
         playerTurnText.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         playerTurnText.setTextFill(Color.BLACK);
         playerTurnText.setFont(new Font(48));
