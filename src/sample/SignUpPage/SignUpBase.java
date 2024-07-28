@@ -196,6 +196,7 @@ public class SignUpBase extends AnchorPane {
                     @Override
                     protected Void call() throws Exception {
                         Thread.sleep(1000);
+                        System.out.println("sign up : " + clientSocket.isSuccess());
                         Platform.runLater(() -> {
                             if(clientSocket.isSuccess()){
                                 //show to user
@@ -219,7 +220,9 @@ public class SignUpBase extends AnchorPane {
                     }
                 };
 
-
+                Thread thread = new Thread(task);
+                thread.setDaemon(true);
+                thread.start();
 
 
             } else {

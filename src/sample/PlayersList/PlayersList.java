@@ -1,6 +1,7 @@
 package sample.PlayersList;
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -300,6 +301,7 @@ public class PlayersList extends AnchorPane {
         backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                clientSocket.closeConnections();
                 Parent root = new LoginScreenBase(stage) {};
                 stage.setScene(new Scene(root, 800, 800));
                 stage.show();
@@ -381,6 +383,11 @@ public class PlayersList extends AnchorPane {
                 @Override
                 public void handle(ActionEvent event) {
                     System.out.println("Asked " + player + " for a game!");
+                    org.json.simple. JSONObject object1  =new org.json.simple.JSONObject();
+                    opponent = player.getUsername();
+                    object1.put(types.Opponent,player.getUsername());
+                    object1.put(types.type,types.RequestToPlay);
+                    ClientSocket.sendToServer(object1.toString(),1);
                 }
             });
 
@@ -393,13 +400,33 @@ public class PlayersList extends AnchorPane {
         ClientSocket clientSocket = ClientSocket.getInstance();
         clientSocket.connectClient();
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put(types.type, types.UpdateList);
+        jsonObject.put(types.type, types.List);
         jsonObject.put(types.Username, LoginScreenBase.getUserName());
         jsonObject.put(types.Password, LoginScreenBase.getPassword());
         ClientSocket.sendToServer(jsonObject.toString(),0);
-        System.out.println(clientSocket.getMesage());
-        ArrayList<UserRecord> userArrayList = getUsers(clientSocket.getMesage());
-        populateList(userArrayList);
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Thread.sleep(1000);
+                Platform.runLater(() -> {
+                    ArrayList<UserRecord> userArrayList = null;
+                    try {
+                        userArrayList = getUsers(clientSocket.getMesage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    playersListView.getItems().clear();
+                    populateList(userArrayList);
+                });
+                return null;
+            }
+        };
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+
+
     }
 
     public ArrayList<UserRecord> getUsers(String message) throws  Exception{
