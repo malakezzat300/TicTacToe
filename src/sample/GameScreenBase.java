@@ -1029,7 +1029,7 @@ public abstract class GameScreenBase extends GridPane {
         backgroundImageView.setFitWidth(1962.0);
         backgroundImageView.setPickOnBounds(true);
         backgroundImageView.setPreserveRatio(true);
-        backgroundImageView.setImage(new Image(getClass().getResource("../assets/tictactoebackground.jpg").toExternalForm()));
+        backgroundImageView.setImage(new Image(getClass().getResource("/assets/tictactoebackground.jpg").toExternalForm()));
 
         GridPane.setColumnIndex(gridPane, 2);
         GridPane.setColumnSpan(gridPane, 3);
@@ -1615,7 +1615,7 @@ public abstract class GameScreenBase extends GridPane {
         recordButton.setPickOnBounds(true);
         recordButton.setPreserveRatio(true);
         recordButton.setVisible(false);
-        recordButton.setImage(new Image(getClass().getResource("../assets/record.png").toExternalForm()));
+        recordButton.setImage(new Image(getClass().getResource("/assets/record.png").toExternalForm()));
         GridPane.setMargin(recordButton, new Insets(20.0, 0.0, 0.0, 20.0));
 
 
@@ -1890,7 +1890,7 @@ public abstract class GameScreenBase extends GridPane {
         backgroundImageView.setFitWidth(1962.0);
         backgroundImageView.setPickOnBounds(true);
         backgroundImageView.setPreserveRatio(true);
-        backgroundImageView.setImage(new Image(getClass().getResource("../assets/tictactoebackground.jpg").toExternalForm()));
+        backgroundImageView.setImage(new Image(getClass().getResource("/assets/tictactoebackground.jpg").toExternalForm()));
 
         GridPane.setColumnIndex(gridPane, 2);
         GridPane.setColumnSpan(gridPane, 3);
@@ -2427,7 +2427,7 @@ public abstract class GameScreenBase extends GridPane {
         recordButton.setFitWidth(120.0);
         recordButton.setPickOnBounds(true);
         recordButton.setPreserveRatio(true);
-        recordButton.setImage(new Image(getClass().getResource("../assets/record.png").toExternalForm()));
+        recordButton.setImage(new Image(getClass().getResource("/assets/record.png").toExternalForm()));
         GridPane.setMargin(recordButton, new Insets(20.0, 0.0, 0.0, 20.0));
         if(isRecordMode(mode)){
             recordButton.setVisible(true);
@@ -2988,9 +2988,9 @@ public abstract class GameScreenBase extends GridPane {
         ImageView imageView = getImageViewFromCoordinates(x,y);
         matrix[x][y] = XorO;
         if(XorO == 'o') {
-            imageView.setImage(new Image(getClass().getResource("../assets/o.png").toExternalForm()));
+            imageView.setImage(new Image(getClass().getResource("/assets/o.png").toExternalForm()));
         } else  if(XorO == 'x') {
-            imageView.setImage(new Image(getClass().getResource("../assets/x.png").toExternalForm()));
+            imageView.setImage(new Image(getClass().getResource("/assets/x.png").toExternalForm()));
         }
     }
 
@@ -3025,7 +3025,7 @@ public abstract class GameScreenBase extends GridPane {
 
     public void showOpponentMove(String move){
         ImageView boardButton = getImageViewFromCoordinates(Integer.parseInt(move.substring(0,1)),Integer.parseInt(move.substring(1,2)));
-        boardButton.setImage(new Image(getClass().getResource("../assets/o.png").toExternalForm()));
+        boardButton.setImage(new Image(getClass().getResource("/assets/o.png").toExternalForm()));
     }
 
 }
