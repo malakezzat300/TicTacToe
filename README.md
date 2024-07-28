@@ -1,9 +1,9 @@
 # Tic Tac Toe Game Team 3
 Team Members: 
-Malak Ezzat -
-Ahmed Mostafa -  
-Mostafa Gamal -
-Ahmed Hassan 
+- Malak Ezzat 
+- Ahmed Mostafa   
+- Mostafa Gamal 
+- Ahmed Hassan 
 
 A simple project for Tic Tac Toe game implemented using JavaFx . 
 The game allows :
