@@ -16,7 +16,6 @@
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-engine/5.4.2/junit-jupiter-engine-5.4.2.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-engine/1.4.2/junit-platform-engine-1.4.2.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/json_simple.jar" path-in-jar="/" />
-      <element id="file-copy" path="$PROJECT_DIR$/../../../openjfx-22.0.2_windows-x64_bin-sdk/javafx-sdk-22.0.2/bin/vcruntime140.dll" />
       <element id="file-copy" path="$PROJECT_DIR$/../../../openjfx-22.0.2_windows-x64_bin-sdk/javafx-sdk-22.0.2/bin/api-ms-win-core-console-l1-1-0.dll" />
       <element id="file-copy" path="$PROJECT_DIR$/../../../openjfx-22.0.2_windows-x64_bin-sdk/javafx-sdk-22.0.2/bin/api-ms-win-core-console-l1-2-0.dll" />
       <element id="file-copy" path="$PROJECT_DIR$/../../../openjfx-22.0.2_windows-x64_bin-sdk/javafx-sdk-22.0.2/bin/api-ms-win-core-datetime-l1-1-0.dll" />
@@ -74,7 +73,9 @@
       <element id="file-copy" path="$PROJECT_DIR$/../../../openjfx-22.0.2_windows-x64_bin-sdk/javafx-sdk-22.0.2/bin/prism_d3d.dll" />
       <element id="file-copy" path="$PROJECT_DIR$/../../../openjfx-22.0.2_windows-x64_bin-sdk/javafx-sdk-22.0.2/bin/prism_sw.dll" />
       <element id="file-copy" path="$PROJECT_DIR$/../../../openjfx-22.0.2_windows-x64_bin-sdk/javafx-sdk-22.0.2/bin/ucrtbase.dll" />
+      <element id="file-copy" path="$PROJECT_DIR$/../../../openjfx-22.0.2_windows-x64_bin-sdk/javafx-sdk-22.0.2/bin/vcruntime140.dll" />
       <element id="file-copy" path="$PROJECT_DIR$/../../../openjfx-22.0.2_windows-x64_bin-sdk/javafx-sdk-22.0.2/bin/vcruntime140_1.dll" />
+      <element id="library" level="project" name="mysql-connector-j-9.0.0" />
     </root>
   </artifact>
 </component>

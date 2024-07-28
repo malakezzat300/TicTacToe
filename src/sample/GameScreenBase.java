@@ -85,8 +85,8 @@ public abstract class GameScreenBase extends GridPane {
     protected CustomLabelController playerText;
     protected CustomLabelController playerTurnText;
     protected Line winLine;
-    protected final static String XPATH = "../assets/x.png";
-    protected final static String OPATH = "../assets/o.png";
+    protected final static String XPATH = "/assets/x.png";
+    protected final static String OPATH = "/assets/o.png";
     protected static int turnNumber = 0;
     protected char[][] matrix= new char[3][3];
     protected static String playerOne;
@@ -263,7 +263,7 @@ public abstract class GameScreenBase extends GridPane {
         backgroundImageView.setFitWidth(1962.0);
         backgroundImageView.setPickOnBounds(true);
         backgroundImageView.setPreserveRatio(true);
-        backgroundImageView.setImage(new Image(getClass().getResource("../assets/tictactoebackground.jpg").toExternalForm()));
+        backgroundImageView.setImage(new Image(getClass().getResource("/assets/tictactoebackground.jpg").toExternalForm()));
 
         GridPane.setColumnIndex(gridPane, 2);
         GridPane.setColumnSpan(gridPane, 3);
@@ -443,9 +443,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     zeroXzeroButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[0][0] = putXorO.charAt(10);
+                    matrix[0][0] = putXorO.charAt(8);
                     zeroXzeroButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,0,0);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,0,0);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -474,9 +474,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     zeroXoneButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[0][1] = putXorO.charAt(10);
+                    matrix[0][1] = putXorO.charAt(8);
                     zeroXoneButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,0,1);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,0,1);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -505,9 +505,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     zeroXtwoButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[0][2] = putXorO.charAt(10);
+                    matrix[0][2] = putXorO.charAt(8);
                     zeroXtwoButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,0,2);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,0,2);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -537,9 +537,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     oneXzeroButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[1][0] = putXorO.charAt(10);
+                    matrix[1][0] = putXorO.charAt(8);
                     oneXzeroButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,1,0);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,1,0);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -569,9 +569,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     oneXoneButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[1][1] = putXorO.charAt(10);
+                    matrix[1][1] = putXorO.charAt(8);
                     oneXoneButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,1,1);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,1,1);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -600,9 +600,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     oneXtwoButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[1][2] = putXorO.charAt(10);
+                    matrix[1][2] = putXorO.charAt(8);
                     oneXtwoButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,1,2);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,1,2);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -631,9 +631,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     twoXzeroButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[2][0] = putXorO.charAt(10);
+                    matrix[2][0] = putXorO.charAt(8);
                     twoXzeroButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,2,0);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,2,0);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -663,9 +663,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     twoXoneButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[2][1] = putXorO.charAt(10);
+                    matrix[2][1] = putXorO.charAt(8);
                     twoXoneButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,2,1);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,2,1);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -695,9 +695,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     twoXtwoButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[2][2] = putXorO.charAt(10);
+                    matrix[2][2] = putXorO.charAt(8);
                     twoXtwoButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,2,2);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,2,2);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -800,7 +800,7 @@ public abstract class GameScreenBase extends GridPane {
         recordButton.setFitWidth(120.0);
         recordButton.setPickOnBounds(true);
         recordButton.setPreserveRatio(true);
-        recordButton.setImage(new Image(getClass().getResource("../assets/record.png").toExternalForm()));
+        recordButton.setImage(new Image(getClass().getResource("/assets/record.png").toExternalForm()));
         GridPane.setMargin(recordButton, new Insets(20.0, 0.0, 0.0, 20.0));
         if(isRecordMode(mode)){
             recordButton.setVisible(true);
@@ -1210,9 +1210,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     zeroXzeroButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[0][0] = putXorO.charAt(10);
+                    matrix[0][0] = putXorO.charAt(8);
                     zeroXzeroButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,0,0);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,0,0);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -1241,9 +1241,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     zeroXoneButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[0][1] = putXorO.charAt(10);
+                    matrix[0][1] = putXorO.charAt(8);
                     zeroXoneButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,0,1);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,0,1);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -1272,9 +1272,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     zeroXtwoButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[0][2] = putXorO.charAt(10);
+                    matrix[0][2] = putXorO.charAt(8);
                     zeroXtwoButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,0,2);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,0,2);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -1304,9 +1304,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     oneXzeroButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[1][0] = putXorO.charAt(10);
+                    matrix[1][0] = putXorO.charAt(8);
                     oneXzeroButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,1,0);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,1,0);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -1336,9 +1336,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     oneXoneButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[1][1] = putXorO.charAt(10);
+                    matrix[1][1] = putXorO.charAt(8);
                     oneXoneButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,1,1);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,1,1);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -1367,9 +1367,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     oneXtwoButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[1][2] = putXorO.charAt(10);
+                    matrix[1][2] = putXorO.charAt(8);
                     oneXtwoButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,1,2);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,1,2);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -1398,9 +1398,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     twoXzeroButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[2][0] = putXorO.charAt(10);
+                    matrix[2][0] = putXorO.charAt(8);
                     twoXzeroButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,2,0);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,2,0);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -1430,9 +1430,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     twoXoneButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[2][1] = putXorO.charAt(10);
+                    matrix[2][1] = putXorO.charAt(8);
                     twoXoneButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,2,1);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,2,1);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -1462,9 +1462,9 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = putXorO();
                     twoXtwoButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[2][2] = putXorO.charAt(10);
+                    matrix[2][2] = putXorO.charAt(8);
                     twoXtwoButton.setDisable(true);
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,2,2);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,2,2);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEvent();
@@ -2070,11 +2070,11 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = typeOfPlay;
                     zeroXzeroButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[0][0] = putXorO.charAt(10);
+                    matrix[0][0] = putXorO.charAt(8);
                     ClientSocket.sendToServer(types.sendMove("00"+String.valueOf(matrix[0][1]).toUpperCase()).toString(),0);
                     zeroXzeroButton.setDisable(true);
                     movesArrayList.add("00"+String.valueOf(matrix[0][0]).toUpperCase());
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,0,0);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,0,0);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
@@ -2101,11 +2101,11 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = typeOfPlay;
                     zeroXoneButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[0][1] = putXorO.charAt(10);
+                    matrix[0][1] = putXorO.charAt(8);
                     ClientSocket.sendToServer(types.sendMove("01"+String.valueOf(matrix[0][1]).toUpperCase()).toString(),0);
                     zeroXoneButton.setDisable(true);
                     movesArrayList.add("01"+String.valueOf(matrix[0][1]).toUpperCase());
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,0,1);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,0,1);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
@@ -2132,11 +2132,11 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = typeOfPlay;
                     zeroXtwoButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[0][2] = putXorO.charAt(10);
+                    matrix[0][2] = putXorO.charAt(8);
                     ClientSocket.sendToServer(types.sendMove("02"+String.valueOf(matrix[0][2]).toUpperCase()).toString(),0);
                     zeroXtwoButton.setDisable(true);
                     movesArrayList.add("02"+String.valueOf(matrix[0][2]).toUpperCase());
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,0,2);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,0,2);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
@@ -2164,11 +2164,11 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = typeOfPlay;
                     oneXzeroButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[1][0] = putXorO.charAt(10);
+                    matrix[1][0] = putXorO.charAt(8);
                     ClientSocket.sendToServer(types.sendMove("10"+String.valueOf(matrix[1][0]).toUpperCase()).toString(),0);
                     oneXzeroButton.setDisable(true);
                     movesArrayList.add("10"+String.valueOf(matrix[1][0]).toUpperCase());
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,1,0);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,1,0);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
@@ -2196,11 +2196,11 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = typeOfPlay;
                     oneXoneButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[1][1] = putXorO.charAt(10);
+                    matrix[1][1] = putXorO.charAt(8);
                     ClientSocket.sendToServer(types.sendMove("11"+String.valueOf(matrix[1][1]).toUpperCase()).toString(),0);
                     oneXoneButton.setDisable(true);
                     movesArrayList.add("11"+String.valueOf(matrix[1][1]).toUpperCase());
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,1,1);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,1,1);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
@@ -2227,11 +2227,11 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = typeOfPlay;
                     oneXtwoButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[1][2] = putXorO.charAt(10);
+                    matrix[1][2] = putXorO.charAt(8);
                     ClientSocket.sendToServer(types.sendMove("12"+String.valueOf(matrix[1][2]).toUpperCase()).toString(),0);
                     oneXtwoButton.setDisable(true);
                     movesArrayList.add("12"+String.valueOf(matrix[1][2]).toUpperCase());
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,1,2);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,1,2);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
@@ -2258,11 +2258,11 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = typeOfPlay;
                     twoXzeroButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[2][0] = putXorO.charAt(10);
+                    matrix[2][0] = putXorO.charAt(8);
                     ClientSocket.sendToServer(types.sendMove("20"+String.valueOf(matrix[2][0]).toUpperCase()).toString(),0);
                     twoXzeroButton.setDisable(true);
                     movesArrayList.add("20"+String.valueOf(matrix[2][0]).toUpperCase());
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,2,0);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,2,0);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
@@ -2290,11 +2290,11 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = typeOfPlay;
                     twoXoneButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[2][1] = putXorO.charAt(10);
+                    matrix[2][1] = putXorO.charAt(8);
                     ClientSocket.sendToServer(types.sendMove("21"+String.valueOf(matrix[2][1]).toUpperCase()).toString(),0);
                     twoXoneButton.setDisable(true);
                     movesArrayList.add("21"+String.valueOf(matrix[2][1]).toUpperCase());
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,2,1);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,2,1);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
@@ -2322,11 +2322,11 @@ public abstract class GameScreenBase extends GridPane {
                 if(MouseEvent.MOUSE_CLICKED == event.getEventType()){
                     String putXorO = typeOfPlay;
                     twoXtwoButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-                    matrix[2][2] = putXorO.charAt(10);
+                    matrix[2][2] = putXorO.charAt(8);
                     ClientSocket.sendToServer(types.sendMove("22"+String.valueOf(matrix[2][2]).toUpperCase()).toString(),0);
                     twoXtwoButton.setDisable(true);
                     movesArrayList.add("22"+String.valueOf(matrix[2][2]).toUpperCase());
-                    recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,2,2);
+                    recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,2,2);
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
@@ -2871,8 +2871,8 @@ public abstract class GameScreenBase extends GridPane {
         } else {
             String putXorO = putXorO();
             boradButton.setImage(new Image(getClass().getResource(putXorO).toExternalForm()));
-            matrix[getXFromImageView(boradButton)][getYFromImageView(boradButton)] = putXorO.charAt(10);
-            recordUnit = new RecordUnit(putXorO.charAt(10),++orderOfMoves,getXFromImageView(boradButton),getYFromImageView(boradButton));
+            matrix[getXFromImageView(boradButton)][getYFromImageView(boradButton)] = putXorO.charAt(8);
+            recordUnit = new RecordUnit(putXorO.charAt(8),++orderOfMoves,getXFromImageView(boradButton),getYFromImageView(boradButton));
             listOfMoves.add(recordUnit);
             if(isWinState()){
                 doWinEvent();
