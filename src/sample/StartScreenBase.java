@@ -146,7 +146,7 @@ public abstract class StartScreenBase extends GridPane {
         imageView.setFitWidth(2000);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
-        imageView.setImage(new Image(getClass().getResource("../assets/tictactoebackground.jpg").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/assets/tictactoebackground.jpg").toExternalForm()));
 
         GridPane.setColumnIndex(singleModeButton, 1);
         GridPane.setHalignment(singleModeButton, javafx.geometry.HPos.CENTER);

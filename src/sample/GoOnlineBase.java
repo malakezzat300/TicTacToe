@@ -102,7 +102,7 @@ public abstract class GoOnlineBase extends GridPane {
         imageView.setFitWidth(2000);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
-        imageView.setImage(new Image(getClass().getResource("../assets/tictactoebackground.jpg").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/assets/tictactoebackground.jpg").toExternalForm()));
 
 
         GridPane.setColumnIndex(goOnlineText, 1);

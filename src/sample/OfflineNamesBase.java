@@ -136,7 +136,7 @@ public abstract class OfflineNamesBase extends StackPane {
         imageView.setFitWidth(2000);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
-        imageView.setImage(new Image(getClass().getResource("../assets/tictactoebackground.jpg").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/assets/tictactoebackground.jpg").toExternalForm()));
 
         GridPane.setRowIndex(rectangle, 2);
         GridPane.setRowSpan(rectangle, 2);
