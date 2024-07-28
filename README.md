@@ -22,9 +22,10 @@ The game allows :
 
 2- Start Screen containing options 
 - choose an option :
-   - single player mode
-   - multiplayer offline (same device )
+   - single player mode (against computer)
+   - two players  offline (same device )
    - multiplayer (online)
+   - show records 
    - sign up / In to start the game 
 
 ### Prerequisites
