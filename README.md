@@ -3,6 +3,7 @@
 A simple project for Tic Tac Toe game implemented using JavaFx . 
 The game allows :
 - single player to play with computer
+- two players (on the same machine)
 - myultiplayers to play against each other 
 
 ## Features
@@ -10,17 +11,20 @@ The game allows :
 - Two-player mode ( online - ofline )
 - allowing the player to sign in and sign up
 - showing PlayerList
+- allowing player to record and retreive the reecords of a specific game
 - choosing a player from the playerList 
 - Win, lose, and draw 
 - option to withdraw
 - congratualting the winner
-- 
+  
 ## Getting Started
-Start Screen containing options :
-- single player mode
-- multiplayer offline (same device )
-- multiplayer (online)
-- sign up / In to start the game 
+1- run the jar File 
+2- Start Screen containing options 
+  - choose an option :
+   - single player mode
+   - multiplayer offline (same device )
+   - multiplayer (online)
+   - sign up / In to start the game 
 
 ### Prerequisites
 
