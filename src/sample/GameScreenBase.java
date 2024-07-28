@@ -1778,15 +1778,16 @@ public abstract class GameScreenBase extends GridPane {
                         matrix[Integer.parseInt(opponentMove.substring(0,1))][Integer.parseInt(opponentMove.substring(1,2))] = 'o';
                         recordUnit = new RecordUnit('o',++orderOfMoves,Integer.parseInt(opponentMove.substring(0,1)),Integer.parseInt(opponentMove.substring(1,2)));
                         listOfMoves.add(recordUnit);
-                        if(isWinState()){
-                            doWinEventOnline(playerTwo);
-                        } else if(isDrawState()){
-                            doDrawEventOnline();
-                        }
                         enableAllButtonsOnline();
                         disableAllButtonsOnline(movesArrayList);
+                        if(isWinState()){
+                            doWinEventOnline(playerTwo);
+                        } else if(isDrawStateOnline()){
+                            doDrawEventOnline();
+                        }
                     } else if (jsonObject.get(types.type).equals(types.EndGame)) {
                         System.out.println("Who Win : " + jsonObject.get(types.Message));
+                        doWinEventOnline(playerOne);
                     }
                 }
             });
@@ -2108,7 +2109,7 @@ public abstract class GameScreenBase extends GridPane {
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
-                    } else if(isDrawState()){
+                    } else if(isDrawStateOnline()){
                         doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
@@ -2139,7 +2140,7 @@ public abstract class GameScreenBase extends GridPane {
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
-                    } else if(isDrawState()){
+                    } else if(isDrawStateOnline()){
                         doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
@@ -2171,7 +2172,7 @@ public abstract class GameScreenBase extends GridPane {
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
-                    } else if(isDrawState()){
+                    } else if(isDrawStateOnline()){
                         doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
@@ -2203,7 +2204,7 @@ public abstract class GameScreenBase extends GridPane {
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
-                    } else if(isDrawState()){
+                    } else if(isDrawStateOnline()){
                         doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
@@ -2234,7 +2235,7 @@ public abstract class GameScreenBase extends GridPane {
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
-                    } else if(isDrawState()){
+                    } else if(isDrawStateOnline()){
                         doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
@@ -2265,7 +2266,7 @@ public abstract class GameScreenBase extends GridPane {
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
-                    } else if(isDrawState()){
+                    } else if(isDrawStateOnline()){
                         doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
@@ -2297,7 +2298,7 @@ public abstract class GameScreenBase extends GridPane {
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
-                    } else if(isDrawState()){
+                    } else if(isDrawStateOnline()){
                         doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
@@ -2329,7 +2330,7 @@ public abstract class GameScreenBase extends GridPane {
                     listOfMoves.add(recordUnit);
                     if(isWinState()){
                         doWinEventOnline(playerOne);
-                    } else if(isDrawState()){
+                    } else if(isDrawStateOnline()){
                         doDrawEventOnline();
                     }
                     disableAllButtonsOnline();
@@ -2350,6 +2351,7 @@ public abstract class GameScreenBase extends GridPane {
         withdrawButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                clientSocket.closeConnections();
                 Parent root = new StartScreenBase(stage) {};
                 stage.setScene(new Scene(root,800, 800));
                 stage.show();
@@ -2380,7 +2382,7 @@ public abstract class GameScreenBase extends GridPane {
                  */
                 playAgainButton.setVisible(false);
                 backHomeButton.setVisible(false);
-                Parent root = new GameScreenBase(stage,playerOne,playerTwo,mode,firstMove) {};
+                Parent root = new RequestPromptBase(stage,playerTwo) {};
                 stage.setScene(new Scene(root,800, 800));
                 stage.show();
                 stage.setMinHeight(800);
@@ -2665,6 +2667,8 @@ public abstract class GameScreenBase extends GridPane {
         }else{
             playerTurnText.setText("You have Lost!");
             ++playerTwoWins;
+            playAgainButton.setVisible(true);
+            backHomeButton.setVisible(true);
         }
         playerText.setText(playerOne + " : " + playerOneWins + "\n\n" + "VS" + "\n\n" + playerTwo + " : " + playerTwoWins); // fix
         if(isRecordMode(mode)) {
@@ -2754,6 +2758,14 @@ public abstract class GameScreenBase extends GridPane {
         twoXoneButton.isDisabled() &&
         twoXtwoButton.isDisabled() &&
                 !isWinState()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isDrawStateOnline(){
+        if(movesArrayList.size() == 9 && !isWinState()){
             return true;
         } else {
             return false;

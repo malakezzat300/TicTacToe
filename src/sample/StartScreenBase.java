@@ -17,6 +17,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import sample.NetworkPackge.ClientSocket;
 import sample.RecordGame.RecordLists;
 
 import java.io.File;
@@ -237,6 +238,7 @@ public abstract class StartScreenBase extends GridPane {
         exitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                ClientSocket.getInstance().stop();
                 Platform.exit();
             }
         });
