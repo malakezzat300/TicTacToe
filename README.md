@@ -19,8 +19,9 @@ The game allows :
   
 ## Getting Started
 1- run the jar File 
+
 2- Start Screen containing options 
-  - choose an option :
+- choose an option :
    - single player mode
    - multiplayer offline (same device )
    - multiplayer (online)
