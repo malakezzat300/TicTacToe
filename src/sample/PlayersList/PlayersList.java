@@ -157,6 +157,16 @@ public class PlayersList extends AnchorPane {
                               stage.setFullScreen(true);
                               myUpdateTask.cancel();
                           }
+                          if (object.get(types.type).equals(types.teardown)) {
+                              opponent = (String) object.get(types.Opponent);
+                              Parent root = new OkScreenBase(stage,"The Server Has Been Closed",OkScreenBase.CLOSESERVER) {};
+                              stage.setScene(new Scene(root,200, 200));
+                              stage.show();
+                              stage.setMinHeight(600);
+                              stage.setMinWidth(600);
+                              stage.setFullScreen(true);
+                              myUpdateTask.cancel();
+                          }
                           for (UserRecord player : userArrayList) {
                               HBox hBox = new HBox();
                               hBox.setPrefHeight(50.0);
